@@ -8,6 +8,9 @@
     <properties resource="main/resource/config/jdbc.properties"/>
     <typeAliases>
         <typeAlias type="main.com.supplier.domain.Supplier"  alias="Supplier"/>
+        <typeAlias type="main.com.order.dto.OrderDTO" alias="OrderDTO"/>
+        <typeAlias type="main.com.client.dto.ClientDTO" alias="ClientDTO"/>
+        <typeAlias type="main.com.release.dto.ReleaseDTO" alias="ReleaseDTO"/>
     </typeAliases>
     <environments default="development">
         <environment id="development">
@@ -24,6 +27,9 @@
     <mappers>
         <!-- DeptMapper.xml 등록 -->
         <mapper resource="main/resource/mapper/SupplierMapper.xml"/>
+        <mapper resource="main/resource/mapper/OrderMapper.xml"/>
+        <mapper resource="main/resource/mapper/ClientMapper.xml"/>
+        <mapper resource="main/resource/mapper/ReleaseMapper.xml"/>
     </mappers>
 </configuration>
 
