@@ -30,4 +30,10 @@ public class MemberServiceImpl implements MemberService{
     public Member findMember(String loginId) {
          return memberRepository.findByMemberId(loginId);
     }
+
+    @Override
+    public boolean validMemberId(String loginId) {
+        Member member = memberRepository.findByMemberId(loginId);
+        return member == null;
+    }
 }
