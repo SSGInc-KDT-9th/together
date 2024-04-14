@@ -16,8 +16,8 @@ public class ProductApp extends JFrame {
 	private JTextField productNameText;
 	private JTextField supplierNameText;
 	private JLabel productNameLabel;
-	private JLabel categoryLabel;
-	private JComboBox categoryCombo;
+	private JLabel mainCategoryLabel;
+	private JComboBox mainCategoryCombo;
 	private JLabel supplierNameLabel;
 	private JLabel storePriceLabel;
 	private JLabel productIdLabel;
@@ -67,66 +67,66 @@ public class ProductApp extends JFrame {
 		//검색 기능
 		productSearchLabel = new JLabel("- 상품 검색");
 		productSearchLabel.setFont(new Font("굴림", Font.BOLD, 15));
-		productSearchLabel.setBounds(921, 112, 150, 25);
+		productSearchLabel.setBounds(921, 70, 150, 25);
 
 		idSearchLabel = new JLabel("상품 ID");
 		idSearchLabel.setFont(new Font("굴림", Font.PLAIN, 15));
-		idSearchLabel.setBounds(925, 147, 70, 25);
+		idSearchLabel.setBounds(925, 105, 70, 25);
 
 		idSearchText = new JTextField();
 		idSearchText.setColumns(10);
-		idSearchText.setBounds(1007, 147, 200, 25);
+		idSearchText.setBounds(1007, 105, 200, 25);
 
 		nameSearchLabel = new JLabel("상품 이름");
 		nameSearchLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		nameSearchLabel.setFont(new Font("굴림", Font.PLAIN, 15));
-		nameSearchLabel.setBounds(925, 182, 70, 25);
+		nameSearchLabel.setBounds(925, 140, 70, 25);
 
 		nameSearchText = new JTextField();
 		nameSearchText.setColumns(10);
-		nameSearchText.setBounds(1007, 182, 200, 25);
+		nameSearchText.setBounds(1007, 140, 200, 25);
 
 		supplierSearchLabel = new JLabel("생산 기업명");
 		supplierSearchLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		supplierSearchLabel.setFont(new Font("굴림", Font.PLAIN, 15));
-		supplierSearchLabel.setBounds(925, 217, 80, 25);
+		supplierSearchLabel.setBounds(925, 175, 80, 25);
 
 		supplierSearchText = new JTextField();
 		supplierSearchText.setColumns(10);
-		supplierSearchText.setBounds(1007, 217, 200, 25);
+		supplierSearchText.setBounds(1007, 175, 200, 25);
 
 		categorySearchLabel = new JLabel("상품 분류");
 		categorySearchLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		categorySearchLabel.setFont(new Font("굴림", Font.PLAIN, 15));
-		categorySearchLabel.setBounds(925, 252, 70, 25);
+		categorySearchLabel.setBounds(925, 210, 70, 25);
 
 		categorySerachCombo = new JComboBox();
-		categorySerachCombo.setBounds(1007, 252, 200, 23);
+		categorySerachCombo.setBounds(1007, 211, 200, 23);
 
 		searchButton = new JButton("검색");
-		searchButton.setBounds(925, 287, 130, 30);
+		searchButton.setBounds(925, 245, 130, 30);
 		searchResetButton = new JButton("초기화");
-		searchResetButton.setBounds(1077, 287, 130, 30);
+		searchResetButton.setBounds(1077, 245, 130, 30);
 		//상세 보기 라벨
 		productInfoLabel = new JLabel("- 상품 상세 정보");
 		productInfoLabel.setFont(new Font("굴림", Font.BOLD, 15));
-		productInfoLabel.setBounds(921, 326, 150, 25);
+		productInfoLabel.setBounds(925, 296, 150, 25);
 
 		productIdLabel = new JLabel("상품 ID");
 		productIdLabel.setFont(new Font("굴림", Font.PLAIN, 15));
-		productIdLabel.setBounds(925, 361, 70, 25);
+		productIdLabel.setBounds(925, 331, 70, 25);
 
 		productNameLabel = new JLabel("상품 이름");
 		productNameLabel.setFont(new Font("굴림", Font.PLAIN, 15));
-		productNameLabel.setBounds(925, 400, 70, 25);
+		productNameLabel.setBounds(925, 366, 70, 25);
 
 		supplierNameLabel = new JLabel("생산 기업명");
 		supplierNameLabel.setFont(new Font("굴림", Font.PLAIN, 15));
 		supplierNameLabel.setBounds(925, 471, 80, 25);
 
-		categoryLabel = new JLabel("상품 분류");
-		categoryLabel.setFont(new Font("굴림", Font.PLAIN, 15));
-		categoryLabel.setBounds(925, 436, 70, 25);
+		mainCategoryLabel = new JLabel("대분류");
+		mainCategoryLabel.setFont(new Font("굴림", Font.PLAIN, 15));
+		mainCategoryLabel.setBounds(925, 401, 70, 25);
 
 		storePriceLabel = new JLabel("입고 금액");
 		storePriceLabel.setFont(new Font("굴림", Font.PLAIN, 15));
@@ -142,12 +142,12 @@ public class ProductApp extends JFrame {
 
 		//상세보기 Text
 		productIdText = new JTextField();
-		productIdText.setBounds(1007, 361, 200, 25);
+		productIdText.setBounds(1007, 331, 200, 25);
 		productIdText.setColumns(10);
 
 		productNameText = new JTextField();
 		productNameText.setColumns(10);
-		productNameText.setBounds(1007, 400, 200, 25);
+		productNameText.setBounds(1007, 366, 200, 25);
 
 		supplierNameText = new JTextField();
 		supplierNameText.setColumns(10);
@@ -168,8 +168,8 @@ public class ProductApp extends JFrame {
 		inventoryText.setColumns(10);
 		inventoryText.setBounds(1007, 578, 200, 25);
 
-		categoryCombo = new JComboBox();
-		categoryCombo.setBounds(1007, 438, 200, 23);
+		mainCategoryCombo = new JComboBox();
+		mainCategoryCombo.setBounds(1007, 403, 200, 23);
 		//상품 상세 수정 버튼
 		saveButton = new JButton("저장");
 		saveButton.setBounds(925, 629, 130, 30);
@@ -194,7 +194,7 @@ public class ProductApp extends JFrame {
 		mainPanel.add(saveButton);
 		mainPanel.add(productIdLabel);
 		mainPanel.add(productNameLabel);
-		mainPanel.add(categoryLabel);
+		mainPanel.add(mainCategoryLabel);
 		mainPanel.add(supplierNameLabel);
 		mainPanel.add(storePriceLabel);
 		mainPanel.add(storePriceText);
@@ -202,7 +202,7 @@ public class ProductApp extends JFrame {
 		mainPanel.add(sellingPriceLabel);
 		mainPanel.add(inventoryLabel);
 		mainPanel.add(inventoryText);
-		mainPanel.add(categoryCombo);
+		mainPanel.add(mainCategoryCombo);
 		mainPanel.add(resetButton);
 		mainPanel.add(productInfoLabel);
 		
@@ -251,6 +251,15 @@ public class ProductApp extends JFrame {
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(10, 160, 900, 500); // Adjust bounds as needed
 		mainPanel.add(scrollPane);
+		
+		JLabel subCategoryLabel = new JLabel("소분류");
+		subCategoryLabel.setFont(new Font("굴림", Font.PLAIN, 15));
+		subCategoryLabel.setBounds(925, 436, 70, 25);
+		mainPanel.add(subCategoryLabel);
+		
+		JComboBox subCategoryCombo = new JComboBox();
+		subCategoryCombo.setBounds(1007, 438, 200, 23);
+		mainPanel.add(subCategoryCombo);
 
 
 
