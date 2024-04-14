@@ -27,7 +27,7 @@ public class MySqlMemberRepository implements MemberRepository{
     public Member findByMemberId(String memberId) {
         SqlSession sqlSession = MySqlSessionFactory.openSession();
         try {
-            Member member = sqlSession.selectOne("mapper.member.insert", memberId);
+            Member member = sqlSession.selectOne("mapper.member.findByMemberId", memberId);
             sqlSession.commit();
             return member;
         }
@@ -38,10 +38,10 @@ public class MySqlMemberRepository implements MemberRepository{
     }
 
     @Override
-    public int delete(String memberId) {
+    public int delete(Member member) {
         SqlSession sqlSession = MySqlSessionFactory.openSession();
         try {
-            int success = sqlSession.delete("mapper.member.delete", memberId);
+            int success = sqlSession.delete("mapper.member.delete", member);
             sqlSession.commit();
             return success;
         }

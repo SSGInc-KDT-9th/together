@@ -5,31 +5,31 @@
 
 <mapper namespace="mapper.member">
     <select id="findAll" resultType="Member">
-        SELECT id,member_name,member_id,member_role
+        SELECT id,member_name,member_login_id,member_role
         FROM member
     </select>
 
     <select id="findByMemberId" parameterType="String" resultType="Member">
-        SELECT id,member_name,member_id,member_role
+        SELECT id,member_name,member_login_id,member_password,member_role
         FROM member
-        WHERE member_id = #{member_id}
+        WHERE member_login_id = #{member_login_id}
     </select>
 
-   <insert id="insert">
-       INSERT INTO member (member_name,member_id,member_password,member_role)
-       VALUES (#{member_name},#{member_id},#{member_password},#{member_role})
+   <insert id="insert" parameterType="Member" useGeneratedKeys="true" keyProperty="id">
+       INSERT INTO member (member_name,member_login_id,member_password,member_role)
+       VALUES (#{member_name},#{member_login_id},#{member_password},#{member_role})
    </insert>
 
-    <update id="update" parameterType="Member">
+    <update id="update" parameterType="Member" useGeneratedKeys="true" keyProperty="id">
         UPDATE member
         SET
-        member_name = #{member_name}, member_id = #{member_id},
+        member_name = #{member_name}, member_login_id = #{member_login_id},
         member_password=#{member_password}, member_role = #{member_role}
-        WHERE member_id = #{member_id}
+        WHERE member_login_id = #{member_login_id}
     </update>
 
     <delete id="delete" parameterType="Member">
         DELETE FROM member
-        WHERE member_id = #{member_id} and member_password = #{member_password}
+        WHERE member_login_id = #{member_login_id} and member_password = #{member_password}
     </delete>
 </mapper>
