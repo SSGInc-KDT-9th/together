@@ -1,7 +1,9 @@
 package main.com.member.ui;
 
+import main.com.config.AppConfig;
 import main.com.member.domain.Member;
 import main.com.member.domain.MemberRole;
+import main.com.member.service.MemberService;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -13,6 +15,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class Join extends JDialog{
+    private final MemberService memberService;
     private Login owner;
     private JLabel title;
     private JLabel idLabel;
@@ -26,10 +29,13 @@ public class Join extends JDialog{
     private JButton quitButton;
     private JButton joinButton;
     private JRadioButton adminRButton;
-    private JRadioButton empRButton;
+    private JRadioButton commonButton;
     public Join(Login owner){
         super(owner,"Join",true);
         this.owner = owner;
+
+        AppConfig appConfig =new AppConfig();
+        memberService = appConfig.memberService();
 
         setComponent();
         setDisplay();
@@ -38,8 +44,8 @@ public class Join extends JDialog{
     }
 
     private void setComponent(){
-        int tfSize = 10;
-        Dimension lblSize = new Dimension(80, 35);
+        int tfSize = 15;
+        Dimension lblSize = new Dimension(100, 35);
         Dimension btnSize = new Dimension(100 ,25);
         title = new JLabel("회원 가입");
         title.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
@@ -61,11 +67,11 @@ public class Join extends JDialog{
         tfPassword = new JPasswordField(tfSize);
         tfRePassword = new JPasswordField(tfSize);
 
-        adminRButton = new JRadioButton("Admin", true);
-        empRButton = new JRadioButton("Employee");
+        adminRButton = new JRadioButton("ADMIN", true);
+        commonButton = new JRadioButton("COMMON");
         ButtonGroup typeGroup = new ButtonGroup();
         typeGroup.add(adminRButton);
-        typeGroup.add(empRButton);
+        typeGroup.add(commonButton);
 
         joinButton = new JButton("Join");
         joinButton.setPreferredSize(btnSize);
@@ -106,7 +112,7 @@ public class Join extends JDialog{
         // pnlMSouth(rbtnMale / rbtnFemale)
         JPanel pnlMSouth = new JPanel(new FlowLayout(FlowLayout.CENTER));
         pnlMSouth.add(adminRButton);
-        pnlMSouth.add(empRButton);
+        pnlMSouth.add(commonButton);
         pnlMSouth.setBorder(new TitledBorder("직급"));
 
         // pnlMain
@@ -146,22 +152,46 @@ public class Join extends JDialog{
 
         joinButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                String memberId = tfId.getText();
-                String passWord = new String(tfPassword.getPassword());
-                //String
-                Member member = new Member();
+            public void actionPerformed(ActionEvent ae) {
+                String id = tfId.getText();
+                String memberName = tfName.getText();
+                String password = new String(tfPassword.getPassword());
+                String retry = new String(tfRePassword.getPassword());
+                if(isBlank()) {
+                    JOptionPane.showMessageDialog(
+                            Join.this,
+                            "모든 정보를 입력해주세요."
+                    );
+                    // 모두 입력했을 때
+                } else {
+                    // Id 중복일 때
+                    if(!memberService.validMemberId(id)) {
+                        JOptionPane.showMessageDialog(
+                                Join.this,
+                                "이미 존재하는 Id입니다."
+                        );
+                        tfId.requestFocus();
+                        // Pw와 Re가 일치하지 않았을 때
+                    } else if(!String.valueOf(password).equals(retry)) {
+                        JOptionPane.showMessageDialog(
+                                Join.this,
+                                "Password와 Retry가 일치하지 않습니다."
+                        );
+                        tfPassword.requestFocus();
+                    } else {
+                        MemberRole role = getRole();
+                        Member member= new Member(memberName,id,password,role);
+                        memberService.join(member);
+                        JOptionPane.showMessageDialog(
+                                Join.this,
+                                "회원가입을 완료했습니다!"
+                        );
+                        dispose();
+                        owner.setVisible(true);
+                    }
+                }
             }
         });
-    }
-
-    private MemberRole getRole(){
-        if(adminRButton.isSelected()){
-            return MemberRole.ADMIN;
-        }
-        else{
-            return MemberRole.COMMON;
-        }
     }
     private void showFrame() {
         pack();
@@ -170,4 +200,33 @@ public class Join extends JDialog{
         setResizable(false);
         setVisible(true);
     }
+
+    private boolean isBlank() {
+        boolean result = false;
+        if(tfId.getText().isEmpty()) {
+            tfId.requestFocus();
+            return true;
+        }
+        if(String.valueOf(tfPassword.getPassword()).isEmpty()) {
+            tfPassword.requestFocus();
+            return true;
+        }
+        if(String.valueOf(tfRePassword.getPassword()).isEmpty()) {
+            tfRePassword.requestFocus();
+            return true;
+        }
+        if(tfName.getText().isEmpty()) {
+            tfName.requestFocus();
+            return true;
+        }
+        return result;
+    }
+
+    private MemberRole getRole() {
+        if(adminRButton.isSelected()) {
+            return MemberRole.ADMIN;
+        }
+        return MemberRole.COMMON;
+    }
+
 }

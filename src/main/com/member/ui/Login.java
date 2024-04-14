@@ -13,8 +13,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class Login extends JFrame{
-    private MemberService memberService;
-    private AppConfig appConfig= new AppConfig();
+    private final MemberService memberService;
     private JPanel contentPanel;
     private JLabel idLabel;
     private JLabel passwordLabel;
@@ -24,6 +23,7 @@ public class Login extends JFrame{
     private JButton joinButton;
 
     public Login(){
+        AppConfig appConfig = new AppConfig();
         memberService = appConfig.memberService();;
         initComponent();
         setDisplay();
