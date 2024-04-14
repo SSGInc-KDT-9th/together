@@ -3,7 +3,9 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.release">
-<!--   <select id="selectBlog" resultType="Blog">
-  
-  </select>-->
+<!-- 등록할 상품들을 출고 테이블에 저장(동적sql)-->
+  <insert id="enroll" parameterType = "ReleaseDTO">
+      insert into `release`(member_id,release_date,status,item_cnt)
+      values(#{member_id},'미정','대기중',#{item_cnt})
+  </insert>
 </mapper>

@@ -13,9 +13,14 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 //import com.jgoodies.forms.factories.DefaultComponentFactory;
 
+import main.com.config.Session;
 import main.com.order.dto.OrderDTO;
 import main.com.order.service.OrderService;
 import main.com.order.service.OrderServiceImpl;
+import main.com.release.dao.ReleaseDAO;
+import main.com.release.dto.ReleaseDTO;
+import main.com.release.service.ReleaseService;
+import main.com.release.service.ReleaseServiceImpl;
 
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
@@ -199,15 +204,29 @@ public class NewOrderFrame extends JFrame {
 		    public void actionPerformed(ActionEvent e) {
 		    	 // 등록할 데이터를 담을 리스트 생성
 		        List<Object[]> rowDataList = new ArrayList<>();
-		        
+		        int item_cnt = 0;
 		        // 테이블의 모든 행을 순회하며 데이터를 rowDataList에 추가
 		        for (int i = 0; i < table_1.getRowCount(); i++) {
 		            Object[] rowData = new Object[table_1.getColumnCount()];
 		            for (int j = 0; j < table_1.getColumnCount(); j++) {
 		                rowData[j] = table_1.getValueAt(i, j);
+		                
 		            }
+		            item_cnt += (int) rowData[4];
 		            rowDataList.add(rowData);
 		        }
+		       //출고 등록
+		        ReleaseDTO dto = new ReleaseDTO();
+		      //로그인한 사용자 세션으로 id받아오기
+		        Long member_id = Session.getMember().getId();
+		        dto.setItem_cnt(item_cnt);
+		        dto.setMember_id(member_id);
+		        
+		        ReleaseService rs = new ReleaseServiceImpl();
+		        rs.setDao(new ReleaseDAO());
+		        
+		        int n = rs.enroll(dto);
+		        
 		    }
 		});
        

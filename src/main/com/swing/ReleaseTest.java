@@ -8,6 +8,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
@@ -23,10 +26,11 @@ public class ReleaseTest extends JFrame {
 	JButton Deletebtn;
 	
 	private JPanel contentPane;
-	private JTable table;
 	private JTextField textField;
 	String[] search = {"출고 번호", "출고 상태"};
-	
+	private JTable table;
+	private JScrollPane scrollPane;
+
 	/**
 	 * Launch the application.
 	 */
@@ -56,40 +60,55 @@ public class ReleaseTest extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 2, 2);
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(36, 212, 509, 408);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
-		table.setBounds(53, 165, 524, 474);
-		contentPane.add(table);
+		scrollPane.setViewportView(table);
 		
+		String [] header = {"출고번호", "담당자ID","담당자명","출고수량","출고일자","출고상태"};
+		DefaultTableModel model = new DefaultTableModel(null, header);
+        table.setModel(model);
+        // 헤더의 DefaultTableCellRenderer 가져오기
+        JTableHeader headerComponent = table.getTableHeader();
+        TableCellRenderer headerRenderer = headerComponent.getDefaultRenderer();
+
+        //헤더의 글자 크기를 변경
+        TableCellRenderer customHeaderRenderer = (table1, value, isSelected, hasFocus, row, column) -> {
+            JLabel label = (JLabel) headerRenderer.getTableCellRendererComponent(table1, value, isSelected, hasFocus, row, column);
+            label.setFont(label.getFont().deriveFont(Font.BOLD, 16)); // 글자 크기 변경
+            return label;
+        };
+
+        headerComponent.setDefaultRenderer(customHeaderRenderer);
+
 		comboBox = new JComboBox(search);
-		comboBox.setBounds(74, 79, 123, 33);
+		comboBox.setBounds(63, 134, 123, 33);
 		contentPane.add(comboBox);
 		
 		textField = new JTextField();
-		textField.setBounds(253, 79, 123, 33);
+		textField.setBounds(253, 134, 123, 33);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
 		Searchbtn = new JButton("검색");
-		Searchbtn.setBounds(454, 56, 91, 72);
-		Searchbtn.setFont(new Font("고딕", Font.BOLD, 20));
+		Searchbtn.setBounds(453, 127, 73, 45);
+		Searchbtn.setFont(new Font("고딕", Font.BOLD, 15));
 		contentPane.add(Searchbtn);
 		
 		Enrollbtn = new JButton("주문 등록");
-		Enrollbtn.setBounds(628, 73, 171, 55);
+		Enrollbtn.setBounds(619, 145, 171, 55);
 		Enrollbtn.setFont(new Font("고딕", Font.BOLD, 20));
 		contentPane.add(Enrollbtn);
 		
 		Updatebtn = new JButton("수정");
-		Updatebtn.setBounds(846, 73, 171, 55);
+		Updatebtn.setBounds(847, 145, 171, 55);
 		Updatebtn.setFont(new Font("고딕", Font.BOLD, 20));
 		contentPane.add(Updatebtn);
 		
 		Deletebtn = new JButton("주문 삭제");
-		Deletebtn.setBounds(1061, 73, 171, 55);
+		Deletebtn.setBounds(1068, 145, 171, 55);
 		Deletebtn.setFont(new Font("고딕", Font.BOLD, 20));
 		contentPane.add(Deletebtn);
 	
@@ -106,7 +125,4 @@ public class ReleaseTest extends JFrame {
 	
 	
 	}
-	
-	
-	
 }
