@@ -42,6 +42,9 @@
         from client_company
         order by company_name
     </select>
+    
+    <!-- id 입력시 정보 조회-->
+    
 
 
 
