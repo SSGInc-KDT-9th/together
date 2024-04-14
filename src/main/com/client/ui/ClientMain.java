@@ -1,15 +1,18 @@
 package main.com.client.ui;
 
-import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
@@ -19,7 +22,7 @@ import main.com.client.service.ClientService;
 import main.com.client.service.ClientServiceImpl;
 
 public class ClientMain extends JFrame {
-
+	
 	private JPanel contentPane;
 	private JTextField insertid;
 	private JTextField insertCompanyName;
@@ -29,7 +32,9 @@ public class ClientMain extends JFrame {
 	private JTextField tfincome;
 	private JTextField tfaddress;
 	private JTextField deleteid;
-	JButton btnsave;
+	private JButton btnsave;
+	private JButton btndelete;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -126,24 +131,14 @@ public class ClientMain extends JFrame {
 		lblNewLabel_1_1_1_1.setBounds(12, 10, 277, 15);
 		panel_1.add(lblNewLabel_1_1_1_1);
 		
-		JButton btnNewButton = new JButton("삭제");
-		btnNewButton.setBounds(236, 53, 91, 23);
-		panel_1.add(btnNewButton);
+		btndelete = new JButton("삭제");
+		btndelete.setBounds(236, 53, 91, 23);
+		panel_1.add(btndelete);
 		
 		deleteid = new JTextField();
 		deleteid.setColumns(10);
 		deleteid.setBounds(12, 35, 178, 21);
 		panel_1.add(deleteid);
-		
-		JPanel panel_2 = new JPanel();
-		panel_2.setForeground(new Color(0, 0, 0));
-		panel_2.setBounds(29, 66, 832, 430);
-		contentPane.add(panel_2);
-		panel_2.setLayout(null);
-		
-		JScrollBar scrollBar = new JScrollBar();
-		scrollBar.setBounds(815, 20, 17, 410);
-		panel_2.add(scrollBar);
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBounds(29, 10, 645, 50);
@@ -168,14 +163,50 @@ public class ClientMain extends JFrame {
 		insertCompanyName.setBounds(347, 18, 178, 21);
 		panel_3.add(insertCompanyName);
 		
-		JButton btnNewButton_2 = new JButton("조회");
-		btnNewButton_2.setBounds(537, 17, 91, 23);
-		panel_3.add(btnNewButton_2);
+		JButton btnFind = new JButton("조회");
+		btnFind.setBounds(537, 17, 91, 23);
+		panel_3.add(btnFind);
 		
-		JButton btnNewButton_3 = new JButton("전체조회");
-		btnNewButton_3.setBounds(770, 33, 91, 23);
-		contentPane.add(btnNewButton_3);
+		JPanel panel_2 = new JPanel();
+		panel_2.setBounds(727, 21, 138, 32);
+		contentPane.add(panel_2);
+		panel_2.setLayout(null);
 		
+		JButton btnFindAll = new JButton("전체조회");
+		btnFindAll.setBounds(30, 5, 77, 23);
+		panel_2.add(btnFindAll);
+		
+		//테이블
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(29, 91, 836, 383);
+		contentPane.add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		
+		//테이블 데이터 추가
+		Vector<String> v = new Vector<>();
+		
+		
+		
+		
+		//전체조회 버튼 이벤트 처리
+		btnFindAll.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				ClientService service = new ClientServiceImpl();
+				service.setDao(new ClientDAO());
+				
+				 List<ClientDTO> list = service.findAll();
+                 for (ClientDTO d : list) {
+	               System.out.println(d);
+                    }
+			}
+		});//end
+		
+		//기업 고객 등록 버튼 이벤트 처리
 		btnsave.addActionListener(new ActionListener() {
 			
 			@Override
@@ -198,12 +229,48 @@ public class ClientMain extends JFrame {
 				int n = service.insert(dto);
 				System.out.println(n+"개가 저장됨");
 				
+				JOptionPane.showInternalMessageDialog(null, n+"개가 저장됨",
+			             "저장", JOptionPane.INFORMATION_MESSAGE);
+				
+			}
+		});//end
+		
+		//id를 통한 기업 고객 삭제 버튼 이벤트 처리
+		btndelete.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String id = deleteid.getText();
+				
+				ClientDTO dto = new ClientDTO();
+				dto.setId(Integer.parseInt(id));
+				
+				ClientService service = new ClientServiceImpl();
+				service.setDao(new ClientDAO());
+				
+				int n = service.removeByid(Integer.parseInt(id));
+				System.out.println(n+"개가 삭제됨");
+				
+				 Object[] options = { "OK", "CANCEL" };
+				 JOptionPane.showOptionDialog(null, "입력하신 기업을 삭제하시겠습니까?", "Warning",
+				             JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+				             null, options, options[0]);
+			}
+		});//end
+		
+		//기업 id 입력시 정보 조회 버튼 이벤트 처리
+		btnFind.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				ClientService service = new ClientServiceImpl();
+				service.setDao(new ClientDAO());
+				
+				
 				
 			}
 		});
-		
-		
-		
 		
 	}
 }

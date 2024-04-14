@@ -7,7 +7,7 @@ import main.com.supplier.domain.SupplierDAO;
 public interface SupplierService {
 	
 	public void setSup(SupplierDAO sup);
-	public List<Supplier> findAll();
+	public List<Supplier> supplierFindAll(Supplier supplier);
 	int insert(Supplier supllier);
     void update(Supplier supllier);
     int delete(long id);

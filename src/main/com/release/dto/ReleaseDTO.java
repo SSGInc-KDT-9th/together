@@ -2,16 +2,15 @@ package main.com.release.dto;
 
 public class ReleaseDTO {
 	int id;
-//	int client_id;
-	int member_id;
+	long member_id;
 	String release_date;
 	String status;
 	int item_cnt;
 	public ReleaseDTO() {
 		super();
-		// TODO Auto-generated constructor stub
+
 	}
-	public ReleaseDTO(int id, int member_id, String release_date, String status, int item_cnt) {
+	public ReleaseDTO(int id, long member_id, String release_date, String status, int item_cnt) {
 		super();
 		this.id = id;
 //		this.client_id = client_id;
@@ -20,7 +19,7 @@ public class ReleaseDTO {
 		this.status = status;
 		this.item_cnt = item_cnt;
 	}
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 	public void setId(int id) {
@@ -32,10 +31,10 @@ public class ReleaseDTO {
 //	public void setClient_id(int client_id) {
 //		this.client_id = client_id;
 //	}
-	public int getMember_id() {
+	public long getMember_id() {
 		return member_id;
 	}
-	public void setMember_id(int member_id) {
+	public void setMember_id(long member_id) {
 		this.member_id = member_id;
 	}
 	public String getRelease_date() {

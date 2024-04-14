@@ -16,20 +16,21 @@ public class SupplierServiceImpl implements SupplierService {
 	}
 
 	@Override
-	public List<Supplier> findAll() {
+	public List<Supplier> supplierFindAll(Supplier supplier) {
 		
 		SqlSession session = null;
 		List<Supplier> list = null;
 		
 		try {
 			session = MySqlSessionFactory.openSession();
-			list = sup.supplierFindAll(session);
+			list = sup.supplierFindAll(session, supplier);
 		}finally {
 			session.close();
 		}
 				
 		return list;
 	}
+	
 
 	@Override
 	public int insert(Supplier supllier) {

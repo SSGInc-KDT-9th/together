@@ -29,7 +29,7 @@ import main.com.supplier.repository.SupplierServiceImpl;
 public class SupplierMain extends JFrame {
 
 	private JPanel contentPane;
-	private JButton selectBtn;
+	private JButton FindAllBtn;
 	private JButton insertBtn;
 	private JButton deleteBtn;
 	private JButton updateBtn;
@@ -43,9 +43,9 @@ public class SupplierMain extends JFrame {
 	private JTextField side_company_category;
 	private JTextField side_income;
 	private JTextField side_address;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
+	private JTextField top_company_name;
+	private JTextField top_company_category;
+	private JTextField top_income;
 	private JPanel panel;
 	private JPanel panel_1;
 	private JPanel panel_2;
@@ -251,10 +251,10 @@ public class SupplierMain extends JFrame {
 		panel_2.add(lblNewLabel_8);
 		lblNewLabel_8.setFont(new Font("굴림", Font.BOLD, 15));
 
-		textField_4 = new JTextField();
-		textField_4.setBounds(80, 58, 150, 22);
-		panel_2.add(textField_4);
-		textField_4.setColumns(10);
+		top_company_name = new JTextField();
+		top_company_name.setBounds(80, 58, 150, 22);
+		panel_2.add(top_company_name);
+		top_company_name.setColumns(10);
 
 		JLabel lblNewLabel_8_1 = new JLabel("업종");
 		lblNewLabel_8_1.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -262,10 +262,10 @@ public class SupplierMain extends JFrame {
 		panel_2.add(lblNewLabel_8_1);
 		lblNewLabel_8_1.setFont(new Font("굴림", Font.BOLD, 15));
 
-		textField_5 = new JTextField();
-		textField_5.setBounds(315, 58, 150, 20);
-		panel_2.add(textField_5);
-		textField_5.setColumns(10);
+		top_company_category = new JTextField();
+		top_company_category.setBounds(315, 58, 150, 20);
+		panel_2.add(top_company_category);
+		top_company_category.setColumns(10);
 
 		JLabel lblNewLabel_8_2 = new JLabel("거래액");
 		lblNewLabel_8_2.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -273,17 +273,17 @@ public class SupplierMain extends JFrame {
 		panel_2.add(lblNewLabel_8_2);
 		lblNewLabel_8_2.setFont(new Font("굴림", Font.BOLD, 15));
 
-		textField_6 = new JTextField();
-		textField_6.setBounds(550, 58, 150, 20);
-		panel_2.add(textField_6);
-		textField_6.setColumns(10);
+		top_income = new JTextField();
+		top_income.setBounds(550, 58, 150, 20);
+		panel_2.add(top_income);
+		top_income.setColumns(10);
 
-		selectBtn = new JButton("조회");
-		selectBtn.setBounds(860, 55, 90, 30);
-		panel_2.add(selectBtn);
-		selectBtn.setFont(new Font("굴림", Font.BOLD, 12));
+		FindAllBtn = new JButton("조회");
+		FindAllBtn.setBounds(860, 55, 90, 30);
+		panel_2.add(FindAllBtn);
+		FindAllBtn.setFont(new Font("굴림", Font.BOLD, 12));
 
-		selectBtn.addActionListener(new ActionListener() {
+		FindAllBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
@@ -291,6 +291,8 @@ public class SupplierMain extends JFrame {
 
 			}
 		});
+		
+		
 
 		updateBtn.addActionListener(new ActionListener() {
 			@Override
@@ -369,7 +371,19 @@ public class SupplierMain extends JFrame {
 	private void DisplaySupllierData() {
 		SupplierService service = new SupplierServiceImpl();
 		service.setSup(new SupplierDAO());
-		List<Supplier> list = service.findAll();
+		
+		Supplier sup = new Supplier();
+		if(!top_company_name.getText().equals("")) {
+			sup.setCompany_name(top_company_name.getText());
+		}
+		if(!top_company_category.getText().equals("")) {
+			sup.setCompany_category(top_company_category.getText());
+		}
+		if(!top_income.getText().equals("")) {
+			sup.setIncome(Integer.parseInt(top_income.getText()));
+		}
+		
+		List<Supplier> list = service.supplierFindAll(sup);
 
 		DefaultTableModel model = new DefaultTableModel();
 
