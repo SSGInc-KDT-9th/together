@@ -9,7 +9,7 @@ public class Session {
         loggedInMember = member;
     }
 
-    private static Member getMember(){
+    public static Member getMember(){
         return loggedInMember;
     }
 }
