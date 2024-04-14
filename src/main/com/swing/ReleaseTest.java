@@ -261,7 +261,6 @@ public class ReleaseTest extends JFrame {
                      };
                  // 기업이 등록되지 않은 경우에만 테이블에 추가
                 model1.addRow(rowData);
-               
 		    	
 		    }
 
