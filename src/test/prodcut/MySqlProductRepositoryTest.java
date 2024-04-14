@@ -128,4 +128,21 @@ class MySqlProductRepositoryTest {
         Assertions.assertEquals(3L,expect.getCategoryId());
         Assertions.assertNotEquals(4L,expect.getCategoryId());
     }
+
+    @Test
+    @DisplayName("상품 저장 테스트 2")
+    void test6() throws Exception {
+        //given
+        Product product = Product.builder()
+                .supplierName("빙그레")
+                .productName("테스터")
+                .categoryId(41L)
+                .build();
+        //when
+        Long saveId = productRepository.save(product);
+        Product expect = productRepository.findById(saveId);
+        //then
+        Assertions.assertEquals(expect.getProductName(),product.getProductName());
+        Assertions.assertNotNull(expect.getSupplierId());
+    }
 }
