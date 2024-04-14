@@ -1,10 +1,10 @@
 package main.com.product.request;
 
 public class ProductSearch {
-    private Long id;
-    private String productName;
-    private String supplierName;
-    private String categoryName;
+    private final Long id;
+    private final String productName;
+    private final String supplierName;
+    private final String categoryName;
 
     public ProductSearch(Long id, String productName, String supplierName, String categoryName) {
         this.id = id;

@@ -40,8 +40,7 @@ public class MySqlProductRepository implements ProductRepository{
     public List<ProductInfo> findProduct(ProductSearch search) {
         SqlSession sqlSession = MySqlSessionFactory.openSession();
         try {
-            List<ProductInfo> products= sqlSession.selectList("mapper.product.findProduct",search);
-            return products;
+            return sqlSession.selectList("mapper.product.findProduct",search);
         }
         finally{
             sqlSession.rollback();

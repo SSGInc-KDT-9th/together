@@ -11,7 +11,8 @@ public class ProductInfo {
     private final Integer storePrice;
     private final Integer sellingPrice;
 
-    public ProductInfo(String productName, Long categoryId, String categoryName, Long supplierId, String supplierName, Integer inventory, Integer storePrice, Integer sellingPrice) {
+    public ProductInfo(Long id, String productName, Long categoryId, String categoryName, Long supplierId, String supplierName, Integer inventory, Integer storePrice, Integer sellingPrice) {
+        this.id = id;
         this.productName = productName;
         this.categoryId = categoryId;
         this.categoryName = categoryName;
@@ -69,6 +70,7 @@ public class ProductInfo {
     }
 
     public static class ProductInfoBuilder {
+        private Long id;
         private String productName;
         private Long categoryId;
         private String categoryName;
@@ -80,6 +82,12 @@ public class ProductInfo {
 
         ProductInfoBuilder() {
         }
+
+        public ProductInfoBuilder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
 
         public ProductInfoBuilder productName(String productName) {
             this.productName = productName;
@@ -122,7 +130,7 @@ public class ProductInfo {
         }
 
         public ProductInfo build() {
-            return new ProductInfo(this.productName, this.categoryId, this.categoryName, this.supplierId, this.supplierName, this.inventory, this.storePrice, this.sellingPrice);
+            return new ProductInfo(this.id,this.productName, this.categoryId, this.categoryName, this.supplierId, this.supplierName, this.inventory, this.storePrice, this.sellingPrice);
         }
 
         public String toString() {

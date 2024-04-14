@@ -1,15 +1,25 @@
 package main.com.product.ui;
 
+import main.com.config.AppConfig;
+import main.com.product.domain.Product;
+import main.com.product.request.ProductSearch;
+import main.com.product.response.ProductInfo;
+import main.com.product.service.CategoryService;
+import main.com.product.service.ProductService;
+import main.com.product.service.ProductServiceImpl;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 
 public class ProductApp extends JFrame {
-
+	private ProductService productService;
+	private CategoryService categoryService;
 	private JPanel mainPanel;
 	private JLabel productInfoLabel;
 	private JTextField productIdText;
@@ -21,6 +31,7 @@ public class ProductApp extends JFrame {
 	private JLabel supplierNameLabel;
 	private JLabel storePriceLabel;
 	private JLabel productIdLabel;
+	private JLabel subCategoryLabel;
 	private JTextField storePriceText;
 	private JTextField sellingPriceText;
 	private JLabel sellingPriceLabel;
@@ -36,6 +47,7 @@ public class ProductApp extends JFrame {
 	private JLabel supplierSearchLabel;
 	private JLabel categorySearchLabel;
 	private JComboBox categorySerachCombo;
+	private JComboBox subCategoryCombo;
 	private JLabel productSearchLabel;
 	private JLabel idSearchLabel;
 	private JLabel nameSearchLabel;
@@ -58,7 +70,6 @@ public class ProductApp extends JFrame {
 	}
 
 	private void initComponent(){
-		ProductComponentFactory factory= new ProductComponentFactory();
 		mainPanel = new JPanel();
 		mainPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(mainPanel);
@@ -128,6 +139,10 @@ public class ProductApp extends JFrame {
 		mainCategoryLabel.setFont(new Font("굴림", Font.PLAIN, 15));
 		mainCategoryLabel.setBounds(925, 401, 70, 25);
 
+		subCategoryLabel = new JLabel("소분류");
+		subCategoryLabel.setFont(new Font("굴림", Font.PLAIN, 15));
+		subCategoryLabel.setBounds(925, 436, 70, 25);
+
 		storePriceLabel = new JLabel("입고 금액");
 		storePriceLabel.setFont(new Font("굴림", Font.PLAIN, 15));
 		storePriceLabel.setBounds(925, 508, 80, 25);
@@ -170,6 +185,9 @@ public class ProductApp extends JFrame {
 
 		mainCategoryCombo = new JComboBox();
 		mainCategoryCombo.setBounds(1007, 403, 200, 23);
+
+		subCategoryCombo = new JComboBox();
+		subCategoryCombo.setBounds(1007, 438, 200, 23);
 		//상품 상세 수정 버튼
 		saveButton = new JButton("저장");
 		saveButton.setBounds(925, 629, 130, 30);
@@ -218,54 +236,47 @@ public class ProductApp extends JFrame {
 		mainPanel.add(searchButton);
 		mainPanel.add(deleteButton);
 		mainPanel.add(categorySerachCombo);
-
+		mainPanel.add(subCategoryLabel);
+		mainPanel.add(subCategoryCombo);
 		mainPanel.add(searchResetButton);
 		mainPanel.add(productInfoResetButton);
 
-		String[] columnNames = {"check","Name", "Price", "Description", "Category"};
 
-		// Create data for the table
-		Object[][] data = {
-				{false, "Product 1", 100.0, "Description 1", "Category A"},
-				{false, "Product 2", 200.0, "Description 2", "Category B"},
-				{false, "Product 3", 300.0, "Description 3", "Category C"},
-				{false, "Product 4", 400.0, "Description 4", "Category D"},
-				{false, "Product 5", 500.0, "Description 5", "Category E"},
-				{false, "Product 6", 600.0, "Description 6", "Category F"}
-		};
 
-		// Create table model with checkbox column
+		//테이블 설정
+		table = new JTable(model);
+		table.getColumnModel().getColumn(0).setPreferredWidth(10); // Set width for checkbox column
+		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION); // Enable multiple selections
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setBounds(10, 160, 900, 500); // Adjust bounds as needed
+		mainPanel.add(scrollPane);
+
+	}
+
+	void setProductTable(){
+		String[] columnNames = {"","상품 ID", "상품 이름", "상품 카테고리 ID", "상품 카테고리", "공급 기업 ID","공급 기업 이름","입고 금액0","출고 금액","재고량"};
+		ProductSearch search = ProductSearch.builder().build();
+		List<ProductInfo> products = productService.getList(search);
+		Object[][] data = products.stream()
+				.map(product -> new Object[]{
+						false,
+						product.getId(),
+						product.getProductName(),
+						product.getCategoryId(),
+						product.getCategoryName(),
+						product.getSupplierId(),
+						product.getSupplierName(),
+						product.getStorePrice(),
+						product.getSellingPrice(),
+						product.getInventory()
+				})
+				.toArray(Object[][]::new);
 		model = new DefaultTableModel(data, columnNames) {
 			@Override
 			public Class<?> getColumnClass(int columnIndex) {
 				return columnIndex == 0 ? Boolean.class : super.getColumnClass(columnIndex);
 			}
 		};
-
-		// Create table with the model
-		table = new JTable(model);
-		table.getColumnModel().getColumn(0).setPreferredWidth(10); // Set width for checkbox column
-		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION); // Enable multiple selections
-
-		// Add table to a scroll pane
-		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(10, 160, 900, 500); // Adjust bounds as needed
-		mainPanel.add(scrollPane);
-		
-		JLabel subCategoryLabel = new JLabel("소분류");
-		subCategoryLabel.setFont(new Font("굴림", Font.PLAIN, 15));
-		subCategoryLabel.setBounds(925, 436, 70, 25);
-		mainPanel.add(subCategoryLabel);
-		
-		JComboBox subCategoryCombo = new JComboBox();
-		subCategoryCombo.setBounds(1007, 438, 200, 23);
-		mainPanel.add(subCategoryCombo);
-
-
-
-	}
-
-	void setComponentData(){
 
 	}
 
@@ -284,55 +295,18 @@ public class ProductApp extends JFrame {
 		});
 	}
 
-	private class CheckboxListCellRenderer extends JCheckBox implements ListCellRenderer<Test> {
-		@Override
-		public Component getListCellRendererComponent(JList<? extends Test> list, Test value, int index, boolean isSelected, boolean cellHasFocus) {
-			setComponentOrientation(list.getComponentOrientation());
-			setFont(list.getFont());
-			setBackground(list.getBackground());
-			setForeground(list.getForeground());
-			setSelected(isSelected);
-			setText(value.getName() + " - $" + value.getPrice());
-			return this;
-		}
-	}
-
 	// Sample DTO class ProductInfo
-	private static class Test {
-		private String name;
-		private double price;
-		private String cate1;
-		private String cate2;
 
-		public Test(String name, double price, String cate1, String cate2) {
-			this.name = name;
-			this.price = price;
-			this.cate1 = cate1;
-			this.cate2 = cate2;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public double getPrice() {
-			return price;
-		}
-
-		public String getCate1() {
-			return cate1;
-		}
-
-		public String getCate2() {
-			return cate2;
-		}
-	}
 	public ProductApp() {
+		AppConfig appConfig = new AppConfig();
+		productService = appConfig.productService();
+		categoryService = appConfig.categoryService();
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1280, 720); // Adjusted for HD resolution (16:9 aspect ratio)
+		setProductTable();
 		initComponent();
 		setDisplay();
-		setComponentData();
 		setListenerEvent();
 		setLocationRelativeTo(null);
 		setVisible(true);
