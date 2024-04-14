@@ -8,4 +8,16 @@
     SELECT id FROM client_company
     WHERE company_name = #{company_name}
   </select>
+  
+  <!-- 입력한 상품이름의 상품아이디 조회 -->
+    <select id="findProductId" parameterType = "String" resultType="int">
+    SELECT id FROM product
+    WHERE product_name = #{product_name}
+  </select>
+  
+  <!-- 등록할 상품들을 주문 테이블에 저장(동적sql)-->
+  <insert id="enroll">
+  
+  
+  </insert>
 </mapper>
