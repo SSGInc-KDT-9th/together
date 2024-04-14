@@ -10,6 +10,9 @@ import main.com.product.service.CategoryService;
 import main.com.product.service.CategoryServiceImpl;
 import main.com.product.service.ProductService;
 import main.com.product.service.ProductServiceImpl;
+import main.com.supplier.domain.SupplierDAO;
+import main.com.supplier.repository.SupplierService;
+import main.com.supplier.repository.SupplierServiceImpl;
 
 public class AppConfig {
     public ProductRepository productRepository(){
@@ -33,6 +36,16 @@ public class AppConfig {
     }
     public CategoryService categoryService(){
         return new CategoryServiceImpl(categoryRepository());
+    }
+
+    public SupplierDAO supplierDAO(){
+        return new SupplierDAO();
+    }
+
+    public SupplierService supplierService(){
+        SupplierService supplierService = new SupplierServiceImpl();
+        supplierService.setSup(supplierDAO());
+        return supplierService;
     }
 
 }
