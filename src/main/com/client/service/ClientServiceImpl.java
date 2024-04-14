@@ -48,6 +48,35 @@ public class ClientServiceImpl implements ClientService {
         return n;
     }
 
+	@Override
+	public int insert(ClientDTO ClientDTO) {
+		 int n = 0;
+	        SqlSession session = null;
+	        try {
+	            session = MySqlSessionFactory.openSession();
+	            //DAO 연동코드
+	            n = dao.insert(session, ClientDTO);
+	            session.commit();
+	        }finally {
+	            session.close();
+	        }
+	        return n;
+	}
+
+	@Override
+	public void update(ClientDTO ClientDTO) {
+	        SqlSession session = null;
+	        try {
+	            session = MySqlSessionFactory.openSession();
+	            //DAO 연동코드
+	            dao.update(session, ClientDTO);
+	            session.commit();
+	        }finally {
+	            session.close();
+	        }
+		
+	}
+
 
 
 }

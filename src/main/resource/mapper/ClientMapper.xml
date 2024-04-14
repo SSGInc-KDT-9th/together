@@ -3,11 +3,25 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="main.com.client.dto.ClientDTO">
+<mapper namespace="main.resource.mapper.ClientMapper">
+
     <!-- 고객기업 신규 등록-->
-
-
-
+       <insert id="insert" parameterType="ClientDTO">
+       INSERT INTO client_company (id,company_name,category,income,address)
+       VALUES (#{id},#{company_name},#{company_category},#{income},#{address})
+       </insert>
+       
+     
+     <!-- 고객기업 정보 수정-->
+       <update id="update" parameterType="ClientDTO">
+        UPDATE client_company
+        SET
+        company_name = #{company_name}, 
+        company_category = #{category},
+        income=#{income},
+        address = #{address}
+        WHERE id = #{id}
+       </update>
 
 
     <!-- 고객기업 삭제-->
