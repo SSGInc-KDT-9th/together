@@ -1,5 +1,9 @@
 package main.com.member.ui;
 
+import main.com.config.AppConfig;
+import main.com.config.Session;
+import main.com.member.service.MemberService;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -9,6 +13,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class Login extends JFrame{
+    private MemberService memberService;
+    private AppConfig appConfig= new AppConfig();
     private JPanel contentPanel;
     private JLabel idLabel;
     private JLabel passwordLabel;
@@ -18,10 +24,11 @@ public class Login extends JFrame{
     private JButton joinButton;
 
     public Login(){
+        memberService = appConfig.memberService();;
         initComponent();
         setDisplay();
         addListener();
-        setTitle("Login");
+        setTitle("Together");
         pack();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -85,6 +92,22 @@ public class Login extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
                 new Join(Login.this);
+            }
+        });
+
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String id = inputId.getText();
+                String password = new String(inputPassword.getPassword());
+                boolean login = memberService.login(id, password);
+                if(login) {
+                    Session.setMember(memberService.findMember(id));
+                    System.out.println(id);
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "아이디 또는 패스워드를 확인해주세요", "ID Not Found", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 
