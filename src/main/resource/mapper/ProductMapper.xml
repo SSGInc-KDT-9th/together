@@ -5,13 +5,13 @@
 
 <mapper namespace="mapper.product">
     <resultMap id="ProductInfoMap" type="ProductInfo">
-        <id column="id" property="id" jdbcType="BIGINT" javaType="Long"/>
+        <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="product_name" property="productName"/>
         <result column="category_id" property="categoryId"/>
         <result column="category_name" property="categoryName"/>
         <result column="supplier_id" property="supplierId"/>
-        <result column="company_name" property="SupplierName"/>
-        <result column="store_price" property="supplyPrice"/>
+        <result column="company_name" property="supplierName"/>
+        <result column="store_price" property="storePrice"/>
         <result column="selling_price" property="sellingPrice"/>
         <result column="inventory" property="inventory"/>
     </resultMap>
@@ -43,17 +43,23 @@
     </select>
 
     <select id="findProduct" resultMap="ProductInfoMap" parameterType="main.com.product.request.ProductSearch">
-        SELECT p.id,p.product_name,p.category_id,pc.category_name,p.supplier_id,p.supplier_name,s.store_price,s.inventory
+        SELECT p.id,p.product_name,p.category_id,pc.category_name,p.supplier_id,p.supplier_name,s.store_price,s.selling_price,s.inventory
         FROM (product as p join product_category as pc on p.category_id = pc.id)
         JOIN stock as s ON p.id = s.product_id
         <if test="id != null and id!=''">
             AND p.product_id = #{id}
         </if>
+
         <if test="productName != null and productName != ''">
             AND p.product_name LIKE CONCAT('%', #{productName}, '%')
         </if>
+
         <if test="supplierName != null and supplierName != ''">
             AND p.supplier_name LIKE CONCAT('%', #{supplierName}, '%')
+        </if>
+
+        <if test="categoryName != null and categoryName != ''">
+            AND pc.category_name LIKE CONCAT('%', #{categoryName}, '%')
         </if>
     </select>
 
