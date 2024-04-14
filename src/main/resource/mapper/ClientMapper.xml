@@ -17,8 +17,8 @@
        <update id="update" parameterType="ClientDTO">
         UPDATE client_company
         SET
-        company_name = #{company_name}, 
-        company_category = #{category},
+        company_name  = #{company_name},
+        category = #{category},
         income=#{income},
         address = #{address}
         WHERE id = #{id}
