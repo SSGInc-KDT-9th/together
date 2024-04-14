@@ -1,12 +1,12 @@
 package main.com.product.domain;
 
 public class Category {
-    private Long categoryId;
+    private Long id;
     private String categoryName;
     private Long parentCategoryId;
 
-    public Category(Long categoryId, String categoryName, Long parentCategoryId) {
-        this.categoryId = categoryId;
+    public Category(Long id, String categoryName, Long parentCategoryId) {
+        this.id = id;
         this.categoryName = categoryName;
         this.parentCategoryId = parentCategoryId;
     }
@@ -16,7 +16,7 @@ public class Category {
     }
 
     public Long getCategoryId() {
-        return this.categoryId;
+        return this.id;
     }
 
     public String getCategoryName() {
@@ -31,15 +31,15 @@ public class Category {
     }
 
     public static class CategoryBuilder {
-        private Long categoryId;
+        private Long id;
         private String categoryName;
         private Long parentCategoryId;
 
         CategoryBuilder() {
         }
 
-        public CategoryBuilder categoryId(Long categoryId) {
-            this.categoryId = categoryId;
+        public CategoryBuilder id(Long id) {
+            this.id = id;
             return this;
         }
 
@@ -54,11 +54,11 @@ public class Category {
         }
 
         public Category build() {
-            return new Category(this.categoryId, this.categoryName, this.parentCategoryId);
+            return new Category(this.id, this.categoryName, this.parentCategoryId);
         }
 
         public String toString() {
-            return "Category.CategoryBuilder(categoryId=" + this.categoryId + ", categoryName=" + this.categoryName + ", parentCategoryId=" + this.parentCategoryId + ")";
+            return "Category.CategoryBuilder(categoryId=" + this.id + ", categoryName=" + this.categoryName + ", parentCategoryId=" + this.parentCategoryId + ")";
         }
     }
 }
