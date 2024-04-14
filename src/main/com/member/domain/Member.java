@@ -2,7 +2,7 @@ package main.com.member.domain;
 
 
 public class Member {
-    private long id;
+    private Long id;
     private String member_name;
     private String member_login_id;
     private String member_password;
@@ -18,7 +18,7 @@ public class Member {
     public Member() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
