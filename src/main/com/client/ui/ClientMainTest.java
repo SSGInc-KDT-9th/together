@@ -20,7 +20,6 @@ public class ClientMainTest {
 		while(true) {
 			System.out.println("1. 전체목록");
 			System.out.println("2. 기업삭제");
-			System.out.println("3. 기업저장");
 			System.out.println("0. 종료");
 			System.out.println("-------------------");
 			String num = scan.next();
