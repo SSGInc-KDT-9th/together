@@ -1,8 +1,13 @@
 package main.com.order.dao;
 
+import java.util.List;
+
 import javax.swing.JOptionPane;
 
 import org.apache.ibatis.session.SqlSession;
+
+import main.com.order.dto.OrderDTO;
+import main.com.release.dto.ReleaseDTO;
 
 public class OrderDAO {
 	// 입력한 기업명의 고객 아이디 조회
@@ -26,4 +31,26 @@ public class OrderDAO {
     	int productId = session.selectOne("mapper.order.findProductId", product_name);
     	return productId;
     }
+    public int enrolltoorder(SqlSession session, OrderDTO dto) {
+		 return session.insert("mapper.order.enrolltoorder", dto);
+	 }
+    
+    public List<OrderDTO> orderselect(SqlSession session, long id){
+		List<OrderDTO> list = 
+				session.selectList("mapper.order.orderselect", id);
+		return list;
+	}
+    
+    
+    //입력한 상품아이디의 상품명 조회
+    public String productselect(SqlSession session, OrderDTO id) {
+    	String pname = session.selectOne("mapper.order.productselect", id);
+    	return pname;
+    }
+    //입력한 기업 아이디의 기업명 조회
+    public String companyselect(SqlSession session, OrderDTO id) {
+    	String cname = session.selectOne("mapper.order.companyselect", id);
+    	return cname;
+    }
+   
 }

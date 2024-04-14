@@ -7,6 +7,23 @@
   <insert id="enroll" parameterType = "ReleaseDTO">
       insert into `release`(member_id,release_date,status,item_cnt)
       values(#{member_id},'미정','대기중',#{item_cnt})
-     
   </insert>
+  <!-- 주문수량으로 출고번호 찾기-->
+  <select id="findreleaseID" parameterType="int" resultType="int">
+  select id from `release` where item_cnt = #{item_cnt}
+  </select>
+  <!-- 출고 번호로 조회-->
+ <select id="noselect" parameterType="int" resultType="ReleaseDTO">
+  select id, member_id, item_cnt, release_date, status
+  from `release` 
+  where id = #{id}
+ 
+ </select>
+ 
+ <!-- 출고 상태로 조회-->
+ <select id="statuselect" parameterType="String" resultType="ReleaseDTO">
+ select id, member_id, item_cnt, release_date, status
+  from `release` 
+  where status = #{status}
+ </select>
 </mapper>

@@ -16,8 +16,28 @@
   </select>
   
   <!-- 등록할 상품들을 주문 테이블에 저장(동적sql)-->
-  <insert id="enroll">
-  
+  <insert id="enrolltoorder" parameterType = "OrderDTO" >
+  insert into `order`(release_id,product_id,order_date,order_cnt,client_id)
+  values(#{release_id},#{product_id},#{order_date},#{order_cnt},#{client_id})
   
   </insert>
+  
+  <select id="orderselect" parameterType="long" resultType="OrderDTO">
+  select * from `order`
+  where id = #{id}
+ 
+  </select>
+  <!-- 기업명 찾기-->
+  <select id="companyselect" parameterType="OrderDTO" resultType="String">
+  select company_name from client_company
+  where id = #{id}
+  
+  </select>
+  <!-- 상품명 찾기-->
+  <select id="productselect" parameterType="OrderDTO" resultType="String">
+  select product_name from product
+  where id = #{id}
+  
+  </select>
+  
 </mapper>

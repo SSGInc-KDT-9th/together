@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 //import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 import main.com.config.Session;
+import main.com.order.dao.OrderDAO;
 import main.com.order.dto.OrderDTO;
 import main.com.order.service.OrderService;
 import main.com.order.service.OrderServiceImpl;
@@ -29,6 +30,7 @@ import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -162,7 +164,7 @@ public class NewOrderFrame extends JFrame {
                     JOptionPane.showMessageDialog(null, "기업명과 상품이름을 입력해주세요.", "경고", JOptionPane.WARNING_MESSAGE);
                     return; // 정보가 비어있으면 함수 종료
                 }
-//              OrderService를 사용하여 기업ID 조회
+//              OrderService를 사용하여 기업ID, 상품ID 조회
                 OrderService orderService = new OrderServiceImpl();
                 int clientId = orderService.findClientId(companyName);
                 int productId = orderService.findProductId(productName);
@@ -214,18 +216,51 @@ public class NewOrderFrame extends JFrame {
 		            }
 		            item_cnt += (int) rowData[4];
 		            rowDataList.add(rowData);
+		            
 		        }
-		       //출고 등록
+		       
 		        ReleaseDTO dto = new ReleaseDTO();
 		      //로그인한 사용자 세션으로 id받아오기
 		        Long member_id = Session.getMember().getId();
 		        dto.setItem_cnt(item_cnt);
 		        dto.setMember_id(member_id);
-		        
+		      //출고 등록
 		        ReleaseService rs = new ReleaseServiceImpl();
 		        rs.setDao(new ReleaseDAO());
 		        
 		        int n = rs.enroll(dto);
+		        //출고ID 가져오기
+		        int ReleaseId = rs.findreleaseID(item_cnt);
+		       
+		        
+		        //주문 테이블에 주문 등록
+		        OrderDTO odto = new OrderDTO();
+		        for (Object[] rowData : rowDataList) {
+		            // 행에서 각 열의 데이터를 변수에 저장
+		            int clientId = (int) rowData[0];
+//		            String companyName = (String) rowData[1];
+		            int productId = (int) rowData[2];
+//		            String productName = (String) rowData[3];
+		            int orderCnt = (int) rowData[4];
+
+		            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		            String currentDate = ((LocalDate) rowData[5]).format(formatter);
+		            
+		           
+		            odto.setRelease_id(ReleaseId);
+		            odto.setProduct_id(productId);
+		            odto.setOrder_date(currentDate);
+		            odto.setOrder_cnt(orderCnt);
+		            odto.setClient_id(clientId);
+		            OrderService os = new OrderServiceImpl();
+			        os.setDao(new OrderDAO());
+			        
+			        int n2 = os.enrolltoorder(odto);
+			        //창닫기
+			        dispose();
+		           
+		        }
+		        
 		        
 		    }
 		});
