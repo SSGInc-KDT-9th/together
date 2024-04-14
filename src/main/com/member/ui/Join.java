@@ -160,7 +160,7 @@ public class Join extends JDialog{
             return MemberRole.ADMIN;
         }
         else{
-            return MemberRole.EMPLOYEE;
+            return MemberRole.COMMON;
         }
     }
     private void showFrame() {
