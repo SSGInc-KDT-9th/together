@@ -5,18 +5,18 @@
 
 <mapper namespace="mapper.SupplierMapper">
 
-    <select id="findAll" resultType="Supplier">
+    <select id="SupplierFindAll" resultType="Supplier">
         SELECT id,company_name,company_category,income,address
-        FROM supllier_company
+        FROM supplier_company
     </select>
 
-   <insert id="insert">
-       INSERT INTO supllier_company (id,company_name,company_category,income,address)
+   <insert id="SupplierInsert">
+       INSERT INTO supplier_company (id,company_name,company_category,income,address)
        VALUES (#{id},#{company_name},#{company_category},#{income},#{address})
    </insert>
 
-    <update id="update" parameterType="Supplier">
-        UPDATE supllier_company
+    <update id="SupplierUpdate" parameterType="Supplier">
+        UPDATE supplier_company
         SET
         company_name = #{company_name}, 
         company_category = #{company_category},
@@ -25,8 +25,8 @@
         WHERE id = #{id}
     </update>
 
-    <delete id="delete" parameterType="Supplier">
-        DELETE FROM supllier_company
+    <delete id="SupplierDelete" parameterType="Supplier">
+        DELETE FROM supplier_company
         WHERE id = #{id}
     </delete>
     
