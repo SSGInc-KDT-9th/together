@@ -23,7 +23,7 @@ public class SupplierServiceImpl implements SupplierService {
 		
 		try {
 			session = MySqlSessionFactory.openSession();
-			list = sup.findAll(session);
+			list = sup.supplierFindAll(session);
 		}finally {
 			session.close();
 		}
@@ -37,7 +37,7 @@ public class SupplierServiceImpl implements SupplierService {
 		SqlSession session = null;
 		try {
 			session = MySqlSessionFactory.openSession();
-			n = sup.insert(session, supllier);
+			n = sup.supplierInsert(session, supllier);
 			session.commit();
 		}finally {
 			session.close();
@@ -52,7 +52,7 @@ public class SupplierServiceImpl implements SupplierService {
 		SqlSession session = null;
 		try {
 			session = MySqlSessionFactory.openSession();
-			sup.update(session, supllier);
+			sup.supplierUpdate(session, supllier);
 			session.commit();
 		}finally {
 			session.close();
@@ -67,7 +67,7 @@ public class SupplierServiceImpl implements SupplierService {
 		SqlSession session = null;
 		try {
 			session = MySqlSessionFactory.openSession();
-			n = sup.delete(session, id);
+			n = sup.supplierDelete(session, id);
 			session.commit();
 		}finally {
 			session.clearCache();

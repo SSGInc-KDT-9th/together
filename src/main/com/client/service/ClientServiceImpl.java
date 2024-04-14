@@ -1,11 +1,12 @@
 package main.com.client.service;
 
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+
 import main.com.client.dao.ClientDAO;
 import main.com.client.dto.ClientDTO;
 import main.com.config.MySqlSessionFactory;
-import org.apache.ibatis.session.SqlSession;
-
-import java.util.List;
 
 public class ClientServiceImpl implements ClientService {
 
@@ -48,6 +49,36 @@ public class ClientServiceImpl implements ClientService {
         return n;
     }
 
+  //고객기업 수정
+  	@Override
+  	public void update(ClientDTO ClientDTO) {
+  	        SqlSession session = null;
+  	        try {
+  	            session = MySqlSessionFactory.openSession();
+  	            //DAO 연동코드
+  	            dao.update(session, ClientDTO);
+  	            session.commit();
+  	        }finally {
+  	            session.close();
+  	        }
+  		
+  	}
+  	
+    //고객기업 저장
+	@Override
+	public int insert(ClientDTO ClientDTO) {
+		 int n = 0;
+	        SqlSession session = null;
+	        try {
+	            session = MySqlSessionFactory.openSession();
+	            //DAO 연동코드
+	            n = dao.insert(session, ClientDTO);
+	            session.commit();
+	        }finally {
+	            session.close();
+	        }
+	        return n;
+	}
 
 
 }

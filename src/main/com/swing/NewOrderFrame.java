@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 //import com.jgoodies.forms.factories.DefaultComponentFactory;
@@ -23,6 +24,9 @@ import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 import javax.swing.JButton;
 
@@ -83,7 +87,7 @@ public class NewOrderFrame extends JFrame {
 		table_1 = new JTable();
 		scrollPane_1.setViewportView(table_1);
 		
-		String [] header = {"client_id", "company_name", "product_name", "order_cnt","order_date"};
+		String [] header = {"기업ID", "기업명","상품ID", "상품명", "수량","주문 날짜"};
 		DefaultTableModel model = new DefaultTableModel(null, header);
         table_1.setModel(model);
 		company_lbl = new JLabel("기업명");
@@ -133,7 +137,7 @@ public class NewOrderFrame extends JFrame {
 		contentPane.add(deletebtn);
 		
 		//서비스 구현
-		
+		//취소 버튼
 		cancelbtn.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        // 창 닫기
@@ -141,40 +145,75 @@ public class NewOrderFrame extends JFrame {
 		    }
 		});
 		
+		//입력 버튼
 		inputbtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // 입력된 정보를 테이블에 추가
-                String companyName = txt1.getText();
-                String productName = txt2.getText();
-                int orderCnt = (Integer) cnt_combo.getSelectedItem();
-                
+                String companyName = txt1.getText(); //기업명
+                String productName = txt2.getText(); //상품명
+                int orderCnt = (Integer) cnt_combo.getSelectedItem(); //주문 개수
+             // 기업명과 상품이름이 빈 문자열인지 확인
+                if (companyName.isEmpty() || productName.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "기업명과 상품이름을 입력해주세요.", "경고", JOptionPane.WARNING_MESSAGE);
+                    return; // 정보가 비어있으면 함수 종료
+                }
 //              OrderService를 사용하여 기업ID 조회
                 OrderService orderService = new OrderServiceImpl();
                 int clientId = orderService.findClientId(companyName);
-                
-//                if (clientId != 0) {
-//                    // OrderDTO 객체 생성 및 정보 설정
-//                    OrderDTO order = new OrderDTO();
-
+                int productId = orderService.findProductId(productName);
                     // 테이블에 추가할 데이터 배열 생성
-                    Object[] rowData = {
+                if(clientId != 0) {    
+                Object[] rowData = {
                        clientId,
                        companyName,
+                       productId,
                        productName, 
                        orderCnt,
                        getCurrentDate()
                     };
-
-                     //테이블 모델 가져오기
-                    
-                    
-                    // 테이블 모델에 행 추가
-                    model.addRow(rowData);
-//                } else {
-//                    // 기업ID가 존재하지 않는 경우 메시지 출력 또는 처리
-//                    System.out.println("입력한 기업명에 해당하는 기업이 없습니다.");
-//                }
+                // 기업이 등록되지 않은 경우에만 테이블에 추가
+                model.addRow(rowData);
             }
-        });
+        }
+    });
+		
+		//삭제 버튼
+		deletebtn.addActionListener(new ActionListener() {
+					
+				@Override
+				public void actionPerformed(ActionEvent e) {
+				 // 테이블에서 선택된 행의 인덱스 가져오기
+			        int selectedRowIndex = table_1.getSelectedRow();
+				        
+		        // 선택된 행이 없는 경우 또는 모델이 없는 경우 종료
+			        if (selectedRowIndex == -1 || model == null) {
+				            return;
+				        }
+				        model.removeRow(selectedRowIndex);
+					}
+				});
+	
+		
+		//등록 버튼
+		enrollbtn.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		    	 // 등록할 데이터를 담을 리스트 생성
+		        List<Object[]> rowDataList = new ArrayList<>();
+		        
+		        // 테이블의 모든 행을 순회하며 데이터를 rowDataList에 추가
+		        for (int i = 0; i < table_1.getRowCount(); i++) {
+		            Object[] rowData = new Object[table_1.getColumnCount()];
+		            for (int j = 0; j < table_1.getColumnCount(); j++) {
+		                rowData[j] = table_1.getValueAt(i, j);
+		            }
+		            rowDataList.add(rowData);
+		        }
+		    }
+		});
+       
+		
+                    
 	}
-}
+}              
+                  
+            

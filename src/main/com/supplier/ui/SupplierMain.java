@@ -25,11 +25,6 @@ import main.com.supplier.domain.Supplier;
 import main.com.supplier.domain.SupplierDAO;
 import main.com.supplier.repository.SupplierService;
 import main.com.supplier.repository.SupplierServiceImpl;
-import main.com.supplier.domain.Supplier;
-import main.com.supplier.domain.SupplierDAO;
-import main.com.supplier.repository.SupplierService;
-import main.com.supplier.repository.SupplierServiceImpl;
-
 
 public class SupplierMain extends JFrame {
 

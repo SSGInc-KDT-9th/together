@@ -25,7 +25,7 @@ public class ReleaseTest extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 	private JTextField textField;
-	String[] search = {"출고 번호", "출고 상태", "기업명"};
+	String[] search = {"출고 번호", "출고 상태"};
 	
 	/**
 	 * Launch the application.

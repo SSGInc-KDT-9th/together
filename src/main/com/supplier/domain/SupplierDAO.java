@@ -5,21 +5,21 @@ import org.apache.ibatis.session.SqlSession;
 
 public class SupplierDAO {
 
-	public List<Supplier> findAll(SqlSession session){
-		List<Supplier> list = session.selectList("findAll");
+	public List<Supplier> supplierFindAll(SqlSession session){
+		List<Supplier> list = session.selectList("SupplierFindAll");
 		return list;
 	}
 	
-	public int insert(SqlSession session, Supplier supplier) {
-		return session.insert("insert", supplier);
+	public int supplierInsert(SqlSession session, Supplier supplier) {
+		return session.insert("SupplierInsert", supplier);
 	}
 	
-	public void update(SqlSession session, Supplier supplier) {
-		session.update("update", supplier);
+	public void supplierUpdate(SqlSession session, Supplier supplier) {
+		session.update("SupplierUpdate", supplier);
 	};
 	
-    public int delete(SqlSession session, long id) {
-    	return session.delete("delete", id);
+    public int supplierDelete(SqlSession session, long id) {
+    	return session.delete("SupplierDelete", id);
     };
 	
 }
