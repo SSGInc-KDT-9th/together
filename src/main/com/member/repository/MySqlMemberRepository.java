@@ -10,7 +10,7 @@ public class MySqlMemberRepository implements MemberRepository{
     }
 
     @Override
-    public long save(Member member) {
+    public Long save(Member member) {
         SqlSession sqlSession = MySqlSessionFactory.openSession();
         try {
             sqlSession.insert("mapper.member.insert",member);
