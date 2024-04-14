@@ -8,7 +8,7 @@ public class ReleaseDTO {
 	int item_cnt;
 	public ReleaseDTO() {
 		super();
-		// TODO Auto-generated constructor stub
+
 	}
 	public ReleaseDTO(int id, long member_id, String release_date, String status, int item_cnt) {
 		super();

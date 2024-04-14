@@ -7,5 +7,6 @@
   <insert id="enroll" parameterType = "ReleaseDTO">
       insert into `release`(member_id,release_date,status,item_cnt)
       values(#{member_id},'미정','대기중',#{item_cnt})
+     
   </insert>
 </mapper>

@@ -15,7 +15,6 @@ public class ReleaseServiceImpl implements ReleaseService {
 		this.dao = dao;
 	}
 	
-
 	@Override
 	public int enroll(ReleaseDTO dto) {
 		int n = 0;

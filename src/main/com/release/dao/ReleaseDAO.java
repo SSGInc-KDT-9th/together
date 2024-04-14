@@ -1,7 +1,6 @@
 package main.com.release.dao;
 
 import org.apache.ibatis.session.SqlSession;
-
 import main.com.release.dto.ReleaseDTO;
 
 public class ReleaseDAO {
