@@ -1,21 +1,25 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.SupplierMapper">
 
-    <select id="SupplierFindAll" resultType="Supplier">
-        SELECT id,company_name,company_category,income,address
-        FROM supplier_company
-    </select>
+	<select id="SupplierFindAll" resultType="Supplier">
+		SELECT id, company_name, company_category, income, address
+    	FROM supplier_company
+		<where>
+			<if test="company_name != null">AND company_name LIKE CONCAT('%', #{company_name}, '%')</if>
+			<if test="company_category != null">AND company_category LIKE CONCAT('%', #{company_category}, '%')</if>
+			<if test="income != null">AND income LIKE CONCAT('%', #{income}, '%')</if>
+		</where>
+	</select>
 
-   <insert id="SupplierInsert">
+
+	<insert id="SupplierInsert">
        INSERT INTO supplier_company (id,company_name,company_category,income,address)
        VALUES (#{id},#{company_name},#{company_category},#{income},#{address})
    </insert>
 
-    <update id="SupplierUpdate" parameterType="Supplier">
+	<update id="SupplierUpdate" parameterType="Supplier">
         UPDATE supplier_company
         SET
         company_name = #{company_name}, 
@@ -25,9 +29,9 @@
         WHERE id = #{id}
     </update>
 
-    <delete id="SupplierDelete" parameterType="Supplier">
+	<delete id="SupplierDelete" parameterType="Supplier">
         DELETE FROM supplier_company
         WHERE id = #{id}
     </delete>
-    
+
 </mapper>

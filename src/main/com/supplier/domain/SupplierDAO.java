@@ -5,8 +5,8 @@ import org.apache.ibatis.session.SqlSession;
 
 public class SupplierDAO {
 
-	public List<Supplier> supplierFindAll(SqlSession session){
-		List<Supplier> list = session.selectList("SupplierFindAll");
+	public List<Supplier> supplierFindAll(SqlSession session, Supplier supplier){
+		List<Supplier> list = session.selectList("SupplierFindAll", supplier);
 		return list;
 	}
 	
