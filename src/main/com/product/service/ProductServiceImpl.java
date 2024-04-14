@@ -21,7 +21,7 @@ public class ProductServiceImpl implements ProductService{
         Product product = Product.builder()
                 .categoryId(productCreate.getCategoryId())
                 .supplierId(productCreate.getSupplierId())
-                .supplierName(productCreate.getProductName())
+                .supplierName(productCreate.getSupplierName())
                 .productName(productCreate.getProductName())
                 .build();
 
