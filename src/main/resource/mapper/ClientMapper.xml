@@ -5,10 +5,11 @@
 
 <mapper namespace="main.resource.mapper.ClientMapper">
 
-    <!-- 고객기업 신규 등록-->
+    <!-- 고객기업 저장-->
        <insert id="insert" parameterType="ClientDTO">
        INSERT INTO client_company (id,company_name,category,income,address)
-       VALUES (#{id},#{company_name},#{company_category},#{income},#{address})
+       VALUES 
+       (#{id},#{company_name},#{category},#{income},#{address})
        </insert>
        
      

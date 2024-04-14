@@ -2,11 +2,14 @@ package main.com.client.dao;
 
 import java.util.List;
 
-import main.com.client.dto.ClientDTO;
 import org.apache.ibatis.session.SqlSession;
+
+import main.com.client.dto.ClientDTO;
+import main.com.config.MySqlSessionFactory;
 
 
 public class ClientDAO {
+	
 
     //전체 고객기업 조회
     public List<ClientDTO> findAll(SqlSession session){

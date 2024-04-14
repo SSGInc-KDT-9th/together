@@ -15,5 +15,4 @@ public interface ClientService {
     int insert(ClientDTO ClientDTO);
     void update(ClientDTO ClientDTO);
 
-
 }
