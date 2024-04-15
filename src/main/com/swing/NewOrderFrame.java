@@ -271,8 +271,7 @@ public class NewOrderFrame extends JFrame {
 			        
 			        int n2 = os.enrolltoorder(odto);
 			        //창닫기
-			        dispose();
-		           
+			        dispose();      
 		        }
 		        }}
 		     else {
