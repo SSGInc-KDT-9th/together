@@ -25,8 +25,7 @@ class MySqlProductRepositoryTest {
         //given
         Product product = Product.builder()
                 .productName("투게더")
-                .supplierId(1L)
-                .categoryId(2L)
+                .supplierName("빙그레")
                 .build();
         //when
         Long saveId = productRepository.save(product);
@@ -49,12 +48,12 @@ class MySqlProductRepositoryTest {
 
         //when
         List<Long> saveIds = productRepository.save(products);
-        List<Product> expects = productRepository.findByName("이름");
+        List<Product> expects = productRepository.findIncludeName("이름");
+        productRepository.delete(saveIds);
         //then
         Assertions.assertEquals(expects.size(),30);
         Assertions.assertEquals(saveIds.get(0),expects.get(0).getId());
 
-        productRepository.delete(saveIds);
     }
     @Test
     @DisplayName("상품 저장 테스트")
@@ -62,8 +61,7 @@ class MySqlProductRepositoryTest {
         //given
         Product product = Product.builder()
                 .productName("투게더")
-                .categoryId(2L)
-                .supplierId(1L)
+                .supplierName("빙그레")
                 .build();
         Long saveId = productRepository.save(product);
         //when
@@ -71,8 +69,6 @@ class MySqlProductRepositoryTest {
         //then
         Assertions.assertEquals(expectProduct.getId(),product.getId());
         Assertions.assertEquals(expectProduct.getProductName(),product.getProductName());
-        Assertions.assertEquals(expectProduct.getCategoryId(),product.getCategoryId());
-        Assertions.assertEquals(expectProduct.getSupplierId(),product.getSupplierId());
         productRepository.delete(saveId);
     }
 
@@ -82,9 +78,8 @@ class MySqlProductRepositoryTest {
         //given
         List<Product> products = IntStream.range(0,30)
                 .mapToObj(i-> Product.builder()
-                        .categoryId(2L)
                         .productName("이름 " + i)
-                        .supplierId(1L)
+                        .supplierName("빙그레")
                         .build())
                 .collect(Collectors.toList());
         List<Long> saveIds = productRepository.save(products);
@@ -95,7 +90,6 @@ class MySqlProductRepositoryTest {
             Product expectProduct = productRepository.findById(id);
             Assertions.assertEquals(expectProduct.getId(),product.getId());
             Assertions.assertEquals(expectProduct.getProductName(),product.getProductName());
-            Assertions.assertEquals(expectProduct.getCategoryId(),product.getCategoryId());
             Assertions.assertEquals(expectProduct.getSupplierId(),product.getSupplierId());
         }
         productRepository.delete(saveIds);
@@ -107,26 +101,24 @@ class MySqlProductRepositoryTest {
         //given
         Product product = Product.builder()
                 .productName("투게더")
-                .categoryId(4L)
                 .supplierName("빙그레")
-                .supplierId(1L)
                 .build();
         Long saveId = productRepository.save(product);
         product = productRepository.findById(saveId);
+        String change = "수정 테스트";
         //when
         ProductEdit.ProductEditBuilder editBuilder = product.toEditor();
         ProductEdit productEdit = editBuilder.productName(product.getProductName())
+                .productName(change)
+                .categoryId(null)
                 .supplierName(product.getSupplierName())
-                .supplierId(product.getSupplierId())
-                .categoryId(3L)
                 .build();
         product.edit(productEdit);
         Long updateId = productRepository.update(product);
         Product expect = productRepository.findById(updateId);
         productRepository.delete(updateId);
         //then
-        Assertions.assertEquals(3L,expect.getCategoryId());
-        Assertions.assertNotEquals(4L,expect.getCategoryId());
+        Assertions.assertEquals(expect.getProductName(),change);
     }
 
     @Test
@@ -136,7 +128,6 @@ class MySqlProductRepositoryTest {
         Product product = Product.builder()
                 .supplierName("빙그레")
                 .productName("테스터")
-                .categoryId(41L)
                 .build();
         //when
         Long saveId = productRepository.save(product);
@@ -144,5 +135,16 @@ class MySqlProductRepositoryTest {
         //then
         Assertions.assertEquals(expect.getProductName(),product.getProductName());
         Assertions.assertNotNull(expect.getSupplierId());
+    }
+
+    @Test
+    @DisplayName("전체 조회 테스트")
+    void test7() throws Exception {
+        //given
+
+        //when
+
+        //then
+
     }
 }
