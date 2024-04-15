@@ -6,6 +6,7 @@ import main.com.member.service.MemberServiceImpl;
 import main.com.product.repository.CategoryRepository;
 import main.com.product.repository.MySqlProductRepository;
 import main.com.product.repository.ProductRepository;
+import main.com.product.repository.StockRepository;
 import main.com.product.service.CategoryService;
 import main.com.product.service.CategoryServiceImpl;
 import main.com.product.service.ProductService;
@@ -20,8 +21,11 @@ public class AppConfig {
         return new MySqlProductRepository();
     }
 
+    public StockRepository stockRepository(){
+        return new StockRepository();
+    }
     public ProductService productService(){
-        return new ProductServiceImpl(productRepository());
+        return new ProductServiceImpl(productRepository(),stockRepository());
     }
 
     public MemberRepository memberRepository(){
