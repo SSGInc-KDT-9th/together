@@ -77,4 +77,19 @@ public class ReleaseServiceImpl implements ReleaseService {
 				return list;
 	}
 
+	@Override
+	public int releasedelete(long id) {
+		int n4 = 0;
+		SqlSession session = null;
+	      try {
+			session = MySqlSessionFactory.openSession();
+			//DAO 연동코드
+			n4 = dao.releasedelete(session, id);
+			session.commit();
+	      }finally {
+			session.close();
+	      }
+		return n4;
+	}
+
 }
