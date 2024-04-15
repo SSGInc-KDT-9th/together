@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
+import main.com.order.dao.OrderDAO;
 import main.com.order.dto.OrderDTO;
 import main.com.order.service.OrderService;
 import main.com.order.service.OrderServiceImpl;
@@ -234,6 +235,9 @@ public class ReleaseTest extends JFrame {
 		        // 인덱스 가져오기
 		    	int selectedRowIndex = table.getSelectedRow();
 		    	long releaseid = (long) table.getValueAt(selectedRowIndex, 0); // 출고번호 가져오기
+		    	
+		    	model1.setRowCount(0);
+		    	
 //		    	int releaseIdInt = (int) releaseid;
 //		    	System.out.println(releaseid);
 		    	OrderService order = new OrderServiceImpl();
@@ -270,4 +274,48 @@ public class ReleaseTest extends JFrame {
 
 			
 		});
+		//삭제 버튼
+		Deletebtn.addActionListener(new ActionListener() {
+							
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// 테이블에서 선택된 행의 인덱스 가져오기
+//			int selectedRowIndex = table_1.getSelectedRow();
+//			int orderid = (int) table_1.getValueAt(selectedRowIndex, 0); // 주문번호 가져오기
+//			OrderService order = new OrderServiceImpl();
+//			order.setDao(new OrderDAO());
+//			int n3 = order.orderdelete(orderid);
+//			
+//			
+//		// 선택된 행이 없는 경우 또는 모델이 없는 경우 종료
+//			if (selectedRowIndex == -1 || model1 == null) {
+//				     return;
+//			}
+//			 model1.removeRow(selectedRowIndex);
+//			        
+//			        
+//			}
+//			});
+			 // 테이블에서 선택된 행의 인덱스 가져오기
+	        int selectedRowIndex = table_1.getSelectedRow();
+	        if (selectedRowIndex == -1 || model1 == null) {
+	            return; // 선택된 행이 없거나 모델이 없는 경우 종료
+	        }
+	        
+	        // 삭제 여부 확인 대화 상자 표시
+	        int option = JOptionPane.showConfirmDialog(null, "삭제하시겠습니까?", "삭제 확인", JOptionPane.YES_NO_OPTION);
+	        if (option == JOptionPane.YES_OPTION) {
+	            // 사용자가 확인을 선택한 경우
+	            int orderid = (int) table_1.getValueAt(selectedRowIndex, 0); // 주문번호 가져오기
+	            OrderService order = new OrderServiceImpl();
+	            order.setDao(new OrderDAO());
+	            int n3 = order.orderdelete(orderid);
+
+	            // 행 삭제
+	            model1.removeRow(selectedRowIndex);
+	        }
+	    }
+	});
+			
+		
 	}}

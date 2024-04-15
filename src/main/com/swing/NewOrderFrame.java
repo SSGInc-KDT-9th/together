@@ -169,7 +169,7 @@ public class NewOrderFrame extends JFrame {
                 int clientId = orderService.findClientId(companyName);
                 int productId = orderService.findProductId(productName);
                     // 테이블에 추가할 데이터 배열 생성
-                if(clientId != 0) {    
+                if(clientId != 0 && productId !=0) {    
                 Object[] rowData = {
                        clientId,
                        companyName,

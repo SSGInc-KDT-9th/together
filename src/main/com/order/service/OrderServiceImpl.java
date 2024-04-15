@@ -110,6 +110,21 @@ public class OrderServiceImpl implements OrderService{
 		}
 		return pname;
 	}
+
+	@Override
+	public int orderdelete(int id) {
+		int n3 = 0;
+		SqlSession session = null;
+	      try {
+			session = MySqlSessionFactory.openSession();
+			//DAO 연동코드
+			n3 = dao.orderdelete(session, id);
+			session.commit();
+	      }finally {
+			session.close();
+	      }
+		return n3;
+	}
 	
 }
 
