@@ -25,6 +25,7 @@ public class Product {
     public void edit(ProductEdit editor) {
         this.categoryId = editor.getCategoryId();
         this.supplierId = editor.getSupplierId();
+        this.supplierName = editor.getSupplierName();
         this.productName = editor.getProductName();
     }
 
