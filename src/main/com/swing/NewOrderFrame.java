@@ -231,6 +231,8 @@ public class NewOrderFrame extends JFrame {
 		         }
 		     }
 		     if(canProceed) {
+		    	 int result = JOptionPane.showConfirmDialog(null, "주문하시겠습니까?", "주문 확인", JOptionPane.YES_NO_OPTION);
+		        if(result == JOptionPane.YES_OPTION) {
 		        ReleaseDTO dto = new ReleaseDTO();
 		      //로그인한 사용자 세션으로 id받아오기
 		        Long member_id = Session.getMember().getId();
@@ -272,7 +274,7 @@ public class NewOrderFrame extends JFrame {
 			        dispose();
 		           
 		        }
-		        }
+		        }}
 		     else {
 		        	 JOptionPane.showMessageDialog(null, "기업명이 다릅니다.", "경고", JOptionPane.WARNING_MESSAGE);
 		        }

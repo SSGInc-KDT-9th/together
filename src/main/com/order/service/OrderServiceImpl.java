@@ -82,7 +82,7 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public String companyselect(OrderDTO id) {
+	public String companyselect(int id) {
 		SqlSession session = null;
 		String cname = null;
   
@@ -97,7 +97,7 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public String productselect(OrderDTO id) {
+	public String productselect(int id) {
 		SqlSession session = null;
 		String pname = null;
   

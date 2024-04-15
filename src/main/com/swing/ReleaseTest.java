@@ -200,14 +200,8 @@ public class ReleaseTest extends JFrame {
 		                    ReleaseService service = new ReleaseServiceImpl();
 		                    List<ReleaseDTO> list = service.statuselect(searchtext);
 		                    System.out.println(list);
-
 		                    DefaultTableModel model = (DefaultTableModel) table.getModel();
-
-
 		                    model.setRowCount(0);
-
-
-
 		                    for (ReleaseDTO release : list) {
 		                        Object[] rowData = {
 		                            release.getId(),
@@ -255,9 +249,9 @@ public class ReleaseTest extends JFrame {
                         order1.getClient_id()
                     };
                     System.out.println(rowData[2]);
-                    OrderDTO pid = (OrderDTO) rowData[2];
+                    int pid = (int) rowData[2];
                     String pname = order.productselect(pid);
-                    OrderDTO cid = (OrderDTO) rowData[5];
+                    int cid = (int) rowData[5];
                     String cname = order.companyselect(cid);
                     
                     Object[] result = {
@@ -269,7 +263,7 @@ public class ReleaseTest extends JFrame {
                             rowData[4]
                         };
 //                      System.out.println(rowData[2]);
-                        model.addRow(rowData);
+                        model1.addRow(result);
                 }
 
 		    }
