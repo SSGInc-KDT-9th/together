@@ -40,6 +40,10 @@
   <select id="Inventoryselect" parameterType="int" resultType="int">
   select inventory from `stock` where product_id = #{product_id}
   </select>
-  
+  <!-- 출고 상태, 출고 일자 update-->
+  <update id="updatestatus" parameterType="long">
+  update `release` set status = "출고 완료", release_date = DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s')
+  where id = #{id}
+  </update>
   
 </mapper>

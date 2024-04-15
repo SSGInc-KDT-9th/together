@@ -112,7 +112,7 @@ public class ReleaseServiceImpl implements ReleaseService {
   
 		try {
 			session = MySqlSessionFactory.openSession();
-			inventory = dao.findreleaseID(session, product_id);
+			inventory = dao.Inventoryselect(session, product_id);
 
 		} finally {
 			session.close();
@@ -134,4 +134,17 @@ public class ReleaseServiceImpl implements ReleaseService {
 	      }
 		return n;
 }
+
+	@Override
+	public void updatestatus(long id) {
+		SqlSession session = null;
+	      try {
+			session = MySqlSessionFactory.openSession();
+			//DAO 연동코드
+			dao.updatestatus(session, id);
+			session.commit();
+	      }finally {
+			session.close();
+	      }
+	}
 }

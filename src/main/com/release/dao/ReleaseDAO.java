@@ -43,4 +43,7 @@ public class ReleaseDAO {
 		public int Inventoryupdate(SqlSession session, ReleaseDTO dto) {	
 			return session.update("mapper.release.Inventoryupdate", dto);
 		}
+		public void updatestatus(SqlSession session, long id) {
+			session.update("mapper.release.updatestatus", id);
+		}
 }

@@ -89,7 +89,7 @@ public class ReleaseTest extends JFrame {
 		contentPane.setLayout(null);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(36, 212, 509, 408);
+		scrollPane.setBounds(36, 167, 509, 453);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
@@ -112,28 +112,28 @@ public class ReleaseTest extends JFrame {
         headerComponent.setDefaultRenderer(customHeaderRenderer);
 		
 		Searchbtn = new JButton("검색");
-		Searchbtn.setBounds(436, 147, 109, 33);
+		Searchbtn.setBounds(436, 102, 109, 33);
 		Searchbtn.setFont(new Font("고딕", Font.BOLD, 15));
 		contentPane.add(Searchbtn);
 		
 		Enrollbtn = new JButton("주문 등록");
-		Enrollbtn.setBounds(619, 145, 171, 55);
+		Enrollbtn.setBounds(623, 102, 171, 55);
 		Enrollbtn.setFont(new Font("고딕", Font.BOLD, 20));
 		contentPane.add(Enrollbtn);
 		
-		Updatebtn = new JButton("수정");
-		Updatebtn.setBounds(847, 145, 171, 55);
+		Updatebtn = new JButton("출고상태 변경");
+		Updatebtn.setBounds(848, 102, 171, 55);
 		Updatebtn.setFont(new Font("고딕", Font.BOLD, 20));
 		contentPane.add(Updatebtn);
 		
 		Deletebtn = new JButton("주문 삭제");
-		Deletebtn.setBounds(1068, 145, 171, 55);
+		Deletebtn.setBounds(1069, 102, 171, 55);
 		Deletebtn.setFont(new Font("고딕", Font.BOLD, 20));
 		contentPane.add(Deletebtn);
 		
       
 		scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(643, 231, 568, 389);
+		scrollPane_1.setBounds(643, 192, 568, 428);
 		contentPane.add(scrollPane_1);
 		
 		table_1 = new JTable();
@@ -145,12 +145,12 @@ public class ReleaseTest extends JFrame {
         
         JLabel lblNewLabel = new JLabel("출고 상태");
         lblNewLabel.setForeground(Color.BLACK);
-        lblNewLabel.setBounds(88, 145, 103, 35);
+        lblNewLabel.setBounds(88, 100, 103, 35);
         lblNewLabel.setFont(new Font("고딕", Font.BOLD, 16));
         contentPane.add(lblNewLabel);
         
         JComboBox comboBox_1 = new JComboBox(search2);
-        comboBox_1.setBounds(223, 147, 125, 33);
+        comboBox_1.setBounds(225, 102, 125, 33);
         Font font = new Font("고딕", Font.PLAIN, 15); 
         comboBox_1.setFont(font);
         contentPane.add(comboBox_1);
@@ -295,68 +295,65 @@ public class ReleaseTest extends JFrame {
 			//수정(출고 상태 변경)
 		Updatebtn.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		    	  // 현재 table_1에 있는 행 정보 가져오기
-		        if (table_1.getSelectedRow() == -1) {
+		    	  // 현재 table에 있는 행 정보 가져오기
+		        if (table.getSelectedRow() == -1) {
 		            JOptionPane.showMessageDialog(null, "변경할 출고 항목을 선택해주세요.", "알림", JOptionPane.WARNING_MESSAGE);
 		        } else {
-		            int option = JOptionPane.showConfirmDialog(null, "출고상태를 변경하시겠습니까?", "출고상태 변경 확인", JOptionPane.YES_NO_OPTION);
-		            if (option == JOptionPane.YES_OPTION) {
-		                DefaultTableModel model1 = (DefaultTableModel) table_1.getModel();
-		                int rowCount = model1.getRowCount();
-		                List<Object[]> rowDataList = new ArrayList<>();
-		                for (int i = 0; i < rowCount; i++) {
-		                    Object[] rowData = new Object[model1.getColumnCount()];
-		                    for (int j = 0; j < model1.getColumnCount(); j++) {
-		                        rowData[j] = model1.getValueAt(i, j);
-		                    }
-		                    rowDataList.add(rowData);
-		                }
-		                
-		                for (Object[] rowData : rowDataList) {
-		                	ReleaseService rs = new ReleaseServiceImpl();
-		                	int productId =(int) rowData[1];
-		                	//재고량
-		                	int cnt = rs.Inventoryselect(productId);
-		                	//필요량
-		                	int itemcnt =(int) rowData[3];
-		                	
-		                	//재고량보다 많다면 재고량 - itemcnt 한 값을 재고테이블 재고량에 update
-		                	if(cnt>=itemcnt) {
-								int modifyInventory = cnt - itemcnt;
-								
-								//############################################
-								//수정한 부분 입니다.
-								//StockEdit 에서 원하는 부분만 선택해서 값을 넣고 build를 하면 됩니다.
-								//아래 코드를 참고해주세요
-//								StockEdit.builder()
-//										.productId()
-//										.storePrice()
-//										.sellingPrice()
-//										.inventory(modifyInventory)
-//										.build();
-								
-								StockEdit stockEdit = StockEdit.builder()
-										.inventory(modifyInventory)
-										.build();
-								stockService.editRelease(new Long(productId),stockEdit);
-								//#####################################################
-//		                		StockBuilder st = new StockBuilder();
-//		                		//재고량(result), 상품ID(productId) 넘겨서 stock 테이블 update
-//		                		//이 부분 부터 잘 모르겠습니다,,
-//		                		long productID = (long) productId;
-//		                		st.productId(productID);
-//		                		st.inventory(result);
-//		                		StockService ss = new StockServiceImpl(Stock);
-//		                		ss.Inventoryupdate();
-		                		
+		        	int option = JOptionPane.showConfirmDialog(null, "출고상태를 변경하시겠습니까?", "출고상태 변경 확인", JOptionPane.YES_NO_OPTION);
+		        	if (option == JOptionPane.YES_OPTION) {
+		        	    DefaultTableModel model1 = (DefaultTableModel) table_1.getModel();
+		        	    int rowCount = model1.getRowCount();
+		        	    boolean allInventoryAvailable = true; // 모든 행의 재고량이 충분한지 여부를 나타내는 변수
+		        	    List<StockEdit> stockEdits = new ArrayList<>(); // 업데이트할 재고 정보를 담는 리스트
+		        	    for (int i = 0; i < rowCount; i++) {
+		        	        Object[] rowData = new Object[model1.getColumnCount()];
+		        	        for (int j = 0; j < model1.getColumnCount(); j++) {
+		        	            rowData[j] = model1.getValueAt(i, j);
+		        	        }
+		        	        int productId = (int) rowData[1];
+		        	        int itemcnt = (int) rowData[3];
+		        	        ReleaseService rs = new ReleaseServiceImpl();
+		        	        int cnt = rs.Inventoryselect(productId);
+		        	        if (cnt >= itemcnt) { // 재고량이 충분한 경우
+		        	            int modifyInventory = cnt - itemcnt; // 수정할 재고량 계산
+		        	            StockEdit stockEdit = StockEdit.builder()
+		        	                    .productId((long) productId)
+		        	                    .inventory(modifyInventory)
+		        	                    .build();
+		        	            stockEdits.add(stockEdit); // 재고 정보를 리스트에 추가
+		        	        } else {
+		        	            allInventoryAvailable = false; // 재고량이 충분하지 않은 경우
+		        	            break; // 변경 중단
+		        	        }
+		        	    }
+		        	    
+		        	    if (allInventoryAvailable) { // 모든 행의 재고량이 충분한 경우
+		        	        for (StockEdit stockEdit : stockEdits) {
+		        	            stockService.editRelease(stockEdit.getProductId(), stockEdit); // 재고 업데이트
+		        	        }
+		        	        JOptionPane.showMessageDialog(null, "출고 완료 되었습니다.", "알림", JOptionPane.WARNING_MESSAGE);
+		        	        //출고 완료로 변경
+		        	        //출고 일자 현재 날짜로 변경
+		        	    
+		        	        int selectedRowIndex = table.getSelectedRow();
 
-		                }
+		        	        if (selectedRowIndex != -1) {
+		        	            // 선택된 행의 첫 번째 열 값 가져오기
+		        	            long releaseid = (long) table.getValueAt(selectedRowIndex, 0);
+		        	            ReleaseService rs = new ReleaseServiceImpl();
+		        	            rs.updatestatus(releaseid);
+		        	        } 
+		        	        
+		        	    } else { // 재고량이 충분하지 않은 경우
+		        	        JOptionPane.showMessageDialog(null, "일부 상품의 재고가 부족합니다.", "재고 부족 경고", JOptionPane.WARNING_MESSAGE);
+		        	    }
+		        	}
 		                
 		                
 		            }
 		        }
-		            }
-		    }
+		            
+		    
 			
 		});	
 }}

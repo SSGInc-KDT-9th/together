@@ -17,4 +17,5 @@ public interface ReleaseService {
 	public List<ReleaseDTO> findall();
 	public int Inventoryselect(int product_id);
 	public int Inventoryupdate(ReleaseDTO dto);
+	public void updatestatus(long id);
 }
