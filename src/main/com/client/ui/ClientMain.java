@@ -1,6 +1,7 @@
 package main.com.client.ui;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,7 +28,7 @@ import main.com.client.service.ClientService;
 import main.com.client.service.ClientServiceImpl;
 
 
-public class ClientMain extends JFrame {
+public class ClientMain extends JPanel {
 	
 	private JPanel contentPane;
 	private JTextField selectid;
@@ -66,19 +67,14 @@ public class ClientMain extends JFrame {
 	 * 프레임
 	 */
 	public ClientMain() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1280, 720);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		
+		setLayout(null);
 		
 		
 		//개발시작
 		JPanel panel = new JPanel();
 		panel.setBounds(915, 90, 339, 257);
-		contentPane.add(panel);
+		add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("기업명");
@@ -140,7 +136,7 @@ public class ClientMain extends JFrame {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(915, 380, 339, 86);
-		contentPane.add(panel_1);
+		add(panel_1);
 		panel_1.setLayout(null);
 		
 		JLabel lblNewLabel_1_1_1_1 = new JLabel("삭제할 기업 id를 입력하시오");
@@ -158,7 +154,7 @@ public class ClientMain extends JFrame {
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBounds(143, 27, 894, 50);
-		contentPane.add(panel_3);
+		add(panel_3);
 		panel_3.setLayout(null);
 		
 		JLabel lblid_1 = new JLabel("기업id");
@@ -198,7 +194,7 @@ public class ClientMain extends JFrame {
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(0, 39, 139, 32);
-		contentPane.add(panel_2);
+		add(panel_2);
 		panel_2.setLayout(null);
 		
 		JButton btnFindAll = new JButton("전체조회");
@@ -208,10 +204,11 @@ public class ClientMain extends JFrame {
 		//메인 테이블 창 구성
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(29, 87, 843, 379);
-		contentPane.add(scrollPane);
+		add(scrollPane);
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
+		table.setPreferredScrollableViewportSize(new Dimension(800, 400));
 	     
         Vector<String> v = new Vector<>();
 		
