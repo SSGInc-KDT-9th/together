@@ -6,21 +6,21 @@ import main.com.supplier.domain.Supplier;
 
 public class SupplierDAO {
 
-	public List<Supplier> supplierFindAll(SqlSession session, Supplier supplier){
-		List<Supplier> list = session.selectList("SupplierFindAll", supplier);
+	public List<Supplier> supplierFindAll(SqlSession sqlSession, Supplier supplier){
+		List<Supplier> list = sqlSession.selectList("SupplierFindAll", supplier);
 		return list;
 	}
 	
-	public int supplierInsert(SqlSession session, Supplier supplier) {
-		return session.insert("SupplierInsert", supplier);
+	public int supplierInsert(SqlSession sqlSession, Supplier supplier) {
+		return sqlSession.insert("SupplierInsert", supplier);
 	}
 	
-	public void supplierUpdate(SqlSession session, Supplier supplier) {
-		session.update("SupplierUpdate", supplier);
+	public void supplierUpdate(SqlSession sqlSession, Supplier supplier) {
+		sqlSession.update("SupplierUpdate", supplier);
 	};
 	
-    public int supplierDelete(SqlSession session, long id) {
-    	return session.delete("SupplierDelete", id);
+    public int supplierDelete(SqlSession sqlSession, long id) {
+    	return sqlSession.delete("SupplierDelete", id);
     };
 	
 }

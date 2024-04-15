@@ -18,14 +18,15 @@ public class SupplierServiceImpl implements SupplierService {
 	@Override
 	public List<Supplier> supplierFindAll(Supplier supplier) {
 		
-		SqlSession session = null;
+		SqlSession sqlSession = null;
 		List<Supplier> list = null;
 		
 		try {
-			session = MySqlSessionFactory.openSession();
-			list = supplierDao.supplierFindAll(session, supplier);
+			sqlSession = MySqlSessionFactory.openSession();
+			list = supplierDao.supplierFindAll(sqlSession, supplier);
 		}finally {
-			session.close();
+			sqlSession.rollback();
+			sqlSession.close();
 		}
 				
 		return list;
@@ -35,13 +36,14 @@ public class SupplierServiceImpl implements SupplierService {
 	@Override
 	public int insert(Supplier supllier) {
 		int n = 0;
-		SqlSession session = null;
+		SqlSession sqlSession = null;
 		try {
-			session = MySqlSessionFactory.openSession();
-			n = supplierDao.supplierInsert(session, supllier);
-			session.commit();
+			sqlSession = MySqlSessionFactory.openSession();
+			n = supplierDao.supplierInsert(sqlSession, supllier);
+			sqlSession.commit();
 		}finally {
-			session.close();
+			sqlSession.rollback();
+			sqlSession.close();
 		}
 		return n;
 		
@@ -50,13 +52,14 @@ public class SupplierServiceImpl implements SupplierService {
 	@Override
 	public void update(Supplier supllier) {
 		
-		SqlSession session = null;
+		SqlSession sqlSession = null;
 		try {
-			session = MySqlSessionFactory.openSession();
-			supplierDao.supplierUpdate(session, supllier);
-			session.commit();
+			sqlSession = MySqlSessionFactory.openSession();
+			supplierDao.supplierUpdate(sqlSession, supllier);
+			sqlSession.commit();
 		}finally {
-			session.close();
+			sqlSession.rollback();
+			sqlSession.close();
 		}
 
 		
@@ -65,13 +68,14 @@ public class SupplierServiceImpl implements SupplierService {
 	@Override
 	public int delete(long id) {
 		int n = 0;
-		SqlSession session = null;
+		SqlSession sqlSession = null;
 		try {
-			session = MySqlSessionFactory.openSession();
-			n = supplierDao.supplierDelete(session, id);
-			session.commit();
+			sqlSession = MySqlSessionFactory.openSession();
+			n = supplierDao.supplierDelete(sqlSession, id);
+			sqlSession.commit();
 		}finally {
-			session.clearCache();
+			sqlSession.rollback();
+			sqlSession.clearCache();
 		}
 		return n;
 	}

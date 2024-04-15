@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextArea;
 
 public class SupplierUpdate extends JFrame {
 
@@ -20,7 +21,7 @@ public class SupplierUpdate extends JFrame {
 	private JTextField company_name;
 	private JTextField company_category;
 	private JTextField income;
-	private JTextField address;
+	private JTextArea address;
 	private JButton resetBtn;
 	private JButton updateBtn;
 	private JButton cancelBtn;
@@ -54,12 +55,12 @@ public class SupplierUpdate extends JFrame {
 		income.setColumns(10);
 		income.setText(String.valueOf(supplier.getIncome()));
 
-		address = new JTextField();
-		address.setBounds(100, 177, 150, 21);
+		address = new JTextArea();
+		address.setBounds(100, 175, 150, 62);
 		contentPane.add(address);
-		address.setColumns(10);
+		address.setLineWrap(true);
 		address.setText(supplier.getAddress());
-		
+				
 		JLabel lblNewLabel = new JLabel("기업명");
 		lblNewLabel.setBounds(30, 30, 57, 15);
 		contentPane.add(lblNewLabel);
@@ -77,15 +78,15 @@ public class SupplierUpdate extends JFrame {
 		contentPane.add(lblNewLabel_3);
 		
 		resetBtn = new JButton("초기화");
-		resetBtn.setBounds(12, 247, 80, 23);
+		resetBtn.setBounds(12, 258, 80, 23);
 		contentPane.add(resetBtn);
 		
-		updateBtn = new JButton("수정하기");
-		updateBtn.setBounds(100, 247, 80, 23);
+		updateBtn = new JButton("수정");
+		updateBtn.setBounds(100, 258, 80, 23);
 		contentPane.add(updateBtn);
 		
 		cancelBtn = new JButton("취소");
-		cancelBtn.setBounds(187, 247, 80, 23);
+		cancelBtn.setBounds(192, 258, 80, 23);
 		contentPane.add(cancelBtn);
 		
 //		텍스트 지우기

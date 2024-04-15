@@ -26,6 +26,7 @@ import main.com.supplier.service.SupplierServiceImpl;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
+import javax.swing.JTextArea;
 
 public class SupplierMain extends JFrame {
 
@@ -39,12 +40,12 @@ public class SupplierMain extends JFrame {
 	private JTextField insert_company_name;
 	private JTextField insert_company_category;
 	private JTextField insert_income;
-	private JTextField insert_address;
+	private JTextArea insert_address;
 	
 	private JTextField side_company_name;
 	private JTextField side_company_category;
 	private JTextField side_income;
-	private JTextField side_address;
+	private JTextArea side_address;
 	
 	private JButton top_resetBtn;
 	private JTextField top_company_name;
@@ -103,11 +104,6 @@ public class SupplierMain extends JFrame {
 		insertPanel.add(resetBtn);
 		resetBtn.setFont(new Font("굴림", Font.BOLD, 12));
 
-		insert_address = new JTextField();
-		insert_address.setBounds(116, 120, 150, 20);
-		insertPanel.add(insert_address);
-		insert_address.setColumns(10);
-
 		insert_company_name = new JTextField();
 		insert_company_name.setBounds(116, 30, 150, 20);
 		insertPanel.add(insert_company_name);
@@ -143,6 +139,11 @@ public class SupplierMain extends JFrame {
 		insert_company_category.setBounds(116, 60, 150, 20);
 		insertPanel.add(insert_company_category);
 		insert_company_category.setColumns(10);
+		
+		insert_address = new JTextArea();
+		insert_address.setLineWrap(true);
+		insert_address.setBounds(116, 118, 150, 82);
+		insertPanel.add(insert_address);
 
 		resetBtn.addActionListener(new ActionListener() {
 
@@ -243,12 +244,13 @@ public class SupplierMain extends JFrame {
 		updatePanel.add(side_income);
 		side_income.setEditable(false);
 		side_income.setColumns(10);
-
-		side_address = new JTextField();
-		side_address.setBounds(118, 120, 150, 20);
-		updatePanel.add(side_address);
+		
+		side_address = new JTextArea();
+		side_address.setBackground(new Color(255, 255, 255));
+		side_address.setLineWrap(true);
 		side_address.setEditable(false);
-		side_address.setColumns(10);
+		side_address.setBounds(118, 118, 150, 82);
+		updatePanel.add(side_address);
 
 		seachPanel = new JPanel();
 		seachPanel.setBounds(12, 65, 950, 40);
