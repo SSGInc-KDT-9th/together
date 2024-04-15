@@ -16,6 +16,7 @@ public interface ClientService {
     public int removeByid(int id);
     int insert(ClientDTO ClientDTO);
     void update(ClientDTO ClientDTO);
+    public ClientDTO findById(int id);
+    public List<ClientDTO> findByCompanyName(String companyName);
     
-
 }

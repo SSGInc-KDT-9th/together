@@ -197,8 +197,8 @@ public class ClientMain extends JFrame {
 	     
         Vector<String> v = new Vector<>();
 		
-		String [] header = {"ID","기업명","분류","거래액","주소"};
-		String [][] obj = {{"123","ㄴㄴ", "ㅇㅇ","33","ㄴㄴ"}};
+		String [] header = {"기업 ID","기업명","분류","거래액 (단위: 만원)","주소"};
+		String [][] obj = {};
 		
 		DefaultTableModel dm = new DefaultTableModel(obj, header);
 		table.setModel(dm);
@@ -229,33 +229,89 @@ public class ClientMain extends JFrame {
 				service.setDao(new ClientDAO());
 				
 				 List<ClientDTO> list = service.findAll();
-                 for (ClientDTO d : list) {
-	               System.out.println(d);
-                    }
+				 
+				 DefaultTableModel model = (DefaultTableModel) table.getModel();
+				 model.setRowCount(0);
+				 
+                 for (ClientDTO client : list) {
+                	 Object[] rowData = {
+                             client.getId(),
+                             client.getCompany_name(),
+                             client.getCategory(),
+                             client.getIncome(),
+                             client.getAddress()
+                         };
+                         model.addRow(rowData);
+			}
 			}
 		});//end
 		
 		//기업 id 입력시 정보 조회 버튼 이벤트 처리
-	   btnFind.addActionListener(new ActionListener() {
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-             String id = selectid.getText();
-             
-			ClientService service = new ClientServiceImpl();
-			service.setDao(new ClientDAO());
+		btnFind.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        String id = selectid.getText();
+
+		        if (!id.isEmpty()) { 
+		            ClientService service = new ClientServiceImpl();
+		            service.setDao(new ClientDAO());
+
+		            ClientDTO client = service.findById(Integer.parseInt(id));
+		            if (client != null) {
+		                DefaultTableModel model = (DefaultTableModel) table.getModel();
+		                model.setRowCount(0); 
+
+		                Object[] rowData = {
+		                        client.getId(),
+		                        client.getCompany_name(),
+		                        client.getCategory(),
+		                        client.getIncome(),
+		                        client.getAddress()
+		                };
+		                model.addRow(rowData);
+		            } else {
+		                JOptionPane.showMessageDialog(null, "해당 ID에 대한 데이터를 찾을 수 없습니다.", "오류", JOptionPane.ERROR_MESSAGE);
+		            }
+		        } else {
+		            System.out.println("ID를 입력해주세요.");
+		        }
+		    }
+		});
 			
-	
-			 List<ClientDTO> list = service.findAll();
-             for (ClientDTO d : list) {
-               System.out.println(d);
-                }
-			
-		}
-	});
-			
-			
-		
+		//기업명 입력시 정보 조회 버튼 이벤트 처리
+		btnFind.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        String companyName = selectCompanyName.getText();
+
+		        if (!companyName.isEmpty()) { // 기업명이 비어있지 않은 경우에만 실행
+		            ClientService service = new ClientServiceImpl();
+		            service.setDao(new ClientDAO());
+
+		            List<ClientDTO> clients = service.findByCompanyName(companyName);
+		            if (!clients.isEmpty()) {
+		                DefaultTableModel model = (DefaultTableModel) table.getModel();
+		                model.setRowCount(0); // 기존 데이터 초기화
+
+		                for (ClientDTO client : clients) {
+		                    Object[] rowData = {
+		                            client.getId(),
+		                            client.getCompany_name(),
+		                            client.getCategory(),
+		                            client.getIncome(),
+		                            client.getAddress()
+		                    };
+		                    model.addRow(rowData);
+		                }
+		            } else {
+		                System.out.println("해당 기업명에 대한 데이터를 찾을 수 없습니다.");
+		            }
+		        } else {
+		            System.out.println("기업명을 입력해주세요.");
+		        }
+		    }
+		});
+
 		
 		//기업 고객 등록 버튼 이벤트 처리
 		btnsave.addActionListener(new ActionListener() {
