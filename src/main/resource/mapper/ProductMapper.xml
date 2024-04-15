@@ -46,6 +46,7 @@
         SELECT p.id,p.product_name,p.category_id,pc.category_name,p.supplier_id,p.supplier_name,s.store_price,s.selling_price,s.inventory
         FROM (product as p join product_category as pc on p.category_id = pc.id)
         LEFT OUTER JOIN stock as s ON p.id = s.product_id
+        WHERE p.id is not null
         <if test="id != null and id!=''">
             AND p.product_id = #{id}
         </if>
@@ -99,7 +100,8 @@
 <!--UPDATE-->
     <update id="update" parameterType="Product">
         UPDATE product
-        SET category_id = #{categoryId}, supplier_id = #{supplierId}, supplier_name = #{supplierName} ,product_name = #{productName}
+        SET category_id = #{categoryId}, supplier_id =(select id from supplier_company where company_name = #{supplierName}),
+        supplier_name = #{supplierName} ,product_name = #{productName}
         WHERE id = #{id}
     </update>
 </mapper>
