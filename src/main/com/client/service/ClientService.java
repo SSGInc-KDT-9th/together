@@ -2,6 +2,8 @@ package main.com.client.service;
 
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+
 import main.com.client.dao.ClientDAO;
 import main.com.client.dto.ClientDTO;
 import main.com.supplier.domain.Supplier;
@@ -14,5 +16,6 @@ public interface ClientService {
     public int removeByid(int id);
     int insert(ClientDTO ClientDTO);
     void update(ClientDTO ClientDTO);
+    
 
 }

@@ -43,8 +43,16 @@
         order by company_name
     </select>
     
-    <!-- id 입력시 정보 조회-->
-    
+    <!-- id 입력시 해당 기업 정보 조회-->
+    <select id="findId" resultType = "ClientDTO" parameterType="int">
+     select id,
+        company_name,
+        category,
+        income,
+        address
+        from client_company
+        where id = #{id}
+    </select>
 
 
 

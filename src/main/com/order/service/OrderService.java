@@ -13,7 +13,7 @@ public interface OrderService {
 	public int findProductId(String product_name);
 	public int enrolltoorder(OrderDTO dto);
 	public List<OrderDTO> orderselect(long releaseid);
-	public String companyselect(OrderDTO cid);
-	public String productselect(OrderDTO pid);
+	public String companyselect(int cid);
+	public String productselect(int pid);
 
 }

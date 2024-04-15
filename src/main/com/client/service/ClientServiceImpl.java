@@ -26,12 +26,14 @@ public class ClientServiceImpl implements ClientService {
             session = MySqlSessionFactory.openSession();
             //DAO 연동코드
             list = dao.findAll(session);
+            session.commit();
             System.out.println(list);
         }finally {
             session.close();
         }
         return list;
     }
+    
 
     //id를 통한 고객기업 삭제 메서드
     @Override
@@ -79,6 +81,11 @@ public class ClientServiceImpl implements ClientService {
 	        }
 	        return n;
 	}
+
+
+
+
+
 
 
 }

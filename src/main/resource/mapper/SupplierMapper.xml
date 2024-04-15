@@ -9,7 +9,7 @@
 		<where>
 			<if test="company_name != null">AND company_name LIKE CONCAT('%', #{company_name}, '%')</if>
 			<if test="company_category != null">AND company_category LIKE CONCAT('%', #{company_category}, '%')</if>
-			<if test="income != null">AND income LIKE CONCAT('%', #{income}, '%')</if>
+			<if test="address != null">AND address LIKE CONCAT('%', #{address}, '%')</if>
 		</where>
 	</select>
 

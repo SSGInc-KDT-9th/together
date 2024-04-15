@@ -1,5 +1,6 @@
 package main.com.client.ui;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -15,6 +17,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import main.com.client.dao.ClientDAO;
 import main.com.client.dto.ClientDTO;
@@ -24,18 +27,20 @@ import main.com.client.service.ClientServiceImpl;
 public class ClientMain extends JFrame {
 	
 	private JPanel contentPane;
-	private JTextField insertid;
-	private JTextField insertCompanyName;
+	private JTextField selectid;
+	private JTextField selectCompanyName;
 	private JTextField tfid;
 	private JTextField tfcompanyName;
-	private JTextField tfcategory;
 	private JTextField tfincome;
 	private JTextField tfaddress;
+	private JComboBox tfcategory;
 	private JTextField deleteid;
 	private JButton btnsave;
 	private JButton btndelete;
 	private JTable table;
-
+	private JButton btnreset;
+	String[] ClientCategory = { "백화점", "대형마트","편의점","슈퍼마켓","무인매장" };
+	
 	/**
 	 * Launch the application.
 	 */
@@ -63,9 +68,11 @@ public class ClientMain extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
+		
+		
+		//개발시작
 		JPanel panel = new JPanel();
-		panel.setBounds(915, 52, 339, 257);
+		panel.setBounds(915, 90, 339, 257);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -90,7 +97,7 @@ public class ClientMain extends JFrame {
 		panel.add(btnNewButton_1);
 		
 		btnsave = new JButton("등록");
-		btnsave.setBounds(224, 224, 91, 23);
+		btnsave.setBounds(236, 224, 91, 23);
 		panel.add(btnsave);
 		
 		JLabel lblid = new JLabel("기업id");
@@ -107,11 +114,6 @@ public class ClientMain extends JFrame {
 		tfcompanyName.setBounds(76, 73, 178, 21);
 		panel.add(tfcompanyName);
 		
-		tfcategory = new JTextField();
-		tfcategory.setColumns(10);
-		tfcategory.setBounds(76, 107, 178, 21);
-		panel.add(tfcategory);
-		
 		tfincome = new JTextField();
 		tfincome.setColumns(10);
 		tfincome.setBounds(76, 141, 178, 21);
@@ -119,11 +121,20 @@ public class ClientMain extends JFrame {
 		
 		tfaddress = new JTextField();
 		tfaddress.setColumns(10);
-		tfaddress.setBounds(76, 181, 239, 21);
+		tfaddress.setBounds(76, 181, 178, 21);
 		panel.add(tfaddress);
 		
+		tfcategory = new JComboBox(ClientCategory);
+		tfcategory.setBackground(new Color(255, 255, 255));
+		tfcategory.setBounds(76, 106, 178, 23);
+		panel.add(tfcategory);
+		
+		btnreset = new JButton("초기화");
+		btnreset.setBounds(127, 224, 91, 23);
+		panel.add(btnreset);
+		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(915, 375, 339, 86);
+		panel_1.setBounds(915, 380, 339, 86);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -153,15 +164,15 @@ public class ClientMain extends JFrame {
 		lblNewLabel_2.setBounds(293, 16, 52, 24);
 		panel_3.add(lblNewLabel_2);
 		
-		insertid = new JTextField();
-		insertid.setBounds(70, 18, 178, 21);
-		panel_3.add(insertid);
-		insertid.setColumns(10);
+		selectid = new JTextField();
+		selectid.setBounds(70, 18, 178, 21);
+		panel_3.add(selectid);
+		selectid.setColumns(10);
 		
-		insertCompanyName = new JTextField();
-		insertCompanyName.setColumns(10);
-		insertCompanyName.setBounds(347, 18, 178, 21);
-		panel_3.add(insertCompanyName);
+		selectCompanyName = new JTextField();
+		selectCompanyName.setColumns(10);
+		selectCompanyName.setBounds(347, 18, 178, 21);
+		panel_3.add(selectCompanyName);
 		
 		JButton btnFind = new JButton("조회");
 		btnFind.setBounds(537, 17, 91, 23);
@@ -176,18 +187,36 @@ public class ClientMain extends JFrame {
 		btnFindAll.setBounds(30, 5, 77, 23);
 		panel_2.add(btnFindAll);
 		
-		//테이블
+		//메인 테이블 창 구성
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(29, 91, 836, 383);
+		scrollPane.setBounds(29, 87, 843, 548);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
+	     
+        Vector<String> v = new Vector<>();
 		
-		//테이블 데이터 추가
-		Vector<String> v = new Vector<>();
+		String [] header = {"ID","기업명","분류","거래액","주소"};
+		String [][] obj = {{"123","ㄴㄴ", "ㅇㅇ","33","ㄴㄴ"}};
 		
+		DefaultTableModel dm = new DefaultTableModel(obj, header);
+		table.setModel(dm);
+		//end
 		
+		//초기화 버튼 이벤트 처리
+		btnreset.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tfid.setText("");
+				tfcategory.setSelectedItem(ClientCategory[0]);
+				tfcompanyName.setText("");
+				tfincome.setText("");
+				tfaddress.setText("");
+				
+			}
+		});
 		
 		
 		//전체조회 버튼 이벤트 처리
@@ -206,6 +235,28 @@ public class ClientMain extends JFrame {
 			}
 		});//end
 		
+		//기업 id 입력시 정보 조회 버튼 이벤트 처리
+	   btnFind.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+             String id = selectid.getText();
+             
+			ClientService service = new ClientServiceImpl();
+			service.setDao(new ClientDAO());
+			
+	
+			 List<ClientDTO> list = service.findAll();
+             for (ClientDTO d : list) {
+               System.out.println(d);
+                }
+			
+		}
+	});
+			
+			
+		
+		
 		//기업 고객 등록 버튼 이벤트 처리
 		btnsave.addActionListener(new ActionListener() {
 			
@@ -213,7 +264,7 @@ public class ClientMain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				String company_name = tfcompanyName.getText();
-				String category = tfcategory.getText();
+				String category = tfcategory.getSelectedItem().toString();
 				String income = tfincome.getText();
 				String address = tfaddress.getText();
 				
@@ -258,19 +309,7 @@ public class ClientMain extends JFrame {
 			}
 		});//end
 		
-		//기업 id 입력시 정보 조회 버튼 이벤트 처리
-		btnFind.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				ClientService service = new ClientServiceImpl();
-				service.setDao(new ClientDAO());
-				
-				
-				
-			}
-		});
+
 		
 	}
 }

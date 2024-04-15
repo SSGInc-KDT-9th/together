@@ -43,12 +43,12 @@ public class OrderDAO {
     
     
     //입력한 상품아이디의 상품명 조회
-    public String productselect(SqlSession session, OrderDTO id) {
+    public String productselect(SqlSession session, int id) {
     	String pname = session.selectOne("mapper.order.productselect", id);
     	return pname;
     }
     //입력한 기업 아이디의 기업명 조회
-    public String companyselect(SqlSession session, OrderDTO id) {
+    public String companyselect(SqlSession session, int id) {
     	String cname = session.selectOne("mapper.order.companyselect", id);
     	return cname;
     }

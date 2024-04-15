@@ -11,8 +11,14 @@ public class ClientMainTest2 {
 		
 		SqlSession session = MySqlSessionFactory.openSession();
 		
-		//고객기업 등록
+		//id를 통한 고객기업 조회
 		
+		ClientDTO dto3 = session.selectOne("main.resource.mapper.ClientMapper.findId", 41);
+      System.out.println(dto3);
+		
+		
+		//고객기업 등록
+		/*
 		ClientDTO dto = new ClientDTO(122, "dd", "ss", 12, "dd");
 		session.insert("main.resource.mapper.ClientMapper.insert", dto);
 		session.commit();
@@ -26,7 +32,7 @@ public class ClientMainTest2 {
         session.update("main.resource.mapper.ClientMapper.update", dto2);
         session.commit();
         System.out.println(dto2);
-        
+        */
         
 	}
 

@@ -24,17 +24,17 @@
   
   <select id="orderselect" parameterType="long" resultType="OrderDTO">
   select * from `order`
-  where id = #{id}
+  where release_id = #{id}
  
   </select>
   <!-- 기업명 찾기-->
-  <select id="companyselect" parameterType="OrderDTO" resultType="String">
+  <select id="companyselect" parameterType="int" resultType="String">
   select company_name from client_company
   where id = #{id}
   
   </select>
   <!-- 상품명 찾기-->
-  <select id="productselect" parameterType="OrderDTO" resultType="String">
+  <select id="productselect" parameterType="int" resultType="String">
   select product_name from product
   where id = #{id}
   

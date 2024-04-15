@@ -1,4 +1,4 @@
-package main.com.supplier.repository;
+package main.com.supplier.service;
 
 import java.util.List;
 
@@ -6,13 +6,13 @@ import org.apache.ibatis.session.SqlSession;
 
 import main.com.config.MySqlSessionFactory;
 import main.com.supplier.domain.Supplier;
-import main.com.supplier.domain.SupplierDAO;
+import main.com.supplier.repository.SupplierDAO;
 
 public class SupplierServiceImpl implements SupplierService {
 
-	private SupplierDAO sup;
-	public void setSup(SupplierDAO sup) {
-		this.sup = sup;
+	private SupplierDAO supplierDao;
+	public void setSup(SupplierDAO supplierDao) {
+		this.supplierDao = supplierDao;
 	}
 
 	@Override
@@ -23,7 +23,7 @@ public class SupplierServiceImpl implements SupplierService {
 		
 		try {
 			session = MySqlSessionFactory.openSession();
-			list = sup.supplierFindAll(session, supplier);
+			list = supplierDao.supplierFindAll(session, supplier);
 		}finally {
 			session.close();
 		}
@@ -38,7 +38,7 @@ public class SupplierServiceImpl implements SupplierService {
 		SqlSession session = null;
 		try {
 			session = MySqlSessionFactory.openSession();
-			n = sup.supplierInsert(session, supllier);
+			n = supplierDao.supplierInsert(session, supllier);
 			session.commit();
 		}finally {
 			session.close();
@@ -53,7 +53,7 @@ public class SupplierServiceImpl implements SupplierService {
 		SqlSession session = null;
 		try {
 			session = MySqlSessionFactory.openSession();
-			sup.supplierUpdate(session, supllier);
+			supplierDao.supplierUpdate(session, supllier);
 			session.commit();
 		}finally {
 			session.close();
@@ -68,7 +68,7 @@ public class SupplierServiceImpl implements SupplierService {
 		SqlSession session = null;
 		try {
 			session = MySqlSessionFactory.openSession();
-			n = sup.supplierDelete(session, id);
+			n = supplierDao.supplierDelete(session, id);
 			session.commit();
 		}finally {
 			session.clearCache();
