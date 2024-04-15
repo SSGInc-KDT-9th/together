@@ -1,6 +1,8 @@
 package test.prodcut;
 
 import main.com.config.AppConfig;
+import main.com.product.domain.Product;
+import main.com.product.request.ProductCreate;
 import main.com.product.request.ProductSearch;
 import main.com.product.response.ProductInfo;
 import main.com.product.service.ProductService;
@@ -26,4 +28,19 @@ class ProductServiceImplTest {
         Assertions.assertEquals(products.size(),1);
     }
 
+    @Test
+    @DisplayName("상품 등록 테스트")
+    void test2() throws Exception {
+        //given
+        ProductCreate product = ProductCreate.builder()
+                .productName("상품서비스테스트2")
+                .supplierName("빙그레")
+                .build();
+        //when
+        productService.save(product);
+        Product expect = productService.get("상품서비스테스트2");
+        productService.delete(ProductInfo.builder().id(expect.getId()).build());
+        //then
+        Assertions.assertEquals(expect.getProductName(),"상품서비스테스트2");
+    }
 }

@@ -65,6 +65,16 @@
         where company_name = #{company_name}
     </select>
 
-
-
-</mapper>
+  <!-- 카테고리로 해당 기업 정보 조회-->
+      <select id="findByCategory" parameterType="string" resultType="ClientDTO">
+           select id,
+        company_name,
+        category,
+        income,
+        address
+        from client_company
+        where category = #{category}
+        </select>
+       
+       
+        </mapper>

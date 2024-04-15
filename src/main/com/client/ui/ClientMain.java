@@ -18,11 +18,14 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import main.com.client.dao.ClientDAO;
 import main.com.client.dto.ClientDTO;
 import main.com.client.service.ClientService;
 import main.com.client.service.ClientServiceImpl;
+
 
 public class ClientMain extends JFrame {
 	
@@ -94,10 +97,6 @@ public class ClientMain extends JFrame {
 		lblNewLabel_1_1_1.setBounds(12, 179, 41, 24);
 		panel.add(lblNewLabel_1_1_1);
 		
-		JButton btnNewButton_1 = new JButton("수정");
-		btnNewButton_1.setBounds(12, 224, 91, 23);
-		panel.add(btnNewButton_1);
-		
 		btnsave = new JButton("등록");
 		btnsave.setBounds(236, 224, 91, 23);
 		panel.add(btnsave);
@@ -132,8 +131,12 @@ public class ClientMain extends JFrame {
 		panel.add(tfcategory);
 		
 		btnreset = new JButton("초기화");
-		btnreset.setBounds(127, 224, 91, 23);
+		btnreset.setBounds(125, 224, 91, 23);
 		panel.add(btnreset);
+		
+		JButton btnupdate = new JButton("수정");
+		btnupdate.setBounds(12, 224, 91, 23);
+		panel.add(btnupdate);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(915, 380, 339, 86);
@@ -212,7 +215,7 @@ public class ClientMain extends JFrame {
 	     
         Vector<String> v = new Vector<>();
 		
-		String [] header = {"기업 ID","기업명","분류","거래액 (단위: 만원)","주소"};
+		String [] header = {"기업 ID","기업명","카테고리","거래액 (단위: 만원)","주소"};
 		String [][] obj = {};
 		
 		DefaultTableModel dm = new DefaultTableModel(obj, header);
@@ -343,64 +346,93 @@ public class ClientMain extends JFrame {
 		        }
 		    }
 		});//end
+		
+		// JTable 행 선택 이벤트 처리
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+		    public void valueChanged(ListSelectionEvent e) {
+		        if (!e.getValueIsAdjusting()) {
+		            int selectedRow = table.getSelectedRow();
+		            if (selectedRow != -1) {
+		                tfid.setText(table.getValueAt(selectedRow, 0).toString());
+		                tfcompanyName.setText(table.getValueAt(selectedRow, 1).toString());
+		                tfcategory.setSelectedItem(table.getValueAt(selectedRow, 2));
+		                tfincome.setText(table.getValueAt(selectedRow, 3).toString());
+		                tfaddress.setText(table.getValueAt(selectedRow, 4).toString());
+		            }
+		        }
+		    }
+		});
+		
+		// 수정 버튼 이벤트 처리
+		btnupdate.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        int selectedRow = table.getSelectedRow();
 
-		
-		//기업 고객 등록 버튼 이벤트 처리
-		btnsave.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				String company_name = tfcompanyName.getText();
-				String category = tfcategory.getSelectedItem().toString();
-				String income = tfincome.getText();
-				String address = tfaddress.getText();
-				
-				ClientDTO dto = new ClientDTO();
-				dto.setCompany_name(company_name);
-				dto.setCategory(category);
-				dto.setIncome(Integer.parseInt(income));
-				dto.setAddress(address);
-				
-				ClientService service = new ClientServiceImpl();
-				service.setDao(new ClientDAO());
-				
-				int n = service.insert(dto);
-				System.out.println(n+"개가 저장됨");
-				
-				JOptionPane.showInternalMessageDialog(null, n+"개가 저장됨",
-			             "저장", JOptionPane.INFORMATION_MESSAGE);
-				
-			}
-		});//end
-		
-		//id를 통한 기업 고객 삭제 버튼 이벤트 처리
-		btndelete.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String id = deleteid.getText();
-				
-				ClientDTO dto = new ClientDTO();
-				dto.setId(Integer.parseInt(id));
-				
-				ClientService service = new ClientServiceImpl();
-				service.setDao(new ClientDAO());
-				
-				int n = service.removeByid(Integer.parseInt(id));
-				System.out.println(n+"개가 삭제됨");
-				
-				 Object[] options = { "OK", "CANCEL" };
-				 int dialogResult= JOptionPane.showOptionDialog(null, "입력하신 기업을 삭제하시겠습니까?", "Warning",
-				             JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
-				             null, options, options[0]);
-				 if (dialogResult == 0) {
-			            JOptionPane.showMessageDialog(null, "삭제가 완료되었습니다.", "안내", JOptionPane.INFORMATION_MESSAGE);
-			        }
-			}
-		});//end
-		
+		        int id = (int) table.getValueAt(selectedRow, 0);
 
+		        // 수정된 값 가져오기
+		        String companyName = tfcompanyName.getText();
+		        String category = (String) tfcategory.getSelectedItem();
+		        String incomeStr = tfincome.getText();
+		        String address = tfaddress.getText();
+
+		        int income;
+		        try {
+		                     // 수정된 값이 숫자로 변환 가능한지 확인
+		            income = Integer.parseInt(incomeStr);
+		        } catch (NumberFormatException ex) {
+		            JOptionPane.showMessageDialog(null, "거래액은 숫자로 입력해주세요.", "오류", JOptionPane.ERROR_MESSAGE);
+		            return;
+		        }
+
+		        ClientDTO updatedClient = new ClientDTO(id, companyName, category, income, address);
+
+		        ClientService service = new ClientServiceImpl();
+		        service.setDao(new ClientDAO());
+
+		        int result = service.update(updatedClient);
+
+		        if (result > 0) {
+		            JOptionPane.showMessageDialog(null, "정상적으로 수정되었습니다.", "성공", JOptionPane.INFORMATION_MESSAGE);
+		            DefaultTableModel model = (DefaultTableModel) table.getModel();
+		            model.setValueAt(companyName, selectedRow, 1);
+		            model.setValueAt(category, selectedRow, 2);
+		            model.setValueAt(income, selectedRow, 3);
+		            model.setValueAt(address, selectedRow, 4);
+		        } else {
+		            JOptionPane.showMessageDialog(null, "수정실패했습니다.", "오류", JOptionPane.ERROR_MESSAGE);
+		        }
+		    }
+		});
+		
+		//카테고리를 이용하여 해당되는 기업정보 조회
+		btnFind.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        String selectedCategory = (String) tfcategory.getSelectedItem();
+
+		        ClientService service = new ClientServiceImpl();
+		        service.setDao(new ClientDAO());
+
+		        List<ClientDTO> clients = service.findByCategory(selectedCategory);
+		        if (!clients.isEmpty()) {
+		            DefaultTableModel model = (DefaultTableModel) table.getModel();
+		            model.setRowCount(0); 
+
+		            for (ClientDTO client : clients) {
+		                Object[] rowData = {
+		                    client.getId(),
+		                    client.getCompany_name(),
+		                    client.getCategory(),
+		                    client.getIncome(),
+		                    client.getAddress()
+		                };
+		                model.addRow(rowData);
+		            }
+		        } 
+		    }
+		});
 		
 	}
 }

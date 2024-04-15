@@ -29,9 +29,10 @@ import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JButton;
+import java.awt.Color;
+import javax.swing.SwingConstants;
 
 public class ReleaseTest extends JFrame {
-	JComboBox comboBox;
 	JButton Enrollbtn;
 	JButton Searchbtn;
 	JButton Updatebtn;
@@ -39,8 +40,8 @@ public class ReleaseTest extends JFrame {
 	JButton detailbtn;
 	
 	private JPanel contentPane;
-	private JTextField textField;
 	String[] search = {"출고 번호", "출고 상태"};
+	String[] search2 = {"선택", "대기중", "출고 완료"};
 	private JTable table;
 	private JScrollPane scrollPane;
 	private JTable table_1;
@@ -96,15 +97,6 @@ public class ReleaseTest extends JFrame {
         };
 
         headerComponent.setDefaultRenderer(customHeaderRenderer);
-
-		comboBox = new JComboBox(search);
-		comboBox.setBounds(63, 134, 123, 33);
-		contentPane.add(comboBox);
-		
-		textField = new JTextField();
-		textField.setBounds(253, 134, 123, 33);
-		contentPane.add(textField);
-		textField.setColumns(10);
 		
 		Searchbtn = new JButton("검색");
 		Searchbtn.setBounds(446, 127, 99, 33);
@@ -142,6 +134,18 @@ public class ReleaseTest extends JFrame {
         detailbtn.setBounds(446, 170, 99, 32);
         detailbtn.setFont(new Font("고딕", Font.BOLD, 15));
         contentPane.add(detailbtn);
+        
+        JLabel lblNewLabel = new JLabel("출고 상태");
+        lblNewLabel.setForeground(Color.BLACK);
+        lblNewLabel.setBounds(88, 145, 103, 35);
+        lblNewLabel.setFont(new Font("고딕", Font.BOLD, 16));
+        contentPane.add(lblNewLabel);
+        
+        JComboBox comboBox_1 = new JComboBox(search2);
+        comboBox_1.setBounds(223, 147, 125, 33);
+        Font font = new Font("고딕", Font.PLAIN, 15); 
+        comboBox_1.setFont(font);
+        contentPane.add(comboBox_1);
 		//주문 생성
 		Enrollbtn.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
@@ -158,29 +162,17 @@ public class ReleaseTest extends JFrame {
 		Searchbtn.addActionListener(new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
-		        String selectedOption = (String) comboBox.getSelectedItem();
+		        String selectedOption = (String) comboBox_1.getSelectedItem();
 		        
-		        //검색어
-		        String searchText = textField.getText().trim();
 		        
-		        // 선택된 검색 옵션과 textField 입력값에 따라 검색 수행
-		        switch (selectedOption) {
-		            case "출고 번호":
-		                if (!searchText.isEmpty()) {
-		                    int searchtext = Integer.parseInt(searchText);
-		                    ReleaseService service = new ReleaseServiceImpl();
-		                    List<ReleaseDTO> list = service.noselect(searchtext);
-		                    System.out.println(list);
-
-		                    DefaultTableModel model = (DefaultTableModel) table.getModel();
-
-
-		                    model.setRowCount(0);
-
-
-
-		                    for (ReleaseDTO release : list) {
-		                        Object[] rowData = {
+		        String searchtext = selectedOption;
+		        ReleaseService service = new ReleaseServiceImpl();
+		        List<ReleaseDTO> list = service.statuselect(searchtext);
+		        System.out.println(list);
+		        DefaultTableModel model = (DefaultTableModel) table.getModel();
+		              model.setRowCount(0);
+		              for (ReleaseDTO release : list) {
+		            	  Object[] rowData = {
 		                            release.getId(),
 		                            release.getMember_id(),
 		                            release.getItem_cnt(),
@@ -190,43 +182,27 @@ public class ReleaseTest extends JFrame {
 //		                        System.out.println(rowData[2]);
 		                        model.addRow(rowData);
 		                    }
-		                     
-		                } else {
-		                	JOptionPane.showMessageDialog(null, "출고번호를 입력해주세요.", "경고", JOptionPane.WARNING_MESSAGE);
+		              if(searchtext=="선택") {
+		            	 ReleaseService service2 = new ReleaseServiceImpl();
+		  		        List<ReleaseDTO> list2 = service2.findall();
+		  		        System.out.println(list2);
+		  		        model.setRowCount(0);
+		  		              for (ReleaseDTO release : list2) {
+		  		            	  Object[] rowData = {
+		  		                            release.getId(),
+		  		                            release.getMember_id(),
+		  		                            release.getItem_cnt(),
+		  		                            release.getRelease_date(),
+		  		                            release.getStatus()
+		  		                        };
+		  		                        model.addRow(rowData);
+		  		                    }
 		                }
-		                break;
-		                
-		            case "출고 상태":
-		                if (!searchText.isEmpty()) {
-		                	String searchtext = searchText;
-		                    ReleaseService service = new ReleaseServiceImpl();
-		                    List<ReleaseDTO> list = service.statuselect(searchtext);
-		                    System.out.println(list);
-		                    DefaultTableModel model = (DefaultTableModel) table.getModel();
-		                    model.setRowCount(0);
-		                    for (ReleaseDTO release : list) {
-		                        Object[] rowData = {
-		                            release.getId(),
-		                            release.getMember_id(),
-		                            release.getItem_cnt(),
-		                            release.getRelease_date(),
-		                            release.getStatus()
-		                        };
-//		                        System.out.println(rowData[2]);
-		                        model.addRow(rowData);
-		                    }
-		                } else {
-		                    // textField가 비어있을 경우
-		                	JOptionPane.showMessageDialog(null, "출고상태 입력해주세요.", "경고", JOptionPane.WARNING_MESSAGE);
-		                }
-		                break;
-		                
-		            default:
-		                // 선택된 옵션이 없는 경우
-		                System.out.println("검색 옵션을 선택하세요.");
-		                break;
-		        }
+		              
 		    }
+		    
+		    
+		      
 		});
 		
 		
@@ -316,4 +292,5 @@ public class ReleaseTest extends JFrame {
 	});
 			
 		
-		}}
+		}	
+}

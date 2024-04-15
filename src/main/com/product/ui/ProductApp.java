@@ -102,143 +102,143 @@ public class ProductApp extends JFrame {
 		//검색 기능
 		productSearchLabel = new JLabel("- 상품 검색");
 		productSearchLabel.setFont(new Font("굴림", Font.BOLD, 15));
-		productSearchLabel.setBounds(921, 70, 150, 25);
+		productSearchLabel.setBounds(921, 10, 150, 25);
 
 		idSearchLabel = new JLabel("상품 ID");
 		idSearchLabel.setFont(new Font("굴림", Font.PLAIN, 15));
-		idSearchLabel.setBounds(925, 105, 70, 25);
+		idSearchLabel.setBounds(925, 45, 70, 25);
 
 		idSearchText = new JTextField();
 		idSearchText.setColumns(10);
-		idSearchText.setBounds(1007, 105, 200, 25);
+		idSearchText.setBounds(1007, 45, 200, 25);
 
 		nameSearchLabel = new JLabel("상품 이름");
 		nameSearchLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		nameSearchLabel.setFont(new Font("굴림", Font.PLAIN, 15));
-		nameSearchLabel.setBounds(925, 140, 70, 25);
+		nameSearchLabel.setBounds(925, 80, 70, 25);
 
 		nameSearchText = new JTextField();
 		nameSearchText.setColumns(10);
-		nameSearchText.setBounds(1007, 140, 200, 25);
+		nameSearchText.setBounds(1007, 80, 200, 25);
 
 		supplierSearchLabel = new JLabel("생산 기업명");
 		supplierSearchLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		supplierSearchLabel.setFont(new Font("굴림", Font.PLAIN, 15));
-		supplierSearchLabel.setBounds(925, 175, 80, 25);
+		supplierSearchLabel.setBounds(925, 115, 80, 25);
 
 		supplierSearchCombo = new JComboBox();
-		supplierSearchCombo.setBounds(1007, 175, 200, 25);
+		supplierSearchCombo.setBounds(1007, 115, 200, 25);
 		supplierSearchCombo.setModel(new DefaultComboBoxModel(supplierList));
 
 		mainCategorySearchLabel = new JLabel("대분류");
 		mainCategorySearchLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		mainCategorySearchLabel.setFont(new Font("굴림", Font.PLAIN, 15));
-		mainCategorySearchLabel.setBounds(925, 210, 70, 25);
+		mainCategorySearchLabel.setBounds(925, 150, 70, 25);
 
 		mainCategorySearchCombo = new JComboBox();
-		mainCategorySearchCombo.setBounds(1007, 211, 200, 23);
+		mainCategorySearchCombo.setBounds(1007, 151, 200, 23);
 
 		subCategorySearchLabel = new JLabel("소분류");
 		subCategorySearchLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		subCategorySearchLabel.setFont(new Font("굴림", Font.PLAIN, 15));
-		subCategorySearchLabel.setBounds(925, 245, 70, 25);
+		subCategorySearchLabel.setBounds(925, 185, 70, 25);
 
 		subCategorySearchCombo = new JComboBox();
-		subCategorySearchCombo.setBounds(1007, 246, 200, 23);
+		subCategorySearchCombo.setBounds(1007, 186, 200, 23);
 
 		mainCategorySearchCombo.setModel(new DefaultComboBoxModel(mainCategories));
 		subCategorySearchCombo.setModel(new DefaultComboBoxModel(subCategories));
 
 		searchButton = new JButton("검색");
-		searchButton.setBounds(925, 286, 130, 30);
+		searchButton.setBounds(925, 226, 130, 30);
 		searchResetButton = new JButton("초기화");
-		searchResetButton.setBounds(1077, 286, 130, 30);
+		searchResetButton.setBounds(1077, 226, 130, 30);
 		//상세 보기 라벨
 		productInfoLabel = new JLabel("- 상품 상세 정보");
 		productInfoLabel.setFont(new Font("굴림", Font.BOLD, 15));
-		productInfoLabel.setBounds(921, 326, 150, 25);
+		productInfoLabel.setBounds(921, 266, 150, 25);
 
 		productIdLabel = new JLabel("상품 ID");
 		productIdLabel.setFont(new Font("굴림", Font.PLAIN, 15));
-		productIdLabel.setBounds(925, 355, 70, 25);
+		productIdLabel.setBounds(925, 295, 70, 25);
 
 		productNameLabel = new JLabel("상품 이름");
 		productNameLabel.setFont(new Font("굴림", Font.PLAIN, 15));
-		productNameLabel.setBounds(925, 390, 70, 25);
+		productNameLabel.setBounds(925, 330, 70, 25);
 
 		supplierNameLabel = new JLabel("생산 기업명");
 		supplierNameLabel.setFont(new Font("굴림", Font.PLAIN, 15));
-		supplierNameLabel.setBounds(925, 495, 80, 25);
+		supplierNameLabel.setBounds(925, 435, 80, 25);
 
 		mainCategoryLabel = new JLabel("대분류");
 		mainCategoryLabel.setFont(new Font("굴림", Font.PLAIN, 15));
-		mainCategoryLabel.setBounds(925, 425, 70, 25);
+		mainCategoryLabel.setBounds(925, 365, 70, 25);
 
 		subCategoryLabel = new JLabel("소분류");
 		subCategoryLabel.setFont(new Font("굴림", Font.PLAIN, 15));
-		subCategoryLabel.setBounds(925, 460, 70, 25);
+		subCategoryLabel.setBounds(925, 400, 70, 25);
 
 		storePriceLabel = new JLabel("입고 금액");
 		storePriceLabel.setFont(new Font("굴림", Font.PLAIN, 15));
-		storePriceLabel.setBounds(925, 532, 80, 25);
+		storePriceLabel.setBounds(925, 470, 80, 25);
 
 		sellingPriceLabel = new JLabel("출고 금액");
 		sellingPriceLabel.setFont(new Font("굴림", Font.PLAIN, 15));
-		sellingPriceLabel.setBounds(925, 567, 80, 25);
+		sellingPriceLabel.setBounds(925, 505, 80, 25);
 
 		inventoryLabel = new JLabel("상품 재고");
 		inventoryLabel.setFont(new Font("굴림", Font.PLAIN, 15));
-		inventoryLabel.setBounds(925, 602, 80, 25);
+		inventoryLabel.setBounds(925, 540, 80, 25);
 
 		//상세보기 Text
 		productIdText = new JTextField();
-		productIdText.setBounds(1007, 355, 200, 25);
+		productIdText.setBounds(1007, 295, 200, 25);
 		productIdText.setColumns(10);
 
 		productNameText = new JTextField();
 		productNameText.setColumns(10);
-		productNameText.setBounds(1007, 390, 200, 25);
+		productNameText.setBounds(1007, 330, 200, 25);
 
 		supplierNameCombo = new JComboBox();
-		supplierNameCombo.setBounds(1007, 495, 200, 25);
+		supplierNameCombo.setBounds(1007, 435, 200, 25);
 		supplierNameCombo.setModel(new DefaultComboBoxModel(supplierList));
 
 		storePriceText = new JTextField();
 		storePriceText.setEnabled(false);
 		storePriceText.setColumns(10);
-		storePriceText.setBounds(1007, 532, 200, 25);
+		storePriceText.setBounds(1007, 470, 200, 25);
 
 		sellingPriceText = new JTextField();
 		sellingPriceText.setEnabled(false);
 		sellingPriceText.setColumns(10);
-		sellingPriceText.setBounds(1007, 567, 200, 25);
+		sellingPriceText.setBounds(1007, 505, 200, 25);
 
 		inventoryText = new JTextField();
 		inventoryText.setEnabled(false);
 		inventoryText.setColumns(10);
-		inventoryText.setBounds(1007, 602, 200, 25);
+		inventoryText.setBounds(1007, 540, 200, 25);
 
 		mainCategoryCombo = new JComboBox();
-		mainCategoryCombo.setBounds(1007, 427, 200, 23);
+		mainCategoryCombo.setBounds(1007, 367, 200, 23);
 
 		subCategoryCombo = new JComboBox();
-		subCategoryCombo.setBounds(1007, 462, 200, 23);
+		subCategoryCombo.setBounds(1007, 402, 200, 23);
 
 
 		mainCategoryCombo.setModel(new DefaultComboBoxModel(mainCategories));
 		subCategoryCombo.setModel(new DefaultComboBoxModel(subCategories));
 		//상품 상세 수정 버튼
 		saveButton = new JButton("저장");
-		saveButton.setBounds(925, 637, 130, 30);
+		saveButton.setBounds(925, 575, 130, 30);
 
 		updateButton = new JButton("수정");
-		updateButton.setBounds(1077, 637, 130, 30);
+		updateButton.setBounds(1077, 575, 130, 30);
 
 		//상품 삭제 버튼
 		deleteButton = new JButton("삭제");
-		deleteButton.setBounds(743, 107, 130, 30);
+		deleteButton.setBounds(783, 65, 130, 30);
 		productInfoResetButton = new JButton("초기화");
-		productInfoResetButton.setBounds(597, 107, 130, 30);
+		productInfoResetButton.setBounds(641, 65, 130, 30);
 	}
 
 	private void setDisplay(){
@@ -262,7 +262,7 @@ public class ProductApp extends JFrame {
 		mainPanel.add(mainCategoryCombo);
 		mainPanel.add(updateButton);
 		mainPanel.add(productInfoLabel);
-		
+
 		//상품 검색
 		mainPanel.add(productSearchLabel);
 		mainPanel.add(idSearchLabel);
@@ -288,9 +288,9 @@ public class ProductApp extends JFrame {
 		table.getColumnModel().getColumn(0).setPreferredWidth(10); // Set width for checkbox column
 		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION); // Enable multiple selections
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(12, 167, 900, 500); // Adjust bounds as needed
+		scrollPane.setBounds(13, 105, 900, 500); // Adjust bounds as needed
 		mainPanel.add(scrollPane);
-;
+		;
 
 	}
 
@@ -350,7 +350,7 @@ public class ProductApp extends JFrame {
 								.storePrice((Integer) (table.getValueAt(selectedRow, 7) != null ? table.getValueAt(selectedRow, 7) : 0))
 								.sellingPrice((Integer) (table.getValueAt(selectedRow, 8) != null ? table.getValueAt(selectedRow, 8) : 0))
 								.inventory((Integer) (table.getValueAt(selectedRow, 9) != null ? table.getValueAt(selectedRow, 9) : 0))
-										.build();
+								.build();
 
 						int supplierIdx = ((DefaultComboBoxModel<String>) supplierNameCombo.getModel()).getIndexOf(productInfo.getSupplierName());
 						int categoryIdx = ((DefaultComboBoxModel<String>) subCategoryCombo.getModel()).getIndexOf(productInfo.getCategoryName());
@@ -525,19 +525,23 @@ public class ProductApp extends JFrame {
 		table.setModel(model);
 	}
 
+	public JPanel getMainPanel() {
+		return mainPanel;
+	}
+
 	public ProductApp() {
 		AppConfig appConfig = new AppConfig();
 		productService = appConfig.productService();
 		categoryService = appConfig.categoryService();
 		supplierService = appConfig.supplierService();
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1280, 720); // Adjusted for HD resolution (16:9 aspect ratio)
+//			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//			setBounds(100, 100, 1280, 720); // Adjusted for HD resolution (16:9 aspect ratio)
 		setComponentData();
 		initComponent();
 		setDisplay();
 		setListenerEvent();
-		setLocationRelativeTo(null);
-		setVisible(true);
+//		setLocationRelativeTo(null);
+//		setVisible(true);
 	}
 }

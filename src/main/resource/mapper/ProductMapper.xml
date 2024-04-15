@@ -36,10 +36,16 @@
         WHERE id = #{id}
     </select>
 
-    <select id="findByName" resultMap="ProductMap" parameterType="String">
+    <select id="findIncludeName" resultMap="ProductMap" parameterType="String">
         SELECT id,category_id,supplier_id,supplier_name,product_name
         FROM product
         WHERE product_name LIKE CONCAT('%', #{productName}, '%')
+    </select>
+
+    <select id="findByName" resultMap="ProductMap" parameterType="String">
+        SELECT id,category_id,supplier_id,supplier_name,product_name
+        FROM product
+        WHERE product_name = #{productName}
     </select>
 
     <select id="findProduct" resultMap="ProductInfoMap" parameterType="main.com.product.request.ProductSearch">
@@ -67,8 +73,8 @@
 <!--INSERT-->
     <insert id="insert" parameterType="Product" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO product (category_id,supplier_id,supplier_name,product_name)
-        select #{categoryId},id,#{supplierName}, #{productName}
-        from (select id from supplier_company where company_name =#{supplierName}) as subquery;
+        select #{categoryId},COALESCE(id, NULL),#{supplierName}, #{productName}
+        from (select id from supplier_company where company_name = #{supplierName}) as subquery;
     </insert>
 
     <insert id="insertList" parameterType="arraylist" useGeneratedKeys="true" keyProperty="id">

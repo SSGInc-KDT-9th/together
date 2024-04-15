@@ -24,10 +24,23 @@ public class MySqlProductRepository implements ProductRepository{
     }
 
     @Override
-    public List<Product> findByName(String productName) {
+    public Product findByName(String productName) {
         SqlSession sqlSession = MySqlSessionFactory.openSession();
         try {
-            List<Product> products= sqlSession.selectList("mapper.product.findByName",productName);
+            Product products= sqlSession.selectOne("mapper.product.findByName",productName);
+            return products;
+        }
+        finally{
+            sqlSession.rollback();
+            sqlSession.close();
+        }
+    }
+
+    @Override
+    public List<Product> findIncludeName(String productName) {
+        SqlSession sqlSession = MySqlSessionFactory.openSession();
+        try {
+            List<Product> products= sqlSession.selectList("mapper.product.findIncludeName",productName);
             return products;
         }
         finally{

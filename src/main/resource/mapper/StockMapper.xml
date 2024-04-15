@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.stock">
+    <resultMap id="StockMap" type="Stock">
+        <id column="id" property="id" jdbcType="BIGINT" javaType="Long"/>
+        <result column="product_id" property="productId" jdbcType="BIGINT" javaType="Long"/>
+        <result column="modified_date" property="modifiedDate"/>
+        <result column="inventory" property="inventory"/>
+        <result column="store_price" property="storePrice"/>
+        <result column="selling_price" property="sellingPrice"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="StockMap">
+        SELECT *
+        FROM stock
+    </select>
+
+    <select id="findById" resultMap="StockMap" parameterType="Long">
+        SELECT *
+        FROM stock
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="Stock" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO stock (product_id, modified_date,inventory,store_price,selling_price)
+        VALUES (#{productId},#{modifiedDate},#{inventory},#{storePrice},#{sellingPrice})
+    </insert>
+
+    <update id="update" parameterType="Category">
+        UPDATE stock
+        SET modified_date = #{modifiedDate},inventory = #{inventory},store_price = #{storePrice},selling_price=#{sellingPrice}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="Long">
+        DELETE FROM product_category
+        WHERE id = #{id}
+    </delete>
+</mapper>

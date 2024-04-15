@@ -26,8 +26,8 @@ public class ClientDAO {
 
 
     //고객기업 id를 통한 정보 수정
-    public void update(SqlSession session, ClientDTO ClientDTO) {
-        session.update("main.resource.mapper.ClientMapper.update", ClientDTO);
+    public int update(SqlSession session, ClientDTO ClientDTO) {
+       return session.update("main.resource.mapper.ClientMapper.update", ClientDTO);
     }
     
     //고객기업 저장
@@ -45,5 +45,9 @@ public class ClientDAO {
         return session.selectList("main.resource.mapper.ClientMapper.findByCompanyName", companyName);
     }
     
+    //카테고리를 통한 정보 조회
+    public List<ClientDTO> findByCategory(SqlSession session, String category) {
+        return session.selectList("main.resource.mapper.ClientMapper.findByCategory", category);
+    }
     
 }
