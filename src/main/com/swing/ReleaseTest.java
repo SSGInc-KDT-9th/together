@@ -17,19 +17,19 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
+import main.com.config.AppConfig;
 import main.com.config.Session;
 import main.com.order.dao.OrderDAO;
 import main.com.order.dto.OrderDTO;
 import main.com.order.service.OrderService;
 import main.com.order.service.OrderServiceImpl;
-import main.com.product.domain.Stock.StockBuilder;
-import main.com.product.repository.StockRepository;
-import main.com.product.service.StockService;
-import main.com.product.service.StockServiceImpl;
 import main.com.release.dao.ReleaseDAO;
 import main.com.release.dto.ReleaseDTO;
 import main.com.release.service.ReleaseService;
 import main.com.release.service.ReleaseServiceImpl;
+import main.com.stock.domain.StockEdit;
+import main.com.stock.repository.StockRepository;
+import main.com.stock.service.StockService;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -43,6 +43,7 @@ import javax.swing.SwingConstants;
 
 public class ReleaseTest extends JFrame {
 	protected static final StockRepository Stock = null;
+	private StockService stockService;
 	JButton Enrollbtn;
 	JButton Searchbtn;
 	JButton Updatebtn;
@@ -76,6 +77,9 @@ public class ReleaseTest extends JFrame {
 	 * Create the frame.
 	 */
 	public ReleaseTest() {
+		AppConfig appConfig = new AppConfig();
+		stockService = appConfig.stockService();
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1278, 720);
 		contentPane = new JPanel();
@@ -318,15 +322,32 @@ public class ReleaseTest extends JFrame {
 		                	
 		                	//재고량보다 많다면 재고량 - itemcnt 한 값을 재고테이블 재고량에 update
 		                	if(cnt>=itemcnt) {
-		                		int result = cnt - itemcnt;
-		                		StockBuilder st = new StockBuilder();
-		                		//재고량(result), 상품ID(productId) 넘겨서 stock 테이블 update
-		                		//이 부분 부터 잘 모르겠습니다,,
-		                		long productID = (long) productId;
-		                		st.productId(productID);
-		                		st.inventory(result);
-		                		StockService ss = new StockServiceImpl(Stock);
-		                		ss.Inventoryupdate();
+								int modifyInventory = cnt - itemcnt;
+								
+								//############################################
+								//수정한 부분 입니다.
+								//StockEdit 에서 원하는 부분만 선택해서 값을 넣고 build를 하면 됩니다.
+								//아래 코드를 참고해주세요
+//								StockEdit.builder()
+//										.productId()
+//										.storePrice()
+//										.sellingPrice()
+//										.inventory(modifyInventory)
+//										.build();
+								
+								StockEdit stockEdit = StockEdit.builder()
+										.inventory(modifyInventory)
+										.build();
+								stockService.editRelease(new Long(productId),stockEdit);
+								//#####################################################
+//		                		StockBuilder st = new StockBuilder();
+//		                		//재고량(result), 상품ID(productId) 넘겨서 stock 테이블 update
+//		                		//이 부분 부터 잘 모르겠습니다,,
+//		                		long productID = (long) productId;
+//		                		st.productId(productID);
+//		                		st.inventory(result);
+//		                		StockService ss = new StockServiceImpl(Stock);
+//		                		ss.Inventoryupdate();
 		                		
 
 		                }
