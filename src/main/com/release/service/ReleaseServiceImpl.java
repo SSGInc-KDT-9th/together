@@ -105,4 +105,33 @@ public class ReleaseServiceImpl implements ReleaseService {
 		return list2;
 	}
 
+	@Override
+	public int Inventoryselect(int product_id) {
+		SqlSession session = null;
+		int inventory = 0;
+  
+		try {
+			session = MySqlSessionFactory.openSession();
+			inventory = dao.findreleaseID(session, product_id);
+
+		} finally {
+			session.close();
+		}
+		return inventory;
+	}
+
+	@Override
+	public int Inventoryupdate(ReleaseDTO dto) {
+		int n = 0;
+		SqlSession session = null;
+	      try {
+			session = MySqlSessionFactory.openSession();
+			//DAO 연동코드
+			n = dao.Inventoryupdate(session, dto);
+			session.commit();
+	      }finally {
+			session.close();
+	      }
+		return n;
+}
 }

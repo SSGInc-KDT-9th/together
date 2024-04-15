@@ -39,4 +39,9 @@
         DELETE FROM product_category
         WHERE id = #{id}
     </delete>
+    <!-- 재고량 update-->
+  <update id="Inventoryupdate" parameterType="Stock">
+  	update stock set inventory = #{inventory}
+  	where product_id = #{product_id}
+  </update>
 </mapper>

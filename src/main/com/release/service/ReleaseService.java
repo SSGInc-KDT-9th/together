@@ -15,4 +15,6 @@ public interface ReleaseService {
 	public List<ReleaseDTO> statuselect(String status);
 	public int releasedelete(long releaseid);
 	public List<ReleaseDTO> findall();
+	public int Inventoryselect(int product_id);
+	public int Inventoryupdate(ReleaseDTO dto);
 }

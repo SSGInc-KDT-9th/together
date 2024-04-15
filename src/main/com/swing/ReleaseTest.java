@@ -4,19 +4,28 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
+import main.com.config.Session;
 import main.com.order.dao.OrderDAO;
 import main.com.order.dto.OrderDTO;
 import main.com.order.service.OrderService;
 import main.com.order.service.OrderServiceImpl;
+import main.com.product.domain.Stock.StockBuilder;
+import main.com.product.repository.StockRepository;
+import main.com.product.service.StockService;
+import main.com.product.service.StockServiceImpl;
 import main.com.release.dao.ReleaseDAO;
 import main.com.release.dto.ReleaseDTO;
 import main.com.release.service.ReleaseService;
@@ -33,11 +42,11 @@ import java.awt.Color;
 import javax.swing.SwingConstants;
 
 public class ReleaseTest extends JFrame {
+	protected static final StockRepository Stock = null;
 	JButton Enrollbtn;
 	JButton Searchbtn;
 	JButton Updatebtn;
 	JButton Deletebtn;
-	JButton detailbtn;
 	
 	private JPanel contentPane;
 	String[] search = {"출고 번호", "출고 상태"};
@@ -99,7 +108,7 @@ public class ReleaseTest extends JFrame {
         headerComponent.setDefaultRenderer(customHeaderRenderer);
 		
 		Searchbtn = new JButton("검색");
-		Searchbtn.setBounds(446, 127, 99, 33);
+		Searchbtn.setBounds(436, 147, 109, 33);
 		Searchbtn.setFont(new Font("고딕", Font.BOLD, 15));
 		contentPane.add(Searchbtn);
 		
@@ -129,11 +138,6 @@ public class ReleaseTest extends JFrame {
 		String [] header1 = {"주문번호","상품ID","상품명","주문수량","기업명","주문일자"};
 		DefaultTableModel model1 = new DefaultTableModel(null, header1);
         table_1.setModel(model1);
-        
-        detailbtn = new JButton("상세보기");
-        detailbtn.setBounds(446, 170, 99, 32);
-        detailbtn.setFont(new Font("고딕", Font.BOLD, 15));
-        contentPane.add(detailbtn);
         
         JLabel lblNewLabel = new JLabel("출고 상태");
         lblNewLabel.setForeground(Color.BLACK);
@@ -205,51 +209,45 @@ public class ReleaseTest extends JFrame {
 		      
 		});
 		
-		
-		//상세보기(출고 눌렀을 때 안에 어떤 주문들이 있는지)
-		detailbtn.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        // 인덱스 가져오기
-		    	int selectedRowIndex = table.getSelectedRow();
-		    	long releaseid = (long) table.getValueAt(selectedRowIndex, 0); // 출고번호 가져오기
-		    	
-		    	model1.setRowCount(0);
-		    	
-//		    	int releaseIdInt = (int) releaseid;
-//		    	System.out.println(releaseid);
-		    	OrderService order = new OrderServiceImpl();
-		    	List<OrderDTO> list = order.orderselect(releaseid);
-		    	System.out.println(list);
-		    	for (OrderDTO order1 : list) {
-                    Object[] rowData = {
-                    	order1.getId(),
-                        order1.getRelease_id(),
-                        order1.getProduct_id(),
-                        order1.getOrder_cnt(),
-                        order1.getOrder_date(),
-                        order1.getClient_id()
-                    };
-                    System.out.println(rowData[2]);
-                    int pid = (int) rowData[2];
-                    String pname = order.productselect(pid);
-                    int cid = (int) rowData[5];
-                    String cname = order.companyselect(cid);
-                    
-                    Object[] result = {
-                            rowData[0],
-                            pid,
-                            pname,
-                            rowData[3],
-                            cname,
-                            rowData[4]
-                        };
-//                      System.out.println(rowData[2]);
-                        model1.addRow(result);
-                }
-
+		// table에서 특정 행이 선택되었을 때 이벤트 처리
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+		    @Override
+		    public void valueChanged(ListSelectionEvent e) {
+		        if (!e.getValueIsAdjusting()) {
+		            int selectedRowIndex = table.getSelectedRow();
+		            if (selectedRowIndex != -1) {
+		                long releaseid = (long) table.getValueAt(selectedRowIndex, 0); // 선택된 행의 출고번호 가져오기
+		                
+		                // 주문 목록을 해당 출고번호로 조회하여 테이블에 표시
+		                model1.setRowCount(0);
+		                OrderService order = new OrderServiceImpl();
+		                List<OrderDTO> list = order.orderselect(releaseid);
+		                for (OrderDTO order1 : list) {
+		                    Object[] rowData = {
+		                        order1.getId(),
+		                        order1.getRelease_id(),
+		                        order1.getProduct_id(),
+		                        order1.getOrder_cnt(),
+		                        order1.getOrder_date(),
+		                        order1.getClient_id()
+		                    };
+		                    int pid = (int) rowData[2];
+		                    String pname = order.productselect(pid);
+		                    int cid = (int) rowData[5];
+		                    String cname = order.companyselect(cid);
+		                    Object[] result = {
+		                        rowData[0],
+		                        pid,
+		                        pname,
+		                        rowData[3],
+		                        cname,
+		                        rowData[4]
+		                    };
+		                    model1.addRow(result);
+		                }
+		            }
+		        }
 		    }
-
-			
 		});
 		//삭제 버튼
 		Deletebtn.addActionListener(new ActionListener() {
@@ -290,7 +288,54 @@ public class ReleaseTest extends JFrame {
 			    }
 			}}
 	});
+			//수정(출고 상태 변경)
+		Updatebtn.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		    	  // 현재 table_1에 있는 행 정보 가져오기
+		        if (table_1.getSelectedRow() == -1) {
+		            JOptionPane.showMessageDialog(null, "변경할 출고 항목을 선택해주세요.", "알림", JOptionPane.WARNING_MESSAGE);
+		        } else {
+		            int option = JOptionPane.showConfirmDialog(null, "출고상태를 변경하시겠습니까?", "출고상태 변경 확인", JOptionPane.YES_NO_OPTION);
+		            if (option == JOptionPane.YES_OPTION) {
+		                DefaultTableModel model1 = (DefaultTableModel) table_1.getModel();
+		                int rowCount = model1.getRowCount();
+		                List<Object[]> rowDataList = new ArrayList<>();
+		                for (int i = 0; i < rowCount; i++) {
+		                    Object[] rowData = new Object[model1.getColumnCount()];
+		                    for (int j = 0; j < model1.getColumnCount(); j++) {
+		                        rowData[j] = model1.getValueAt(i, j);
+		                    }
+		                    rowDataList.add(rowData);
+		                }
+		                
+		                for (Object[] rowData : rowDataList) {
+		                	ReleaseService rs = new ReleaseServiceImpl();
+		                	int productId =(int) rowData[1];
+		                	//재고량
+		                	int cnt = rs.Inventoryselect(productId);
+		                	//필요량
+		                	int itemcnt =(int) rowData[3];
+		                	
+		                	//재고량보다 많다면 재고량 - itemcnt 한 값을 재고테이블 재고량에 update
+		                	if(cnt>=itemcnt) {
+		                		int result = cnt - itemcnt;
+		                		StockBuilder st = new StockBuilder();
+		                		//재고량(result), 상품ID(productId) 넘겨서 stock 테이블 update
+		                		//이 부분 부터 잘 모르겠습니다,,
+		                		long productID = (long) productId;
+		                		st.productId(productID);
+		                		st.inventory(result);
+		                		StockService ss = new StockServiceImpl(Stock);
+		                		ss.Inventoryupdate();
+		                		
+
+		                }
+		                
+		                
+		            }
+		        }
+		            }
+		    }
 			
-		
-		}	
-}
+		});	
+}}

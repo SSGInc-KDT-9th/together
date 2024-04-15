@@ -35,4 +35,11 @@
   <select id="findall" resultType="ReleaseDTO">
   select * from `release`
   </select>
+  
+  <!-- 재고량 가져오기-->
+  <select id="Inventoryselect" parameterType="int" resultType="int">
+  select inventory from `stock` where product_id = #{product_id}
+  </select>
+  
+  
 </mapper>

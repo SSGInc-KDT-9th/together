@@ -35,4 +35,12 @@ public class ReleaseDAO {
 			return list2;
 
 		}
+		public int Inventoryselect(SqlSession session, int product_id){
+			 int inventory = session.selectOne("mapper.release.Inventoryselect",product_id);
+			 return inventory;
+		 }
+
+		public int Inventoryupdate(SqlSession session, ReleaseDTO dto) {	
+			return session.update("mapper.release.Inventoryupdate", dto);
+		}
 }

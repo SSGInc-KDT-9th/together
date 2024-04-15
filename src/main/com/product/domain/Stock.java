@@ -73,7 +73,7 @@ public class Stock {
         private Integer storePrice;
         private Integer sellingPrice;
 
-        StockBuilder() {
+        public StockBuilder() {
         }
 
         public StockBuilder id(final Long id) {
