@@ -26,4 +26,9 @@
   from `release` 
   where status = #{status}
  </select>
+ 
+ <!-- 출고 삭제-->
+   <delete id="releasedelete" parameterType="long" >
+  delete from `release` where id = #{id}
+  </delete>
 </mapper>

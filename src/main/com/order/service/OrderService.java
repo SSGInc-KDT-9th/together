@@ -15,5 +15,6 @@ public interface OrderService {
 	public List<OrderDTO> orderselect(long releaseid);
 	public String companyselect(int cid);
 	public String productselect(int pid);
+	public int orderdelete(int id);
 
 }

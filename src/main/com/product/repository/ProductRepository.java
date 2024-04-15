@@ -8,7 +8,8 @@ import java.util.List;
 
 public interface ProductRepository {
     Product findById(Long id);
-    List<Product> findByName(String name);
+    Product findByName(String name);
+    List<Product> findIncludeName(String name);
     List<ProductInfo> findProduct(ProductSearch searchDTO);
     Long save(Product product);
     List<Long> save(List<Product> products);

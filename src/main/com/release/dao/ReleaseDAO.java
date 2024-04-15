@@ -24,4 +24,8 @@ public class ReleaseDAO {
 					session.selectList("mapper.release.statuselect", status);
 			return list;
 		}
+	 //출고 삭제
+	    public int releasedelete(SqlSession session, long id) {
+	    	return session.delete("mapper.release.releasedelete", id);
+	    }
 }

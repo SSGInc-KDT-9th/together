@@ -15,7 +15,9 @@ public interface ClientService {
     public List<ClientDTO> findAll();
     public int removeByid(int id);
     int insert(ClientDTO ClientDTO);
-    void update(ClientDTO ClientDTO);
+    int update(ClientDTO ClientDTO);
+    public ClientDTO findById(int id);
+    public List<ClientDTO> findByCompanyName(String companyName);
+    public List<ClientDTO> findByCategory(String category);
     
-
 }

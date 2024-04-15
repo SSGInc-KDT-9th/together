@@ -28,7 +28,16 @@ public class OrderDAO {
     
     //입력학 상품의 상품 아이디 조회
     public int findProductId(SqlSession session, String product_name) {
-    	int productId = session.selectOne("mapper.order.findProductId", product_name);
+    	int productId = 0;
+    	
+    	 try {
+    		 productId = session.selectOne("mapper.order.findProductId", product_name);
+         } catch (NullPointerException e) {
+             // 등록되지 않은 기업에 대한 예외 처리
+             JOptionPane.showMessageDialog(null, "없는 상품입니다.", "경고", JOptionPane.WARNING_MESSAGE);
+             
+//             e.printStackTrace();
+         }
     	return productId;
     }
     public int enrolltoorder(SqlSession session, OrderDTO dto) {
@@ -52,5 +61,8 @@ public class OrderDAO {
     	String cname = session.selectOne("mapper.order.companyselect", id);
     	return cname;
     }
-   
+   //주문 삭제
+    public int orderdelete(SqlSession session, int id) {
+    	return session.delete("mapper.order.orderdelete", id);
+    }
 }
