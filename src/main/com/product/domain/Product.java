@@ -15,12 +15,17 @@ public class Product {
     }
 
     public ProductEdit.ProductEditBuilder toEditor() {
-        return ProductEdit.builder().categoryId(this.categoryId).supplierId(this.supplierId).supplierName(this.supplierName).productName(this.productName);
+        return ProductEdit.builder().
+                categoryId(this.categoryId)
+                .supplierId(this.supplierId)
+                .supplierName(this.supplierName)
+                .productName(this.productName);
     }
 
     public void edit(ProductEdit editor) {
         this.categoryId = editor.getCategoryId();
         this.supplierId = editor.getSupplierId();
+        this.supplierName = editor.getSupplierName();
         this.productName = editor.getProductName();
     }
 
