@@ -7,10 +7,7 @@ import main.com.product.repository.CategoryRepository;
 import main.com.product.repository.MySqlProductRepository;
 import main.com.product.repository.ProductRepository;
 import main.com.product.repository.StockRepository;
-import main.com.product.service.CategoryService;
-import main.com.product.service.CategoryServiceImpl;
-import main.com.product.service.ProductService;
-import main.com.product.service.ProductServiceImpl;
+import main.com.product.service.*;
 import main.com.supplier.repository.SupplierDAO;
 import main.com.supplier.service.SupplierService;
 import main.com.supplier.service.SupplierServiceImpl;
@@ -23,6 +20,9 @@ public class AppConfig {
 
     public StockRepository stockRepository(){
         return new StockRepository();
+    }
+    public StockService stockService(){
+        return new StockServiceImpl(stockRepository());
     }
     public ProductService productService(){
         return new ProductServiceImpl(productRepository(),stockRepository());
