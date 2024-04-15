@@ -18,5 +18,6 @@ public interface ClientService {
     int update(ClientDTO ClientDTO);
     public ClientDTO findById(int id);
     public List<ClientDTO> findByCompanyName(String companyName);
+    public List<ClientDTO> findByCategory(String category);
     
 }

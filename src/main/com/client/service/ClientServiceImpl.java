@@ -117,6 +117,13 @@ public class ClientServiceImpl implements ClientService {
 	    return clients;
 	}
 
+	//카테고리를 통한 고객 기업 정보 조회
+	 @Override
+	    public List<ClientDTO> findByCategory(String category) {
+	        try (SqlSession session = MySqlSessionFactory.openSession()) {
+	            return dao.findByCategory(session, category);
+	        }
+	    }
 
 
 

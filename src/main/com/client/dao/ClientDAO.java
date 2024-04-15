@@ -45,5 +45,9 @@ public class ClientDAO {
         return session.selectList("main.resource.mapper.ClientMapper.findByCompanyName", companyName);
     }
     
+    //카테고리를 통한 정보 조회
+    public List<ClientDTO> findByCategory(SqlSession session, String category) {
+        return session.selectList("main.resource.mapper.ClientMapper.findByCategory", category);
+    }
     
 }

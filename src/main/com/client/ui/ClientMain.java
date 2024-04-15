@@ -406,7 +406,33 @@ public class ClientMain extends JFrame {
 		    }
 		});
 		
-		
+		//카테고리를 이용하여 해당되는 기업정보 조회
+		btnFind.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        String selectedCategory = (String) tfcategory.getSelectedItem();
+
+		        ClientService service = new ClientServiceImpl();
+		        service.setDao(new ClientDAO());
+
+		        List<ClientDTO> clients = service.findByCategory(selectedCategory);
+		        if (!clients.isEmpty()) {
+		            DefaultTableModel model = (DefaultTableModel) table.getModel();
+		            model.setRowCount(0); 
+
+		            for (ClientDTO client : clients) {
+		                Object[] rowData = {
+		                    client.getId(),
+		                    client.getCompany_name(),
+		                    client.getCategory(),
+		                    client.getIncome(),
+		                    client.getAddress()
+		                };
+		                model.addRow(rowData);
+		            }
+		        } 
+		    }
+		});
 		
 	}
 }
