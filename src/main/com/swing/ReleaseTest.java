@@ -310,7 +310,6 @@ public class ReleaseTest extends JFrame {
 	            OrderService order = new OrderServiceImpl();
 	            order.setDao(new OrderDAO());
 	            int n3 = order.orderdelete(orderid);
-
 	            // 행 삭제
 	            model1.removeRow(selectedRowIndex);
 	        }

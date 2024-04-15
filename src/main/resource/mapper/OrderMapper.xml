@@ -40,7 +40,7 @@
   
   </select>
   
-  <!-- 주문 삭세-->
+  <!-- 주문 삭제-->
   <delete id="orderdelete" parameterType="int" >
   delete from `order` where id = #{id}
   </delete>
