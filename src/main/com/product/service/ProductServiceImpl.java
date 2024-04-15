@@ -2,9 +2,10 @@ package main.com.product.service;
 
 import main.com.product.domain.Product;
 import main.com.product.domain.ProductEdit;
-import main.com.product.domain.Stock;
+import main.com.stock.domain.Stock;
 import main.com.product.repository.ProductRepository;
-import main.com.product.repository.StockRepository;
+import main.com.stock.domain.StockEdit;
+import main.com.stock.repository.StockRepository;
 import main.com.product.request.ProductCreate;
 import main.com.product.request.ProductSearch;
 import main.com.product.response.ProductInfo;
@@ -36,6 +37,8 @@ public class ProductServiceImpl implements ProductService{
                 .productId(product.getId())
                 .modifiedDate(LocalDateTime.now().withNano(0))
                 .inventory(0)
+                .storePrice(0)
+                .sellingPrice(0)
                 .build();
         Long save = stockRepository.save(stock);
         System.out.println(save);
