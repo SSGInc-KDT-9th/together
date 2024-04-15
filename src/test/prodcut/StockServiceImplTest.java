@@ -1,16 +1,15 @@
 package test.prodcut;
 
 import main.com.config.AppConfig;
-import main.com.product.repository.MySqlProductRepository;
-import main.com.product.repository.ProductRepository;
-import main.com.product.service.ProductService;
+import main.com.product.domain.Product;
 import main.com.product.service.ProductServiceImpl;
-import main.com.product.service.StockService;
-import main.com.product.service.StockServiceImpl;
+import main.com.stock.domain.Stock;
+import main.com.stock.domain.StockEdit;
+import main.com.product.service.ProductService;
+import main.com.stock.service.StockService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class StockServiceImplTest {
     AppConfig appConfig = new AppConfig();
@@ -20,7 +19,31 @@ class StockServiceImplTest {
     @DisplayName("재고 수정")
     void test1() throws Exception {
         //given
+//        ProductCreate productCreate = ProductCreate.builder()
+//                    .productName("테스트아이스크림")
+//                    .supplierName("빙그레")
+//                        .categoryId(47L)
+//                                .build();
+//        productService.save(productCreate);
+        Product product = productService.get("테스트아이스크림");
+        StockEdit stockEdit = StockEdit.builder()
+                .inventory(100)
+                .storePrice(100).build();
 
+        //when
+        stockService.editStore(product.getId(),stockEdit);
+        //then
+        Stock stock = stockService.getByProduct(product.getId());
+        Assertions.assertEquals(stock.getInventory(),100);
+    }
+
+    @Test
+    @DisplayName("삭제 테스트")
+    void test2() throws Exception {
+        //given
+//        productService.get("테스트 상품 2")
+//        Stock stock = Stock.builder()
+//                .productId(48)
         //when
 
         //then
