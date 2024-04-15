@@ -38,15 +38,17 @@ class StockServiceImplTest {
     }
 
     @Test
-    @DisplayName("삭제 테스트")
+    @DisplayName("출고 테스트")
     void test2() throws Exception {
         //given
-//        productService.get("테스트 상품 2")
-//        Stock stock = Stock.builder()
-//                .productId(48)
+        Product product = productService.get("테스트아이스크림");
+        StockEdit stockEdit = StockEdit.builder()
+                .inventory(50)
+                .build();
+        stockService.editRelease(product.getId(),stockEdit);
         //when
-
+        Stock stock = stockService.getByProduct(product.getId());
         //then
-
+        Assertions.assertEquals(stock.getInventory(),50);
     }
 }
