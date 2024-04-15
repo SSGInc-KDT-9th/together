@@ -17,9 +17,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 import main.com.client.dao.ClientDAO;
 import main.com.client.dto.ClientDTO;
@@ -207,7 +207,7 @@ public class ClientMain extends JFrame {
 		
 		//메인 테이블 창 구성
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(29, 87, 843, 548);
+		scrollPane.setBounds(29, 87, 843, 379);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
@@ -339,7 +339,7 @@ public class ClientMain extends JFrame {
 		                    model.addRow(rowData);
 		                }
 		            } else {
-		                System.out.println("해당 기업명에 대한 데이터를 찾을 수 없습니다.");
+		                System.out.println("다시 입력해주세요.");
 		            }
 		        } else {
 		            System.out.println("기업명을 입력해주세요.");
@@ -404,7 +404,7 @@ public class ClientMain extends JFrame {
 		            JOptionPane.showMessageDialog(null, "수정실패했습니다.", "오류", JOptionPane.ERROR_MESSAGE);
 		        }
 		    }
-		});
+		});//end
 		
 		//카테고리를 이용하여 해당되는 기업정보 조회
 		btnFind.addActionListener(new ActionListener() {
@@ -432,7 +432,84 @@ public class ClientMain extends JFrame {
 		            }
 		        } 
 		    }
-		});
+		});//end
+		
+		//id 입력시 해당 기업 삭제 버튼 이벤트 처리
+         btndelete.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String id = deleteid.getText();
+				
+				ClientService service = new ClientServiceImpl();
+				service.setDao(new ClientDAO());
+				int n = service.removeByid(Integer.parseInt(id));
+				
+				if (n > 0) {
+	                JOptionPane.showMessageDialog(null, "삭제되었습니다.", "성공", JOptionPane.INFORMATION_MESSAGE);
+
+	                DefaultTableModel model = (DefaultTableModel) table.getModel();
+	                for (int i = 0; i < model.getRowCount(); i++) {
+	                    if (model.getValueAt(i, 0).equals(id)) {
+	                        model.removeRow(i);
+	                        break;
+	                    }
+				
+			        }
+				}
+			}
+		});//end
+         
+         //등록 버튼 이벤트 처리
+         btnsave.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String id = tfid.getText();
+		        String company_name = tfcompanyName.getText();
+		        String category = (String) tfcategory.getSelectedItem();
+		        String income = tfincome.getText();
+		        String address = tfaddress.getText();
+				
+		        ClientService service = new ClientServiceImpl();
+		        service.setDao(new ClientDAO());
+		        
+		        ClientDTO dto = new ClientDTO();
+		        dto.setId(Integer.parseInt(id));
+		        dto.setCompany_name(company_name);
+		        dto.setCategory(category);
+		        dto.setIncome(Integer.parseInt(income));
+		        dto.setAddress(address);
+		        
+				int n = service.insert(dto);
+				
+				 if (n > 0) {
+			            JOptionPane.showMessageDialog(null, "등록되었습니다.", "성공", JOptionPane.INFORMATION_MESSAGE);
+
+			            // 등록된 기업 정보를 테이블에 추가
+			            DefaultTableModel model = (DefaultTableModel) table.getModel();
+			            Object[] rowData = {
+			            		dto.getId(),
+			            		dto.getCompany_name(),
+			            		dto.getCategory(),
+			            		dto.getIncome(),
+			            		dto.getAddress()
+			            };
+			            model.addRow(rowData);
+			            
+			         // 입력 필드 초기화
+			            tfid.setText("");
+			            tfcompanyName.setText("");
+			            tfcategory.setSelectedIndex(0);
+			            tfincome.setText("");
+			            tfaddress.setText("");
+				 }
+				
+			}
+		});//end
+		
+		
+		
 		
 	}
 }
