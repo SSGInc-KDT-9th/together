@@ -218,7 +218,19 @@ public class NewOrderFrame extends JFrame {
 		            rowDataList.add(rowData);
 		            
 		        }
-		       
+		     
+
+		     // for문을 돌면서 첫 번째 열의 값이 모두 같은지 확인하여 출고 및 주문 등록 진행
+		     boolean canProceed = true; // 출고 및 주문 등록 가능 여부를 나타내는 변수
+		     Object firstColumnValue = rowDataList.get(0)[0]; // 첫 번째 열의 값 저장
+
+		     for (Object[] rowData : rowDataList) {
+		         if (!rowData[0].equals(firstColumnValue)) {
+		             canProceed = false; // 첫 번째 열의 값이 모두 같지 않은 경우 출고 및 주문 등록 불가능
+		             break;
+		         }
+		     }
+		     if(canProceed) {
 		        ReleaseDTO dto = new ReleaseDTO();
 		      //로그인한 사용자 세션으로 id받아오기
 		        Long member_id = Session.getMember().getId();
@@ -260,14 +272,18 @@ public class NewOrderFrame extends JFrame {
 			        dispose();
 		           
 		        }
+		        }
+		     else {
+		        	 JOptionPane.showMessageDialog(null, "기업명이 다릅니다.", "경고", JOptionPane.WARNING_MESSAGE);
+		        }
+		        	
+		        }
 		        
 		        
-		    }
+		    
 		});
-       
+		
 		
                     
-	}
-}              
-                  
+	}}       
             

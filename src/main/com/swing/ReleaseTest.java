@@ -241,27 +241,37 @@ public class ReleaseTest extends JFrame {
 		    	int selectedRowIndex = table.getSelectedRow();
 		    	long releaseid = (long) table.getValueAt(selectedRowIndex, 0); // 출고번호 가져오기
 //		    	int releaseIdInt = (int) releaseid;
+//		    	System.out.println(releaseid);
 		    	OrderService order = new OrderServiceImpl();
 		    	List<OrderDTO> list = order.orderselect(releaseid);
 		    	System.out.println(list);
-		    	OrderDTO oid = list.get(0);
-		    	OrderDTO pid = list.get(2);
-		    	String pname = order.productselect(pid);
-		    	OrderDTO cnt = list.get(4);
-		    	OrderDTO cid = list.get(5);
-                String cname = order.companyselect(cid);
-                OrderDTO date = list.get(3);
-                Object[] rowData = {
-                		oid,
-                		pid,
-                		pname,
-                		cnt,
-                		cname,
-                		date
-                     };
-                 // 기업이 등록되지 않은 경우에만 테이블에 추가
-                model1.addRow(rowData);
-		    	
+		    	for (OrderDTO order1 : list) {
+                    Object[] rowData = {
+                    	order1.getId(),
+                        order1.getRelease_id(),
+                        order1.getProduct_id(),
+                        order1.getOrder_cnt(),
+                        order1.getOrder_date(),
+                        order1.getClient_id()
+                    };
+                    System.out.println(rowData[2]);
+                    OrderDTO pid = (OrderDTO) rowData[2];
+                    String pname = order.productselect(pid);
+                    OrderDTO cid = (OrderDTO) rowData[5];
+                    String cname = order.companyselect(cid);
+                    
+                    Object[] result = {
+                            rowData[0],
+                            pid,
+                            pname,
+                            rowData[3],
+                            cname,
+                            rowData[4]
+                        };
+//                      System.out.println(rowData[2]);
+                        model.addRow(rowData);
+                }
+
 		    }
 
 			
