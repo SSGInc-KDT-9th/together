@@ -11,6 +11,8 @@ import java.util.List;
 public interface ProductService {
     void save(ProductCreate productCreate);
     Product get(Long id);
+
+    Product get(String productName);
     List<ProductInfo> search(ProductSearch productSearch);
 
     void edit(Long id, ProductEdit productEdit);
