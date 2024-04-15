@@ -3,6 +3,7 @@ package main.com.member.ui;
 import main.com.config.AppConfig;
 import main.com.config.Session;
 import main.com.member.service.MemberService;
+import main.com.swing.ReleaseTest;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -104,6 +105,13 @@ public class Login extends JFrame{
                 if(login) {
                     Session.setMember(memberService.findMember(id));
                     System.out.println(id);
+                 // ReleaseTest 클래스의 인스턴스 생성
+                    ReleaseTest releaseTest = new ReleaseTest();
+                    // ReleaseTest를 화면에 보이도록 설정
+                    releaseTest.setVisible(true);
+                    // 현재 창 닫기
+                    dispose();
+                    
                 }
                 else{
                     JOptionPane.showMessageDialog(null, "아이디 또는 패스워드를 확인해주세요", "ID Not Found", JOptionPane.ERROR_MESSAGE);
