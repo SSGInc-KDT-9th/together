@@ -17,6 +17,7 @@ import main.com.order.dao.OrderDAO;
 import main.com.order.dto.OrderDTO;
 import main.com.order.service.OrderService;
 import main.com.order.service.OrderServiceImpl;
+import main.com.release.dao.ReleaseDAO;
 import main.com.release.dto.ReleaseDTO;
 import main.com.release.service.ReleaseService;
 import main.com.release.service.ReleaseServiceImpl;
@@ -215,13 +216,13 @@ public class ReleaseTest extends JFrame {
 		                        model.addRow(rowData);
 		                    }
 		                } else {
-		                    // textField가 비어있을 경우 메시지 출력
+		                    // textField가 비어있을 경우
 		                	JOptionPane.showMessageDialog(null, "출고상태 입력해주세요.", "경고", JOptionPane.WARNING_MESSAGE);
 		                }
 		                break;
 		                
 		            default:
-		                // 선택된 옵션이 없는 경우 메시지 출력
+		                // 선택된 옵션이 없는 경우
 		                System.out.println("검색 옵션을 선택하세요.");
 		                break;
 		        }
@@ -279,42 +280,40 @@ public class ReleaseTest extends JFrame {
 							
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// 테이블에서 선택된 행의 인덱스 가져오기
-//			int selectedRowIndex = table_1.getSelectedRow();
-//			int orderid = (int) table_1.getValueAt(selectedRowIndex, 0); // 주문번호 가져오기
-//			OrderService order = new OrderServiceImpl();
-//			order.setDao(new OrderDAO());
-//			int n3 = order.orderdelete(orderid);
-//			
-//			
-//		// 선택된 행이 없는 경우 또는 모델이 없는 경우 종료
-//			if (selectedRowIndex == -1 || model1 == null) {
-//				     return;
-//			}
-//			 model1.removeRow(selectedRowIndex);
-//			        
-//			        
-//			}
-//			});
-			 // 테이블에서 선택된 행의 인덱스 가져오기
-	        int selectedRowIndex = table_1.getSelectedRow();
-	        if (selectedRowIndex == -1 || model1 == null) {
-	            return; // 선택된 행이 없거나 모델이 없는 경우 종료
-	        }
-	        
-	        // 삭제 여부 확인 대화 상자 표시
-	        int option = JOptionPane.showConfirmDialog(null, "삭제하시겠습니까?", "삭제 확인", JOptionPane.YES_NO_OPTION);
-	        if (option == JOptionPane.YES_OPTION) {
-	            // 사용자가 확인을 선택한 경우
-	            int orderid = (int) table_1.getValueAt(selectedRowIndex, 0); // 주문번호 가져오기
-	            OrderService order = new OrderServiceImpl();
-	            order.setDao(new OrderDAO());
-	            int n3 = order.orderdelete(orderid);
-	            // 행 삭제
-	            model1.removeRow(selectedRowIndex);
-	        }
-	    }
+
+			// 주문 목록 삭제
+			int selectedRowIndex1 = table_1.getSelectedRow();
+			if (selectedRowIndex1 != -1 && model1 != null) {
+			    // 삭제 여부 확인 대화 상자 표시
+			    int option1 = JOptionPane.showConfirmDialog(null, "주문을 삭제하시겠습니까?", "삭제 확인", JOptionPane.YES_NO_OPTION);
+			    if (option1 == JOptionPane.YES_OPTION) {
+			        // 확인을 선택한 경우
+			        int orderid = (int) table_1.getValueAt(selectedRowIndex1, 0); // 주문번호 가져오기
+			        OrderService order = new OrderServiceImpl();
+			        order.setDao(new OrderDAO());
+			        int n3 = order.orderdelete(orderid);
+			      
+			        model1.removeRow(selectedRowIndex1);
+			    }
+			    return;
+			}
+
+			// 출고 목록 삭제
+			int selectedRowIndex2 = table.getSelectedRow();
+			if (selectedRowIndex2 != -1 && model != null) {
+			    // 삭제 여부 확인 대화 상자 표시
+			    int option2 = JOptionPane.showConfirmDialog(null, "출고를 삭제하시겠습니까?", "삭제 확인", JOptionPane.YES_NO_OPTION);
+			    if (option2 == JOptionPane.YES_OPTION) {
+			        //확인을 선택한 경우
+			        long releaseid = (long) table.getValueAt(selectedRowIndex2, 0); // 출고번호 가져오기
+			        ReleaseService rs = new ReleaseServiceImpl();
+			        rs.setDao(new ReleaseDAO());
+			        int n4 = rs.releasedelete(releaseid);
+			        
+			        model.removeRow(selectedRowIndex2);
+			    }
+			}}
 	});
 			
 		
-	}}
+		}}
