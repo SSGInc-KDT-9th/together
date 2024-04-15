@@ -89,16 +89,16 @@ public class StockRepository {
             sqlSession.close();
         }
     }
-    public void Inventoryupdate(Stock sto) {
-    	 SqlSession sqlSession = MySqlSessionFactory.openSession();
-         try {
-             sqlSession.update("mapper.stock.Inventoryupdate", sto);
-             sqlSession.commit();
-         }
-         finally{
-             sqlSession.rollback();
-             sqlSession.close();
-         }
-    }
+//    public void Inventoryupdate(Stock sto) {
+//    	 SqlSession sqlSession = MySqlSessionFactory.openSession();
+//         try {
+//             sqlSession.update("mapper.stock.Inventoryupdate", sto);
+//             sqlSession.commit();
+//         }
+//         finally{
+//             sqlSession.rollback();
+//             sqlSession.close();
+//         }
+//    }
 
 }
