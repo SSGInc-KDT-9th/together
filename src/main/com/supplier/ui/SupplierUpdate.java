@@ -4,9 +4,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import main.com.supplier.domain.Supplier;
-import main.com.supplier.domain.SupplierDAO;
-import main.com.supplier.repository.SupplierService;
-import main.com.supplier.repository.SupplierServiceImpl;
+import main.com.supplier.repository.SupplierDAO;
+import main.com.supplier.service.SupplierService;
+import main.com.supplier.service.SupplierServiceImpl;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -25,7 +25,7 @@ public class SupplierUpdate extends JFrame {
 	private JButton updateBtn;
 	private JButton cancelBtn;
 	
-	public SupplierUpdate(Supplier sup) {
+	public SupplierUpdate(Supplier supplier) {
 		setTitle("수정");
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,25 +40,25 @@ public class SupplierUpdate extends JFrame {
 		company_name.setBounds(100, 27, 150, 21);
 		contentPane.add(company_name);
 		company_name.setColumns(10);
-		company_name.setText(sup.getCompany_name());
+		company_name.setText(supplier.getCompany_name());
 		
 		company_category = new JTextField();
 		company_category.setBounds(100, 77, 150, 21);
 		contentPane.add(company_category);
 		company_category.setColumns(10);
-		company_category.setText(sup.getCompany_category());
+		company_category.setText(supplier.getCompany_category());
 		
 		income = new JTextField();
 		income.setBounds(100, 127, 150, 21);
 		contentPane.add(income);
 		income.setColumns(10);
-		income.setText(String.valueOf(sup.getIncome()));
+		income.setText(String.valueOf(supplier.getIncome()));
 
 		address = new JTextField();
 		address.setBounds(100, 177, 150, 21);
 		contentPane.add(address);
 		address.setColumns(10);
-		address.setText(sup.getAddress());
+		address.setText(supplier.getAddress());
 		
 		JLabel lblNewLabel = new JLabel("기업명");
 		lblNewLabel.setBounds(30, 30, 57, 15);
@@ -92,10 +92,10 @@ public class SupplierUpdate extends JFrame {
 		resetBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				company_name.setText(sup.getCompany_name());
-				company_category.setText(sup.getCompany_category());
-				income.setText(String.valueOf(sup.getIncome()));
-				address.setText(sup.getAddress());
+				company_name.setText(supplier.getCompany_name());
+				company_category.setText(supplier.getCompany_category());
+				income.setText(String.valueOf(supplier.getIncome()));
+				address.setText(supplier.getAddress());
 			}
 		});
 		
@@ -107,16 +107,17 @@ public class SupplierUpdate extends JFrame {
 				SupplierService service = new SupplierServiceImpl();
 				service.setSup(new SupplierDAO());
 				
-				sup.setCompany_name(company_name.getText());
-				sup.setCompany_category(company_category.getText());
-				sup.setIncome(Integer.parseInt(income.getText()));
-				sup.setAddress(address.getText());
+				supplier.setCompany_name(company_name.getText());
+				supplier.setCompany_category(company_category.getText());
+				supplier.setIncome(Integer.parseInt(income.getText()));
+				supplier.setAddress(address.getText());
 				
-				service.update(sup);
+				service.update(supplier);
 							
 				dispose();
-				
 			}
+			
+			
 		});
 		
 		cancelBtn.addActionListener(new ActionListener() {
