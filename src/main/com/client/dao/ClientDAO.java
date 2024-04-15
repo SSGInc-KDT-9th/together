@@ -35,5 +35,15 @@ public class ClientDAO {
         return session.insert("main.resource.mapper.ClientMapper.insert", ClientDTO);
     }
     
+    //고객기업 id를 통한 정보 조회
+    public ClientDTO findById(SqlSession session, int id) {
+        return session.selectOne("main.resource.mapper.ClientMapper.findById", id);
+    }
+
+    //고객 기업명을 통한 정보 조회
+    public List<ClientDTO> findByCompanyName(SqlSession session, String companyName) {
+        return session.selectList("main.resource.mapper.ClientMapper.findByCompanyName", companyName);
+    }
+    
     
 }

@@ -3,16 +3,15 @@ package main.com.product.ui;
 import main.com.config.AppConfig;
 import main.com.product.domain.Category;
 import main.com.product.domain.Product;
+import main.com.product.domain.ProductEdit;
 import main.com.product.request.ProductCreate;
 import main.com.product.request.ProductSearch;
 import main.com.product.response.ProductInfo;
 import main.com.product.service.CategoryService;
 import main.com.product.service.ProductService;
-import main.com.product.service.ProductServiceImpl;
 import main.com.supplier.domain.Supplier;
-import main.com.supplier.domain.SupplierDAO;
-import main.com.supplier.repository.SupplierService;
-import main.com.supplier.repository.SupplierServiceImpl;
+import main.com.supplier.service.SupplierService;
+import main.com.util.TryParse;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -24,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 
 public class ProductApp extends JFrame {
@@ -47,7 +47,7 @@ public class ProductApp extends JFrame {
 	private JLabel sellingPriceLabel;
 	private JLabel inventoryLabel;
 	private JTextField inventoryText;
-	private JButton resetButton;
+	private JButton updateButton;
 	private JTextField idSearchText;
 	private JTextField nameSearchText;
 	private JComboBox supplierSearchCombo;
@@ -67,6 +67,7 @@ public class ProductApp extends JFrame {
 	private JButton deleteButton;
 	private JTable table;
 	private DefaultTableModel model;
+	private String[] columnNames = {"","상품 ID", "상품 이름", "상품 카테고리 ID", "상품 카테고리", "공급 기업 ID","공급 기업 이름","입고 금액","출고 금액","재고량"};
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -88,10 +89,16 @@ public class ProductApp extends JFrame {
 
 		String[] mainCategories = categoryService.getParents().stream()
 				.map(Category::getCategoryName).toArray(String[]::new);
-		String[] subCategories = categoryService.getChild().stream()
-				.map(Category::getCategoryName).toArray(String[]::new);
-		String[] supplierList = supplierService.findAll().stream()
-				.map(Supplier::getCompany_name).toArray(String[]::new);
+
+		List<String> subList  = categoryService.getChild().stream()
+				.map(Category::getCategoryName).collect(Collectors.toList());
+		subList.add(0, "");
+		String[] subCategories = subList.toArray(new String[0]);
+
+		List<String> suppliers = supplierService.supplierFindAll(new Supplier()).stream()
+				.map(Supplier::getCompany_name).collect(Collectors.toList());
+		suppliers.add(0,"");
+		String[] supplierList = suppliers.toArray(new String[0]);
 		//검색 기능
 		productSearchLabel = new JLabel("- 상품 검색");
 		productSearchLabel.setFont(new Font("굴림", Font.BOLD, 15));
@@ -224,8 +231,8 @@ public class ProductApp extends JFrame {
 		saveButton = new JButton("저장");
 		saveButton.setBounds(925, 637, 130, 30);
 
-		resetButton = new JButton("초기화");
-		resetButton.setBounds(1077, 637, 130, 30);
+		updateButton = new JButton("수정");
+		updateButton.setBounds(1077, 637, 130, 30);
 
 		//상품 삭제 버튼
 		deleteButton = new JButton("삭제");
@@ -253,7 +260,7 @@ public class ProductApp extends JFrame {
 		mainPanel.add(inventoryLabel);
 		mainPanel.add(inventoryText);
 		mainPanel.add(mainCategoryCombo);
-		mainPanel.add(resetButton);
+		mainPanel.add(updateButton);
 		mainPanel.add(productInfoLabel);
 		
 		//상품 검색
@@ -288,9 +295,8 @@ public class ProductApp extends JFrame {
 	}
 
 	void setComponentData(){
-		String[] columnNames = {"","상품 ID", "상품 이름", "상품 카테고리 ID", "상품 카테고리", "공급 기업 ID","공급 기업 이름","입고 금액","출고 금액","재고량"};
 		ProductSearch search = ProductSearch.builder().build();
-		List<ProductInfo> products = productService.getList(search);
+		List<ProductInfo> products = productService.search(search);
 		Object[][] data = products.stream()
 				.map(product -> new Object[]{
 						false,
@@ -311,8 +317,6 @@ public class ProductApp extends JFrame {
 				return columnIndex == 0 ? Boolean.class : super.getColumnClass(columnIndex);
 			}
 		};
-
-
 	}
 
 	void setListenerEvent(){
@@ -379,9 +383,146 @@ public class ProductApp extends JFrame {
 //						.categoryId(category.getCategoryId())
 //						.build();
 				productService.save(productCreate);
-				setComponentData();
+				tableRefresh();
 			}
 		});
+
+		updateButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Long id = Long.parseLong(productIdText.getText());
+				String productName = productNameText.getText();
+				String supplierName = supplierNameCombo.getSelectedItem().toString();
+				String categoryName = subCategoryCombo.getSelectedItem().toString();
+				Category category = categoryService.getCategory(categoryName);
+
+				Product product = productService.get(id);
+				ProductEdit productEdit = ProductEdit.builder()
+						.productName(productName)
+						.categoryId(category.getCategoryId())
+						.supplierName(supplierName)
+						.build();
+
+				productService.edit(id,productEdit);
+				tableRefresh();
+			}
+		});
+
+		searchButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Long id = null;
+				TryParse.tryParseLong(idSearchText.getText(),id);
+				String productName = nameSearchText.getText();
+				String supplierName = supplierSearchCombo.getSelectedItem().toString();
+				String categoryName = subCategorySearchCombo.getSelectedItem().toString();
+				//Category category = categoryService.getCategory(categoryName);
+
+				ProductSearch productSearch = ProductSearch.builder()
+						.id(id)
+						.productName(productName)
+						.categoryName(categoryName)
+						.supplierName(supplierName)
+						.build();
+				List<ProductInfo> searchProducts = productService.search(productSearch);
+				Object[][] data = searchProducts.stream()
+						.map(product -> new Object[]{
+								false,
+								product.getId(),
+								product.getProductName(),
+								product.getCategoryId(),
+								product.getCategoryName(),
+								product.getSupplierId(),
+								product.getSupplierName(),
+								product.getStorePrice(),
+								product.getSellingPrice(),
+								product.getInventory()
+						})
+						.toArray(Object[][]::new);
+				model = new DefaultTableModel(data, columnNames) {
+					@Override
+					public Class<?> getColumnClass(int columnIndex) {
+						return columnIndex == 0 ? Boolean.class : super.getColumnClass(columnIndex);
+					}
+				};
+				table.setModel(model);
+			}
+		});
+
+		productInfoResetButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Object[][] data={};
+				model = new DefaultTableModel(data, columnNames) {
+					@Override
+					public Class<?> getColumnClass(int columnIndex) {
+						return columnIndex == 0 ? Boolean.class : super.getColumnClass(columnIndex);
+					}
+				};
+				table.setModel(model);
+			}
+		});
+
+		deleteButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int[] selectedRows = table.getSelectedRows();
+				List<ProductInfo> deletedProducts = IntStream.range(0, table.getRowCount()) // Stream of row indices
+						.filter(row -> (boolean) table.getValueAt(row, 0)) // Filter to keep only selected rows
+						.mapToObj(row -> {
+							Long id = (Long) table.getValueAt(row, 1);
+							String productName = (String) table.getValueAt(row, 2);
+							Long categoryId = (Long) table.getValueAt(row, 3);
+							String categoryName = (String) table.getValueAt(row, 4);
+							Long supplierId = (Long) table.getValueAt(row, 5);
+							String supplierName = (String) table.getValueAt(row, 6);
+							Integer storePrice = (Integer) table.getValueAt(row, 7);
+							Integer sellingPrice = (Integer) table.getValueAt(row, 8);
+							Integer inventory = (Integer) table.getValueAt(row, 9);
+
+							return ProductInfo.builder()
+									.id(id)
+									.productName(productName)
+									.categoryId(categoryId)
+									.categoryName(categoryName)
+									.supplierId(supplierId)
+									.supplierName(supplierName)
+									.storePrice(storePrice)
+									.sellingPrice(sellingPrice)
+									.inventory(inventory)
+									.build();
+						})
+						.collect(Collectors.toList());
+				productService.delete(deletedProducts);
+				tableRefresh();
+			}
+		});
+	}
+
+	public void tableRefresh(){
+		ProductSearch search = ProductSearch.builder().build();
+		List<ProductInfo> products = productService.search(search);
+		Object[][] data = products.stream()
+				.map(product -> new Object[]{
+						false,
+						product.getId(),
+						product.getProductName(),
+						product.getCategoryId(),
+						product.getCategoryName(),
+						product.getSupplierId(),
+						product.getSupplierName(),
+						product.getStorePrice(),
+						product.getSellingPrice(),
+						product.getInventory()
+				})
+				.toArray(Object[][]::new);
+		model = new DefaultTableModel(data, columnNames) {
+			@Override
+			public Class<?> getColumnClass(int columnIndex) {
+				return columnIndex == 0 ? Boolean.class : super.getColumnClass(columnIndex);
+			}
+		};
+		table.setModel(model);
 	}
 
 	public ProductApp() {

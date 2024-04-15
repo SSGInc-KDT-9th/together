@@ -35,7 +35,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public List<ProductInfo> getList(ProductSearch productSearch) {
+    public List<ProductInfo> search(ProductSearch productSearch) {
         return productRepository.findProduct(productSearch);
     }
 
@@ -46,7 +46,7 @@ public class ProductServiceImpl implements ProductService{
         ProductEdit productEditor = editBuilder.categoryId(productEdit.getCategoryId())
                 .supplierId(productEdit.getSupplierId())
                 .supplierName(productEdit.getSupplierName())
-                .productName(product.getProductName())
+                .productName(productEdit.getProductName())
                 .build();
         product.edit(productEditor);
         productRepository.update(product);
