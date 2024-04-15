@@ -187,7 +187,7 @@ public class ClientMain extends JFrame {
 		lblNewLabel_1_2.setBounds(442, 16, 52, 24);
 		panel_3.add(lblNewLabel_1_2);
 		
-		JComboBox tfcategory_1 = new JComboBox(ClientCategory);
+		tfcategory_1 = new JComboBox(ClientCategory);
 		tfcategory_1.setBackground(Color.WHITE);
 		tfcategory_1.setBounds(495, 17, 178, 23);
 		panel_3.add(tfcategory_1);
@@ -223,7 +223,7 @@ public class ClientMain extends JFrame {
 		//end
 		
 		
-		//버튼 이벤트 처리 시작
+///////////////////////////////////버튼 이벤트 처리 시작/////////////////////////////////
 		//테이블 창과 조회 창 모두 초기화 시키는 초기화 버튼 이벤트 처리
 		btnresetAll.addActionListener(new ActionListener() {
 			
@@ -379,7 +379,7 @@ public class ClientMain extends JFrame {
 
 		        int income;
 		        try {
-		                     // 수정된 값이 숫자로 변환 가능한지 확인
+		                     
 		            income = Integer.parseInt(incomeStr);
 		        } catch (NumberFormatException ex) {
 		            JOptionPane.showMessageDialog(null, "거래액은 숫자로 입력해주세요.", "오류", JOptionPane.ERROR_MESSAGE);
@@ -497,7 +497,7 @@ public class ClientMain extends JFrame {
 			            };
 			            model.addRow(rowData);
 			            
-			         // 입력 필드 초기화
+			         // 실행 완료 후 입력 필드 초기화
 			            tfid.setText("");
 			            tfcompanyName.setText("");
 			            tfcategory.setSelectedIndex(0);
