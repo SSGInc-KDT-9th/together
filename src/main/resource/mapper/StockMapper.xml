@@ -24,6 +24,12 @@
         WHERE id = #{id}
     </select>
 
+    <select id="findByProduct" resultMap="StockMap" parameterType="Long">
+        SELECT *
+        FROM stock
+        WHERE product_id = #{ProductId}
+    </select>
+
     <insert id="insert" parameterType="Stock" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO stock (product_id, modified_date,inventory,store_price,selling_price)
         VALUES (#{productId},#{modifiedDate},#{inventory},#{storePrice},#{sellingPrice})
