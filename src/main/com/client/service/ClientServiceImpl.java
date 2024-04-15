@@ -53,17 +53,19 @@ public class ClientServiceImpl implements ClientService {
 
   //고객기업 수정
   	@Override
-  	public void update(ClientDTO ClientDTO) {
+  	public int update(ClientDTO ClientDTO) {
+  		    int result = 0;
   	        SqlSession session = null;
   	        try {
   	            session = MySqlSessionFactory.openSession();
   	            //DAO 연동코드
-  	            dao.update(session, ClientDTO);
+  	            result = dao.update(session, ClientDTO);
   	            session.commit();
   	        }finally {
+  	        	if(session != null)
   	            session.close();
   	        }
-  		
+  		return result;
   	}
   	
     //고객기업 저장
