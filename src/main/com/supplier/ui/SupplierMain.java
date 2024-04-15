@@ -162,30 +162,44 @@ public class SupplierMain extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 
 				String text1 = insert_company_name.getText();
 				String text2 = insert_company_category.getText();
 				String text3 = insert_income.getText();
 				String text4 = insert_address.getText();
-
-				Supplier sup = new Supplier();
-
-				sup.setCompany_name(text1);
-				sup.setCompany_category(text2);
-				sup.setIncome(Integer.parseInt(text3));
-				sup.setAddress(text4);
-
-				SupplierService service = new SupplierServiceImpl();
-				service.setSup(new SupplierDAO());
-				service.insert(sup);
-
-				insert_company_name.setText("");
-				insert_company_category.setText("");
-				insert_income.setText("");
-				insert_address.setText("");
-
-				DisplaySupllierData();
-
+				
+				boolean isNumeric = true;
+				for (char c : text3.toCharArray()) {
+					if (!Character.isDigit(c)) {
+						isNumeric = false;
+						break;
+					}
+				}
+				
+				if(isNumeric&&!text3.equals("")) {
+				
+					Supplier supplier = new Supplier();
+	
+					supplier.setCompany_name(text1);
+					supplier.setCompany_category(text2);
+					supplier.setIncome(Integer.parseInt(text3));
+					supplier.setAddress(text4);
+	
+					SupplierService service = new SupplierServiceImpl();
+					service.setSup(new SupplierDAO());
+					service.insert(supplier);
+	
+					insert_company_name.setText("");
+					insert_company_category.setText("");
+					insert_income.setText("");
+					insert_address.setText("");
+	
+					DisplaySupllierData();
+				}else {
+					JOptionPane.showMessageDialog(null, "거래액에는 숫자만 입력 가능합니다.");
+					insert_income.setText("");
+				}
 			}
 		});
 
@@ -324,10 +338,10 @@ public class SupplierMain extends JFrame {
 					String address = model.getValueAt(selectedRow, 4).toString();
 
 					// 선택된 행의 정보를 가지고 Supllier 객체 생성
-					Supplier sup = new Supplier(id, company_name, company_category, income, address);
+					Supplier supplier = new Supplier(id, company_name, company_category, income, address);
 
 					// SupllierUpdate 창을 열고, 생성된 Supllier 객체를 전달
-					new SupplierUpdate(sup);
+					new SupplierUpdate(supplier);
 
 				} else {
 					JOptionPane.showMessageDialog(null, "수정 할 항목을 선택하세요.");
@@ -402,18 +416,18 @@ public class SupplierMain extends JFrame {
 		SupplierService service = new SupplierServiceImpl();
 		service.setSup(new SupplierDAO());
 		
-		Supplier sup = new Supplier();
+		Supplier supplier = new Supplier();
 		if(!top_company_name.getText().equals("")) {
-			sup.setCompany_name(top_company_name.getText());
+			supplier.setCompany_name(top_company_name.getText());
 		}
 		if(!top_company_category.getText().equals("")) {
-			sup.setCompany_category(top_company_category.getText());
+			supplier.setCompany_category(top_company_category.getText());
 		}
 		if(!top_address.getText().equals("")) {
-			sup.setAddress(top_address.getText());
+			supplier.setAddress(top_address.getText());
 		}
 		
-		List<Supplier> list = service.supplierFindAll(sup);
+		List<Supplier> list = service.supplierFindAll(supplier);
 
 		DefaultTableModel model = new DefaultTableModel();
 
@@ -423,10 +437,15 @@ public class SupplierMain extends JFrame {
 		model.addColumn("Income");
 		model.addColumn("Address");
 
-		for (Supplier supplier : list) {
-			model.addRow(new Object[] { supplier.getId(), supplier.getCompany_name(), supplier.getCompany_category(),
-					supplier.getIncome(), supplier.getAddress() });
+		for (Supplier supplierList : list) {
+			model.addRow(new Object[] { supplierList.getId(), supplierList.getCompany_name(), supplierList.getCompany_category(),
+					supplierList.getIncome(), supplierList.getAddress() });
 		}
 		table.setModel(model);
+		table.getColumn("ID").setPreferredWidth(40);
+		table.getColumn("Company Name").setPreferredWidth(110);
+		table.getColumn("Category").setPreferredWidth(300);
+		table.getColumn("Income").setPreferredWidth(100);
+		table.getColumn("Address").setPreferredWidth(400);
 	}
 }

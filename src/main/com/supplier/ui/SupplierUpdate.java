@@ -10,6 +10,7 @@ import main.com.supplier.service.SupplierServiceImpl;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -108,14 +109,28 @@ public class SupplierUpdate extends JFrame {
 				SupplierService service = new SupplierServiceImpl();
 				service.setSup(new SupplierDAO());
 				
-				supplier.setCompany_name(company_name.getText());
-				supplier.setCompany_category(company_category.getText());
-				supplier.setIncome(Integer.parseInt(income.getText()));
-				supplier.setAddress(address.getText());
+				boolean isNumeric = true;
+				for (char c : income.getText().toCharArray()) {
+					if (!Character.isDigit(c)) {
+						isNumeric = false;
+						break;
+					}
+				}
 				
-				service.update(supplier);
-							
-				dispose();
+				if(isNumeric&&!income.getText().equals("")) {
+				
+					supplier.setCompany_name(company_name.getText());
+					supplier.setCompany_category(company_category.getText());
+					supplier.setIncome(Integer.parseInt(income.getText()));
+					supplier.setAddress(address.getText());
+					
+					service.update(supplier);
+								
+					dispose();
+				}else {
+					JOptionPane.showMessageDialog(null, "거래액에는 숫자만 입력 가능합니다.");
+					income.setText("");
+				}
 			}
 			
 			
