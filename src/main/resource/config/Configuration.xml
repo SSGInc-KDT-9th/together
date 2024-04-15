@@ -15,6 +15,8 @@
         <typeAlias type="main.com.product.response.ProductInfo" alias="ProductInfo"/>
         <typeAlias type="main.com.product.domain.Category" alias="Category"/>
         <typeAlias type="main.com.member.domain.Member" alias="Member"/>
+        <typeAlias type="main.com.store.dto.StoreDTO" alias="Store"/>
+        <typeAlias type="main.com.product.domain.Stock" alias="Stock"/>
     </typeAliases>
     <typeHandlers>
         <typeHandler handler="org.apache.ibatis.type.EnumTypeHandler" javaType="main.com.member.domain.MemberRole"/>
@@ -40,6 +42,7 @@
         <mapper resource="main/resource/mapper/ProductMapper.xml"/>
         <mapper resource="main/resource/mapper/CategoryMapper.xml"/>
         <mapper resource="main/resource/mapper/MemberMapper.xml"/>
+        <mapper resource="main/resource/mapper/StoreMapper.xml"/>
+        <mapper resource="main/resource/mapper/StockMapper.xml"/>
     </mappers>
 </configuration>
-
