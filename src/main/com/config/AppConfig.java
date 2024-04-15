@@ -14,6 +14,7 @@ import main.com.supplier.repository.SupplierDAO;
 import main.com.supplier.service.SupplierService;
 import main.com.supplier.service.SupplierServiceImpl;
 
+
 public class AppConfig {
     public ProductRepository productRepository(){
         return new MySqlProductRepository();
