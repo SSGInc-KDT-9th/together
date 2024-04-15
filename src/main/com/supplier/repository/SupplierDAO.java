@@ -1,7 +1,8 @@
-package main.com.supplier.domain;
+package main.com.supplier.repository;
 
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
+import main.com.supplier.domain.Supplier;
 
 public class SupplierDAO {
 

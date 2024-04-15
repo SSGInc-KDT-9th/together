@@ -18,6 +18,7 @@ public class ClientDAO {
         return list;
     }
 
+    
     //고객기업 id를 통한 삭제
     public int removeByid(SqlSession session, int id) {
         return session.delete("main.resource.mapper.ClientMapper.removeByid", id);

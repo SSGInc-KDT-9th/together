@@ -10,9 +10,9 @@ import main.com.product.service.CategoryService;
 import main.com.product.service.CategoryServiceImpl;
 import main.com.product.service.ProductService;
 import main.com.product.service.ProductServiceImpl;
-import main.com.supplier.domain.SupplierDAO;
-import main.com.supplier.repository.SupplierService;
-import main.com.supplier.repository.SupplierServiceImpl;
+import main.com.supplier.repository.SupplierDAO;
+import main.com.supplier.service.SupplierService;
+import main.com.supplier.service.SupplierServiceImpl;
 
 public class AppConfig {
     public ProductRepository productRepository(){

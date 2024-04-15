@@ -28,14 +28,14 @@ public class ClientMainTest {
                  for (ClientDTO e : list) {
 	               System.out.println(e);
                     }
-			}else if("2".equals(num)) {
+			}
+			else if("2".equals(num)) {
 				
 				System.out.println("삭제할 기업id를 입력하세요.");
 				String id = scan.next();
                 int n = service.removeByid(Integer.parseInt(id));
                 System.out.println(n+" 개가 삭제됨.");
 			        
-				
 			}else if("0".equals(num)) {
 				System.out.println("프로그램 종료됨.");
 				System.exit(0);
