@@ -8,6 +8,8 @@ public class OrderDTO {
 	int order_cnt;
 	int client_id;
 	
+	
+	
 	public OrderDTO() {
 		super();
 		// TODO Auto-generated constructor stub
