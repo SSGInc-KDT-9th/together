@@ -9,4 +9,5 @@ public interface StockService {
     void delete(Long id);
     void delete(String productName);
     void editStore(Long id, StockEdit stockEdit);
+    void editRelease(Long id, StockEdit stockEdit);
 }

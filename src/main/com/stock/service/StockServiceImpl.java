@@ -37,15 +37,27 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public void editStore(Long id, StockEdit stockEdit) {
-        Stock stock = stockRepository.findByProductId(id);
+    public void editStore(Long productId, StockEdit stockEdit) {
+        Stock stock = stockRepository.findByProductId(productId);
         StockEdit.StockEditBuilder editorBuilder = stock.toEditor();
-        int currentTotalPrice = stock.getStorePrice()*stock.getInventory();
-        int addTotalPrice = stockEdit.getStorePrice()*stockEdit.getInventory();
-        int meanPrice = (currentTotalPrice+addTotalPrice)/(stock.getInventory()+ stockEdit.getInventory());
+
 
         StockEdit stockEditor = editorBuilder.inventory(stockEdit.getInventory())
-                .storePrice(meanPrice)
+                .storePrice(stockEdit.getStorePrice())
+                .sellingPrice(stockEdit.getStorePrice()*2)
+                .build();
+
+        stock.edit(stockEditor);
+        stockRepository.update(stock);
+    }
+
+    @Override
+    public void editRelease(Long productId, StockEdit stockEdit) {
+        Stock stock = stockRepository.findByProductId(productId);
+        StockEdit.StockEditBuilder editorBuilder = stock.toEditor();
+
+        StockEdit stockEditor = editorBuilder
+                .inventory(stockEdit.getInventory())
                 .build();
 
         stock.edit(stockEditor);
