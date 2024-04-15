@@ -28,9 +28,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.JTextArea;
 
-public class SupplierMain extends JFrame {
-
-	private JPanel contentPane;
+public class SupplierMain extends JPanel {
+	
 	private JButton FindAllBtn;
 	private JButton insertBtn;
 	private JButton deleteBtn;
@@ -69,17 +68,12 @@ public class SupplierMain extends JFrame {
 	}
 
 	public SupplierMain() {
-		setTitle("납품기업관리");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1280, 720);
-		contentPane = new JPanel();
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		
+		setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 114, 950, 550);
-		contentPane.add(scrollPane);
+		scrollPane.setBounds(12, 54, 950, 550);
+		add(scrollPane);
 
 		// 테이블 생성
 		table = new JTable();
@@ -88,8 +82,8 @@ public class SupplierMain extends JFrame {
 		insertPanel = new JPanel();
 		insertPanel.setToolTipText("");
 		insertPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uC5C5\uCCB4\uCD94\uAC00", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		insertPanel.setBounds(974, 417, 278, 250);
-		contentPane.add(insertPanel);
+		insertPanel.setBounds(974, 357, 278, 250);
+		add(insertPanel);
 		insertPanel.setLayout(null);
 		
 //		insert
@@ -207,8 +201,8 @@ public class SupplierMain extends JFrame {
 		updatePanel.setForeground(new Color(0, 0, 0));
 		updatePanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uC218\uC815 \uBC0F \uC0AD\uC81C", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		updatePanel.setToolTipText("");
-		updatePanel.setBounds(974, 108, 280, 250);
-		contentPane.add(updatePanel);
+		updatePanel.setBounds(974, 48, 280, 250);
+		add(updatePanel);
 		updatePanel.setLayout(null);
 
 		JLabel lblNewLabel_8_3 = new JLabel("기업명");
@@ -267,8 +261,8 @@ public class SupplierMain extends JFrame {
 		updatePanel.add(side_address);
 
 		seachPanel = new JPanel();
-		seachPanel.setBounds(12, 65, 950, 40);
-		contentPane.add(seachPanel);
+		seachPanel.setBounds(12, 5, 950, 40);
+		add(seachPanel);
 		seachPanel.setLayout(null);
 
 		JLabel lblNewLabel_8 = new JLabel("기업명");
