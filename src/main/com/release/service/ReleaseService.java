@@ -14,4 +14,5 @@ public interface ReleaseService {
 	public List<ReleaseDTO> noselect(int id);
 	public List<ReleaseDTO> statuselect(String status);
 	public int releasedelete(long releaseid);
+	public List<ReleaseDTO> findall();
 }
