@@ -16,7 +16,7 @@
         <typeAlias type="main.com.product.domain.Category" alias="Category"/>
         <typeAlias type="main.com.member.domain.Member" alias="Member"/>
         <typeAlias type="main.com.store.dto.StoreDTO" alias="Store"/>
-        <typeAlias type="main.com.product.domain.Stock" alias="Stock"/>
+        <typeAlias type="main.com.stock.domain.Stock" alias="Stock"/>
     </typeAliases>
     <typeHandlers>
         <typeHandler handler="org.apache.ibatis.type.EnumTypeHandler" javaType="main.com.member.domain.MemberRole"/>
