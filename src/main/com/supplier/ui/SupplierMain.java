@@ -53,7 +53,7 @@ public class SupplierMain extends JPanel {
 	private JPanel seachPanel;
 	private JPanel insertPanel;
 	private JPanel updatePanel;
-
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -138,7 +138,7 @@ public class SupplierMain extends JPanel {
 		insert_address.setLineWrap(true);
 		insert_address.setBounds(116, 118, 150, 82);
 		insertPanel.add(insert_address);
-
+		
 		resetBtn.addActionListener(new ActionListener() {
 
 			@Override
@@ -189,7 +189,7 @@ public class SupplierMain extends JPanel {
 					insert_income.setText("");
 					insert_address.setText("");
 	
-					DisplaySupllierData();
+					displaySupllierData();
 				}else {
 					JOptionPane.showMessageDialog(null, "거래액에는 숫자만 입력 가능합니다.");
 					insert_income.setText("");
@@ -312,16 +312,16 @@ public class SupplierMain extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				DisplaySupllierData();
+				displaySupllierData();
 
 			}
 		});
 		
 		
-
 		updateBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				int selectedRow = table.getSelectedRow();
 				if (selectedRow != -1) {
 					DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -335,8 +335,9 @@ public class SupplierMain extends JPanel {
 					Supplier supplier = new Supplier(id, company_name, company_category, income, address);
 
 					// SupllierUpdate 창을 열고, 생성된 Supllier 객체를 전달
-					new SupplierUpdate(supplier);
-
+//					new SupplierUpdate(supplier);
+//					매개변수에 .this의 의미가 뭔지 알아볼것.
+					new SupplierUpdate(supplier, SupplierMain.this);
 				} else {
 					JOptionPane.showMessageDialog(null, "수정 할 항목을 선택하세요.");
 				}
@@ -346,6 +347,7 @@ public class SupplierMain extends JPanel {
 		deleteBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				boolean updateYN = false;
 				int selectedRow = table.getSelectedRow();
 				if (selectedRow != -1) {
 					DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -358,8 +360,11 @@ public class SupplierMain extends JPanel {
 						service.delete(id);
 					}
 					// DB에서 조회하지 않고 테이블에서 보이는 행만 삭제할지 그냥 통으로 조회를 다시할지 결정할것.
-					DisplaySupllierData();
+					displaySupllierData();
 //		            model.removeRow(selectedRow);
+					if(updateYN) {
+						displaySupllierData();
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "삭제 할 항목을 선택하세요.");
 				}
@@ -402,11 +407,10 @@ public class SupplierMain extends JPanel {
 				
 			}
 		});
-
 	}
 
 //	전체 조회기능은 재활용 가능하게 따로 구현.
-	public void DisplaySupllierData() {
+	public void displaySupllierData() {
 		SupplierService service = new SupplierServiceImpl();
 		service.setSup(new SupplierDAO());
 		

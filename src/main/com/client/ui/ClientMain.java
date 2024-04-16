@@ -28,8 +28,9 @@ import main.com.client.service.ClientService;
 import main.com.client.service.ClientServiceImpl;
 
 
+
 public class ClientMain extends JPanel {
-	
+
 	private JPanel contentPane;
 	private JTextField selectid;
 	private JTextField selectCompanyName;
@@ -46,7 +47,7 @@ public class ClientMain extends JPanel {
 	private JComboBox tfcategory_1;
 	private JButton btnresetAll;
 	String[] ClientCategory = { "백화점", "대형마트","편의점","슈퍼마켓","무인판매점" };
-	
+
 	/**
 	 * Launch the application.
 	 */
@@ -67,7 +68,6 @@ public class ClientMain extends JPanel {
 	 * 프레임
 	 */
 	public ClientMain() {
-		
 		setLayout(null);
 		
 		
@@ -459,55 +459,62 @@ public class ClientMain extends JPanel {
 			}
 		});//end
          
-         //등록 버튼 이벤트 처리
          btnsave.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String id = tfid.getText();
-		        String company_name = tfcompanyName.getText();
-		        String category = (String) tfcategory.getSelectedItem();
-		        String income = tfincome.getText();
-		        String address = tfaddress.getText();
-				
-		        ClientService service = new ClientServiceImpl();
-		        service.setDao(new ClientDAO());
-		        
-		        ClientDTO dto = new ClientDTO();
-		        dto.setId(Integer.parseInt(id));
-		        dto.setCompany_name(company_name);
-		        dto.setCategory(category);
-		        dto.setIncome(Integer.parseInt(income));
-		        dto.setAddress(address);
-		        
-				int n = service.insert(dto);
-				
-				 if (n > 0) {
-			            JOptionPane.showMessageDialog(null, "등록되었습니다.", "성공", JOptionPane.INFORMATION_MESSAGE);
+        	    @Override
+        	    public void actionPerformed(ActionEvent e) {
+        	        String id = tfid.getText();
+        	        String company_name = tfcompanyName.getText();
+        	        String category = (String) tfcategory.getSelectedItem();
+        	        String income = tfincome.getText();
+        	        String address = tfaddress.getText();
+        	        
+        	        ClientService service = new ClientServiceImpl();
+        	        service.setDao(new ClientDAO());
+        	        
+        	        ClientDTO dto = new ClientDTO();
+        	        
+        	        // tfid가 비어 있는 경우에는 id 컬럼을 null로 설정하지 않음
+        	        if (!id.isEmpty()) {
+        	            try {
+        	                dto.setId(Integer.parseInt(id));
+        	            } catch (NumberFormatException ex) {
+        	                JOptionPane.showMessageDialog(null, "숫자로 입력하시오.", "오류", JOptionPane.ERROR_MESSAGE);
+        	                return;
+        	            }
+        	        }
+        	        
+        	        dto.setCompany_name(company_name);
+        	        dto.setCategory(category);
+        	        dto.setIncome(Integer.parseInt(income));
+        	        dto.setAddress(address);
+        	        
+        	        int n = service.insert(dto);
+        	        
+        	        if (n > 0) {
+        	            JOptionPane.showMessageDialog(null, "등록되었습니다.", "성공", JOptionPane.INFORMATION_MESSAGE);
 
-			            DefaultTableModel model = (DefaultTableModel) table.getModel();
-			            Object[] rowData = {
-			            		dto.getId(),
-			            		dto.getCompany_name(),
-			            		dto.getCategory(),
-			            		dto.getIncome(),
-			            		dto.getAddress()
-			            };
-			            model.addRow(rowData);
-			            
-			         // 실행 완료 후 입력 필드 초기화
-			            tfid.setText("");
-			            tfcompanyName.setText("");
-			            tfcategory.setSelectedIndex(0);
-			            tfincome.setText("");
-			            tfaddress.setText("");
-				 }
-				
-			}
-		});//end
-		
+        	            DefaultTableModel model = (DefaultTableModel) table.getModel();
+        	            Object[] rowData = {
+        	                dto.getId(),
+        	                dto.getCompany_name(),
+        	                dto.getCategory(),
+        	                dto.getIncome(),
+        	                dto.getAddress()
+        	            };
+        	            model.addRow(rowData);
+        	            
+        	            // 실행 완료 후 입력 필드 초기화
+        	            tfid.setText("");
+        	            tfcompanyName.setText("");
+        	            tfcategory.setSelectedIndex(0);
+        	            tfincome.setText("");
+        	            tfaddress.setText("");
+        	        }
+        	    }
+        	});//end
 		
 		
 		
 	}
+
 }

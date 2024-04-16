@@ -375,8 +375,9 @@ public class ReleaseMain extends JFrame {
                  if (option == JOptionPane.YES_OPTION) {
                 	 
                 	 String icecream = (String) table_1.getValueAt(table_1.getSelectedRow(), 2);
+                	 int ordid = (int) table_1.getValueAt(table_1.getSelectedRow(), 0);
                     // 새로운 창을 생성하여 표시
-                    updateorderFrame uo = new updateorderFrame(icecream);
+                    updateorderFrame uo = new updateorderFrame(icecream, ordid);
                     uo.setVisible(true);
                     
                    
