@@ -466,6 +466,10 @@ public class ProductApp extends JFrame {
 		deleteButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				int confirmation = JOptionPane.showConfirmDialog(null, "선택한 아이템을 삭제하시겠습니까?", "상품 삭제", JOptionPane.YES_NO_OPTION);
+				if(confirmation==JOptionPane.NO_OPTION){
+					return;
+				}
 				int[] selectedRows = table.getSelectedRows();
 				List<ProductInfo> deletedProducts = IntStream.range(0, table.getRowCount()) // Stream of row indices
 						.filter(row -> (boolean) table.getValueAt(row, 0)) // Filter to keep only selected rows
