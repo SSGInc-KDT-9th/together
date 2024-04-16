@@ -74,6 +74,10 @@ public class ReleaseTest extends JFrame {
       });
    }
 
+   public JPanel getReleasePanel() {
+		return contentPane;
+	}
+   
    /**
     * Create the frame.
     */
