@@ -48,7 +48,15 @@
   <!-- 주문 수정-->
   <update id="updateorder" parameterType="OrderDTO">
   update `order` set product_id=#{product_id}, order_cnt=#{order_cnt}
+  where id = #{id}
   </update>
+  
+  
+  
+  <!-- 주문 아이디 찾기-->
+  <select id="orderid" parameterType="int" resultType="int">
+  select id from `order` where product_id=#{product_id}
+  </select>
   
   
 </mapper>
