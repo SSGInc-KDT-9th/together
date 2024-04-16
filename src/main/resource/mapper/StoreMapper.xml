@@ -9,15 +9,15 @@
         FROM store
     </select>
     
-    <select id="findStore" resultType="Store">
+    <select id="findStore" parameterType="Store" resultType="Store">
         SELECT s.id,s.product_id,member_id,DATE_FORMAT(store_date, '%y-%m-%d') store_date,store_count,status,store_price
         FROM store s JOIN product p ON s.product_id = p.id
 		<where>
         	<if test="id != null and id !=''">
         		AND s.id = #{id}
         	</if>       	
-        	<if test="productName != null and productName !=''">
-        		AND p.product_name LIKE CONCAT('%', #{productName}, '%')
+        	<if test="product_id != null and product_id !=''">
+        		AND s.product_id = #{product_id}
         	</if>  
         </where>     
     </select>

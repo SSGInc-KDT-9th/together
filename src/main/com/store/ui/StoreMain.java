@@ -9,7 +9,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import main.com.config.AppConfig;
 import main.com.config.Session;
+import main.com.product.domain.Product;
+import main.com.product.service.ProductService;
 import main.com.store.dao.StoreDAO;
 import main.com.store.dto.StoreDTO;
 import main.com.store.service.StoreService;
@@ -23,6 +26,7 @@ import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
@@ -34,8 +38,8 @@ import javax.swing.JComboBox;
 import javax.swing.JTable;
 
 public class StoreMain extends JFrame {
-
 	private JPanel contentPane;
+	private ProductService productService;
 	private JTextField textField_id;
 	private JTextField textField_productId;
 	private JTextField textField_storeDate;
@@ -92,7 +96,10 @@ public class StoreMain extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
+		AppConfig appConfig =new AppConfig();
+		productService = appConfig.productService();
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(48, 117, 833, 556);
 		contentPane.add(scrollPane);
@@ -365,26 +372,6 @@ public class StoreMain extends JFrame {
 					};
 					model.addRow(rowData);
 				}
-
-//				if (n>0) {
-//					DefaultTableModel model = (DefaultTableModel)table.getModel();
-//					Object[] rowData = {
-//							dto.getId(),
-//							dto.getProduct_id(),
-//							dto.getMember_id(),
-//							dto.getStore_date(),
-//							dto.getStore_count(),
-//							dto.getStatus(),
-//							dto.getStore_price()
-//					};
-//					model.addRow(rowData);
-//
-//					textField_productId.setText("");
-//					textField_storeDate.setText("");
-//					textField_storeCnt.setText("");
-//					textField_storeStatus.setSelectedItem(StoreStatus[0]);
-//					textField_storePrice.setText("");
-//				}
 			}
 		});//end
 		
@@ -465,71 +452,41 @@ public class StoreMain extends JFrame {
 			}
 		});//end
 		
-//		//입고번호 조회 버튼 이벤트 처리
-//		btnFind.addActionListener(new ActionListener() {
-//			
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				String id = textField_id.getText();
-//				
-//				if(!id.isEmpty()) {
-//					StoreService service = new StoreServiceImpl();
-//					service.setDao(new StoreDAO());
-//					
-//					StoreDTO store = service.findById(Long.parseLong(id));
-//					if(store != null) {
-//						DefaultTableModel model = (DefaultTableModel)table.getModel();
-//						model.setRowCount(0);
-//							
-//						Object[] rowData = {
-//								store.getId(),
-//								store.getProduct_id(),
-//								store.getMember_id(),
-//								store.getStore_date(),
-//								store.getStore_count(),
-//								store.getStatus(),
-//								store.getStore_price()
-//						};
-//						model.addRow(rowData);
-//					}else {
-//		                JOptionPane.showMessageDialog(null, "존재하지 않는 입고정보입니다.", "오류", JOptionPane.ERROR_MESSAGE);
-//		            }
-//				}else {
-//		            System.out.println("입고번호를 입력하세요.");
-//		        }
-//				
-//			}
-//		});//end
-		
 		//상품명 조회 버튼 이벤트 처리
 		btnFind.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String id = textField_id.getText();
-				String productName = textField_productId.getText();
+				String productName = textField_productName.getText();
+				Product product = productService.get(productName);
 
-					StoreService service = new StoreServiceImpl();
-					service.setDao(new StoreDAO());
-					
-					StoreDTO storeDTO = new StoreDTO();
-					List<StoreDTO> list = service.findStore(storeDTO);
+				StoreService service = new StoreServiceImpl();
+				service.setDao(new StoreDAO());
 
-						DefaultTableModel model = (DefaultTableModel)table.getModel();
-						model.setRowCount(0);
-							
-						for (StoreDTO store : list) {
-							Object[] rowData = {
-									store.getId(),
-									store.getProduct_id(),
-									store.getMember_id(),
-									store.getStore_date(),
-									store.getStore_count(),
-									store.getStatus(),
-									store.getStore_price()
-							};
-							model.addRow(rowData);
-						}
-			
+				StoreDTO storeDTO = new StoreDTO();
+				if(product!=null){
+					storeDTO.setProduct_id(product.getId());
+				}
+				if(!id.isEmpty()){
+					storeDTO.setId(Long.parseLong(id));
+				}
+				List<StoreDTO> list = service.findStore(storeDTO);
+
+				DefaultTableModel model = (DefaultTableModel)table.getModel();
+				model.setRowCount(0);
+
+				for (StoreDTO store : list) {
+					Object[] rowData = {
+							store.getId(),
+							store.getProduct_id(),
+							store.getMember_id(),
+							store.getStore_date(),
+							store.getStore_count(),
+							store.getStatus(),
+							store.getStore_price()
+					};
+					model.addRow(rowData);
+				}
 			}
 		});//end
 		
