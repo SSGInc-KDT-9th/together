@@ -45,7 +45,7 @@ public class ClientMain extends JPanel {
 	private JButton btnreset;
 	private JComboBox tfcategory_1;
 	private JButton btnresetAll;
-	String[] ClientCategory = { "백화점", "대형마트","편의점","슈퍼마켓","무인매장" };
+	String[] ClientCategory = { "백화점", "대형마트","편의점","슈퍼마켓","무인판매점" };
 	
 	/**
 	 * Launch the application.
@@ -302,7 +302,7 @@ public class ClientMain extends JPanel {
 		                };
 		                model.addRow(rowData);
 		            } else {
-		                JOptionPane.showMessageDialog(null, "해당 ID에 대한 데이터를 찾을 수 없습니다.", "오류", JOptionPane.ERROR_MESSAGE);
+		                JOptionPane.showMessageDialog(null, "데이터를 찾을 수 없습니다.", "오류", JOptionPane.ERROR_MESSAGE);
 		            }
 		        } else {
 		            System.out.println("ID를 입력해주세요.");
@@ -391,7 +391,7 @@ public class ClientMain extends JPanel {
 		        int result = service.update(updatedClient);
 
 		        if (result > 0) {
-		            JOptionPane.showMessageDialog(null, "정상적으로 수정되었습니다.", "성공", JOptionPane.INFORMATION_MESSAGE);
+		            JOptionPane.showMessageDialog(null, "수정되었습니다.", "성공", JOptionPane.INFORMATION_MESSAGE);
 		            DefaultTableModel model = (DefaultTableModel) table.getModel();
 		            model.setValueAt(companyName, selectedRow, 1);
 		            model.setValueAt(category, selectedRow, 2);
@@ -407,7 +407,7 @@ public class ClientMain extends JPanel {
 		btnFind.addActionListener(new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
-		        String selectedCategory = (String) tfcategory.getSelectedItem();
+		        String selectedCategory = (String) tfcategory_1.getSelectedItem();
 
 		        ClientService service = new ClientServiceImpl();
 		        service.setDao(new ClientDAO());
@@ -415,7 +415,7 @@ public class ClientMain extends JPanel {
 		        List<ClientDTO> clients = service.findByCategory(selectedCategory);
 		        if (!clients.isEmpty()) {
 		            DefaultTableModel model = (DefaultTableModel) table.getModel();
-		            model.setRowCount(0); 
+		            model.setRowCount(0);
 
 		            for (ClientDTO client : clients) {
 		                Object[] rowData = {
@@ -427,9 +427,11 @@ public class ClientMain extends JPanel {
 		                };
 		                model.addRow(rowData);
 		            }
-		        } 
+		        } else {
+		            JOptionPane.showMessageDialog(null, "해당되는 기업 정보가 없습니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
+		        }
 		    }
-		});//end
+		});
 		
 		//id 입력시 해당 기업 삭제 버튼 이벤트 처리
          btndelete.addActionListener(new ActionListener() {
@@ -483,7 +485,6 @@ public class ClientMain extends JPanel {
 				 if (n > 0) {
 			            JOptionPane.showMessageDialog(null, "등록되었습니다.", "성공", JOptionPane.INFORMATION_MESSAGE);
 
-			            // 등록된 기업 정보를 테이블에 추가
 			            DefaultTableModel model = (DefaultTableModel) table.getModel();
 			            Object[] rowData = {
 			            		dto.getId(),
