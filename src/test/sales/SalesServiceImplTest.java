@@ -22,7 +22,7 @@ class SalesServiceImplTest {
         //given
         String productName = "";
         //when
-        List<ProductSalesInfo> productSales = salesService.getProductSales(productName, null, null);
+        List<ProductSalesInfo> productSales = salesService.getProductSales(null,productName, null, null);
         //then
         Assertions.assertNotNull(productSales);
     }
@@ -33,7 +33,7 @@ class SalesServiceImplTest {
         //given
         String clientName = "청운슈퍼";
         //when
-        List<ClientSalesInfo> clientSales = salesService.getClientSales(clientName, null, null);
+        List<ClientSalesInfo> clientSales = salesService.getClientSales(null,clientName, null, null);
         //then
         Assertions.assertNotNull(clientSales);
     }
