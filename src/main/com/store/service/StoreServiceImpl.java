@@ -64,7 +64,7 @@ public class StoreServiceImpl implements StoreService{
 	}
 
 	@Override
-	public int delete(int id) {
+	public int delete(long id) {
 	       int n = 0;
 	        SqlSession session = null;
 	        try {
@@ -77,4 +77,34 @@ public class StoreServiceImpl implements StoreService{
 	        }
 	        return n;
 	}
+
+	@Override
+	public StoreDTO findById(long id) {
+		StoreDTO store = null;
+		SqlSession session = null;
+		try {
+		  session = MySqlSessionFactory.openSession();
+		  store = dao.findById(session, id);
+		}finally{
+			session.rollback();
+			session.close();
+		}
+		return store;
+
+	}
+
+	@Override
+	public List<StoreDTO> findByProductName(String productName) {
+		List<StoreDTO> list = null;
+		SqlSession session = null;
+		try {
+		  session = MySqlSessionFactory.openSession();
+		  list = dao.findByProductName(session,productName);
+		}finally{
+			session.rollback();
+			session.close();
+		}
+		return list;
+	}
+
 }

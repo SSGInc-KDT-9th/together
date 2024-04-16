@@ -5,16 +5,22 @@
 
 <mapper namespace="main.resource.mapper.StoreMapper">
     <select id="findAll" resultType="Store">
-        SELECT id,product_id,member_id,store_date,store_count,status,store_price
+        SELECT id,product_id,member_id,DATE_FORMAT(store_date, '%y-%m-%d') store_date,store_count,status,store_price
         FROM store
     </select>
 
-<!--    <select id="findByStoreId" parameterType="long" resultType="Store">
-        SELECT id,product_id,member_id,store_date,store_count,status,store_price
+    <select id="findById" parameterType="long" resultType="Store">
+        SELECT id,product_id,member_id,DATE_FORMAT(store_date, '%y-%m-%d') store_date,store_count,status,store_price
         FROM store
         WHERE id = #{id}
     </select>
--->
+    
+    <select id="findByProductName" parameterType="String" resultType="Store">
+        SELECT s.id,s.product_id,member_id,DATE_FORMAT(store_date, '%y-%m-%d') store_date,store_count,status,store_price
+        FROM store s JOIN product p ON s.product_id = p.id
+        WHERE p.product_name LIKE CONCAT('%', #{productName}, '%')
+    </select>
+
    <insert id="insert" parameterType="Store">
        INSERT INTO store (product_id, store_date, store_count, status, store_price)
        VALUES (#{product_id},#{store_date},#{store_count},#{status},#{store_price})
@@ -28,7 +34,7 @@
         WHERE id = #{id}
     </update>
 
-    <delete id="delete" parameterType="Store">
+    <delete id="delete" parameterType="long">
         DELETE FROM store
         WHERE id = #{id}
     </delete>
