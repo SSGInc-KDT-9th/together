@@ -29,7 +29,7 @@ import main.com.client.service.ClientServiceImpl;
 
 
 
-public class ClientMain extends JFrame {
+public class ClientMain extends JPanel {
 
 	private JPanel contentPane;
 	private JTextField selectid;
