@@ -1,4 +1,4 @@
-package test;
+package test.sales;
 
 import main.com.sales.dto.ClientSales;
 import main.com.sales.dto.ProductSales;
