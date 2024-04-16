@@ -26,12 +26,14 @@ import main.com.release.service.ReleaseServiceImpl;
 public class updateorderFrame extends JFrame {
     private JTextField textField;
     private JTextField textField_1;
-    private String icecream;
     private JLabel lblNewLabel_2;
+    private String icecream;
+    private int ordid;
 
-    public updateorderFrame(String icecream) {
+    public updateorderFrame(String icecream, int ordid) {
         this.icecream = icecream;
-
+        this.ordid = ordid;
+        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 508, 500);
 
@@ -88,11 +90,11 @@ public class updateorderFrame extends JFrame {
                 String cnt = textField_1.getText();
                 int itemcnt = Integer.parseInt(cnt);
                 // itemcnt, productId ,orderid넘겨주기
-                int orderid = orderService.orderid(productId);
+//                int orderid = orderService.orderid(productId);
                 OrderDTO dto = new OrderDTO();
                 dto.setOrder_cnt(itemcnt);
                 dto.setProduct_id(productId);
-                dto.setId(orderid);
+                dto.setId(ordid);
                 // 주문 업데이트
                 OrderService rs = new OrderServiceImpl();
                 rs.setDao(new OrderDAO());
