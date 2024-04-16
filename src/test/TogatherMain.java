@@ -16,7 +16,10 @@ import javax.swing.JTabbedPane;
 public class TogatherMain extends JFrame {
 
 	private JPanel contentPane;
-
+	private JPanel productPanel;
+	private JPanel supplierMain;
+	private JPanel storeMain;
+	private JPanel releasePanel;
 	/**
 	 * Launch the application.
 	 */
@@ -50,18 +53,18 @@ public class TogatherMain extends JFrame {
 		contentPane.add(tabbedPane);
 		
 		ProductApp productApp = new ProductApp();
-		JPanel productPanel = productApp.getMainPanel();
+		productPanel = productApp.getMainPanel();
 		tabbedPane.addTab("제품", null, productPanel, null);
 		
-		ReleaseTest releaseTest = new ReleaseTest();
-		JPanel releasePanel = releaseTest.getReleasePanel();
-		tabbedPane.addTab("출고관리", null, releasePanel, null);
-		
-		JPanel supplierMain = new SupplierMain();
+		supplierMain = new SupplierMain();
 		tabbedPane.addTab("납품기업", null, supplierMain, null);
 		
-		JPanel storeMain = new ClientMain();
+		storeMain = new ClientMain();
 		tabbedPane.addTab("고객기업", null, storeMain, null);
+		
+		ReleaseTest releaseTest = new ReleaseTest();
+		releasePanel = releaseTest.getReleasePanel();
+		tabbedPane.addTab("출고관리", null, releasePanel, null);
 		
 	}
 }
