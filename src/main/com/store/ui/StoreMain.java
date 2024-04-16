@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import main.com.store.dao.StoreDAO;
@@ -34,7 +36,6 @@ public class StoreMain extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField_id;
-	private JComboBox textField_status;
 	private JTextField textField_productId;
 	private JTextField textField_storeDate;
 	private JTextField textField_storeCnt;
@@ -47,9 +48,11 @@ public class StoreMain extends JFrame {
 	private JTextField textField_updateStoreCnt;
 	private JComboBox textField_updateStoreStatus;
 	private JTextField textField_updateStorePrice;
+	private JTextField textField_productName;
 	
 	private JButton btnFind;
 	private JButton btnFindAll;
+	private JButton btnFindReset;
 	private JButton btnInsert;
 	private JButton btnReset;
 	private JButton btnUpdate;
@@ -108,36 +111,42 @@ public class StoreMain extends JFrame {
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("입고번호");
-		lblNewLabel.setBounds(43, 35, 83, 24);
+		lblNewLabel.setBounds(12, 35, 83, 24);
 		lblNewLabel.setFont(new Font("굴림", Font.PLAIN, 20));
 		panel.add(lblNewLabel);
 		
 		textField_id = new JTextField();
 		textField_id.setFont(new Font("굴림", Font.PLAIN, 20));
-		textField_id.setBounds(138, 31, 143, 33);
+		textField_id.setBounds(100, 31, 116, 33);
 		panel.add(textField_id);
 		textField_id.setColumns(10);
 		
-		JLabel lblNewLabel_1 = new JLabel("입고상태");
-		lblNewLabel_1.setBounds(315, 35, 91, 24);
+		JLabel lblNewLabel_1 = new JLabel("상품명");
+		lblNewLabel_1.setBounds(231, 35, 63, 24);
 		panel.add(lblNewLabel_1);
 		lblNewLabel_1.setFont(new Font("굴림", Font.PLAIN, 20));
-		
-		textField_status = new JComboBox(StoreStatus);
-		textField_status.setFont(new Font("굴림", Font.PLAIN, 20));
-		textField_status.setBounds(418, 31, 134, 33);
-		panel.add(textField_status);
 
 		
 		btnFind = new JButton("조회");
-		btnFind.setBounds(575, 31, 101, 33);
+		btnFind.setBounds(470, 31, 101, 33);
 		panel.add(btnFind);
 		btnFind.setFont(new Font("굴림", Font.PLAIN, 20));
 		
 		btnFindAll = new JButton("전체조회");
 		btnFindAll.setFont(new Font("굴림", Font.PLAIN, 20));
-		btnFindAll.setBounds(696, 31, 125, 33);
+		btnFindAll.setBounds(583, 31, 125, 33);
 		panel.add(btnFindAll);
+		
+		btnFindReset = new JButton("초기화");
+		btnFindReset.setFont(new Font("굴림", Font.PLAIN, 20));
+		btnFindReset.setBounds(720, 31, 101, 33);
+		panel.add(btnFindReset);
+		
+		textField_productName = new JTextField();
+		textField_productName.setFont(new Font("굴림", Font.PLAIN, 20));
+		textField_productName.setColumns(10);
+		textField_productName.setBounds(296, 31, 162, 33);
+		panel.add(textField_productName);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(893, 10, 361, 249);
@@ -337,22 +346,68 @@ public class StoreMain extends JFrame {
 				service.setDao(new StoreDAO());
 				
 				int n = service.insert(dto);
+
+				List<StoreDTO> list = service.findAll();
+				DefaultTableModel model = (DefaultTableModel)table.getModel();
+				model.setRowCount(0);
+
+				for (StoreDTO store : list) {
+					Object[] rowData = {
+							store.getId(),
+							store.getProduct_id(),
+							store.getMember_id(),
+							store.getStore_date(),
+							store.getStore_count(),
+							store.getStatus(),
+							store.getStore_price()
+					};
+					model.addRow(rowData);
+				}
+
+//				if (n>0) {
+//					DefaultTableModel model = (DefaultTableModel)table.getModel();
+//					Object[] rowData = {
+//							dto.getId(),
+//							dto.getProduct_id(),
+//							dto.getMember_id(),
+//							dto.getStore_date(),
+//							dto.getStore_count(),
+//							dto.getStatus(),
+//							dto.getStore_price()
+//					};
+//					model.addRow(rowData);
+//
+//					textField_productId.setText("");
+//					textField_storeDate.setText("");
+//					textField_storeCnt.setText("");
+//					textField_storeStatus.setSelectedItem(StoreStatus[0]);
+//					textField_storePrice.setText("");
+//				}
 			}
 		});//end
 		
 		//입고 수정 버튼 이벤트 처리
 		btnUpdate.addActionListener(new ActionListener() {
-					
 			@Override
 			public void actionPerformed(ActionEvent e) {
-		
+				StoreService service = new StoreServiceImpl();
+				service.setDao(new StoreDAO());
+
 				String updateId = textField_updateId.getText();
 				String updateProductId = textField_updateProductId.getText();
 				String updateStoreDate = textField_updateStoreDate.getText();
 				String updateStoreCnt = textField_updateStoreCnt.getText();
 				String updateStoreStatus = textField_updateStoreStatus.getSelectedItem().toString();
 				String updateStorePrice = textField_updateStorePrice.getText();
-				if(updateStoreStatus.equals("입고중")) {
+
+				StoreDTO store = service.findById(Long.parseLong(updateId));
+				String storeStatus = store.getStatus();
+
+				if(storeStatus.equals("입고완료")){
+					JOptionPane.showMessageDialog(null, "수정할 수 없습니다.");
+					return;
+				}
+
 				StoreDTO dto = new StoreDTO();
 				dto.setId(Long.parseLong(updateId));
 				dto.setProduct_id(Long.parseLong(updateProductId));
@@ -360,14 +415,8 @@ public class StoreMain extends JFrame {
 				dto.setStore_count(Integer.parseInt(updateStoreCnt));
 				dto.setStatus(updateStoreStatus);
 				dto.setStore_price(Integer.parseInt(updateStorePrice));
-						
-				StoreService service = new StoreServiceImpl();
-				service.setDao(new StoreDAO());
-						
+
 				int n = service.update(dto);
-				}else {
-					JOptionPane.showMessageDialog(null, "수정할 수 없습니다.");
-				}
 			}
 		});//end
 		
@@ -414,31 +463,82 @@ public class StoreMain extends JFrame {
 			}
 		});//end
 		
-		//입고 조회 버튼 이벤트 처리
-		btnFind.addActionListener(new ActionListener() {
-			
+//		//입고번호 조회 버튼 이벤트 처리
+//		btnFind.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				String id = textField_id.getText();
+//				
+//				if(!id.isEmpty()) {
+//					StoreService service = new StoreServiceImpl();
+//					service.setDao(new StoreDAO());
+//					
+//					StoreDTO store = service.findById(Long.parseLong(id));
+//					if(store != null) {
+//						DefaultTableModel model = (DefaultTableModel)table.getModel();
+//						model.setRowCount(0);
+//							
+//						Object[] rowData = {
+//								store.getId(),
+//								store.getProduct_id(),
+//								store.getMember_id(),
+//								store.getStore_date(),
+//								store.getStore_count(),
+//								store.getStatus(),
+//								store.getStore_price()
+//						};
+//						model.addRow(rowData);
+//					}else {
+//		                JOptionPane.showMessageDialog(null, "존재하지 않는 입고정보입니다.", "오류", JOptionPane.ERROR_MESSAGE);
+//		            }
+//				}else {
+//		            System.out.println("입고번호를 입력하세요.");
+//		        }
+//				
+//			}
+//		});//end
+		
+		//상품명 조회 버튼 이벤트 처리
+		btnFind.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				StoreService service = new StoreServiceImpl();
-				service.setDao(new StoreDAO());
+				String productName = textField_productId.getText();
 				
-				List<StoreDTO> list = service.findAll();
-				
-				DefaultTableModel model = (DefaultTableModel)table.getModel();
-				model.setRowCount(0);
-				
-				for (StoreDTO store : list) {
-					Object[] rowData = {
-							store.getId(),
-							store.getProduct_id(),
-							store.getMember_id(),
-							store.getStore_date(),
-							store.getStore_count(),
-							store.getStatus(),
-							store.getStore_price()
-					};
-					model.addRow(rowData);
-				}
+
+					StoreService service = new StoreServiceImpl();
+					service.setDao(new StoreDAO());
+					
+					List<StoreDTO> stores = service.findByProductName(productName);
+
+						DefaultTableModel model = (DefaultTableModel)table.getModel();
+						model.setRowCount(0);
+							
+						for (StoreDTO store : stores) {
+							Object[] rowData = {
+									store.getId(),
+									store.getProduct_id(),
+									store.getMember_id(),
+									store.getStore_date(),
+									store.getStore_count(),
+									store.getStatus(),
+									store.getStore_price()
+							};
+							model.addRow(rowData);
+						}
+			
+			}
+		});//end
+		
+		//조회 테이블 초기화 버튼 이벤트 처리
+		btnFindReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+		        model.setRowCount(0);
+		        
+		        textField_id.setText("");
+		        textField_productName.setText("");
+		        
 			}
 		});//end
 		
@@ -449,23 +549,44 @@ public class StoreMain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String id = textField_deleteId.getText();
 				
-				StoreDTO dto = new StoreDTO();
-				dto.setId(Integer.parseInt(id));
-				
 				StoreService service = new StoreServiceImpl();
-				service.setDao(new StoreDAO());
-				
+				service.setDao(new StoreDAO());				
 				int n = service.delete(Integer.parseInt(id));
-				System.out.println(n+"개가 삭제됨");
 				
+				if(n>0) {
 				 Object[] options = { "OK", "CANCEL" };
 				 JOptionPane.showOptionDialog(null, "해당 입고정보 삭제하시겠습니까?", "Warning",
 				             JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
 				             null, options, options[0]);
+				 DefaultTableModel model = (DefaultTableModel)table.getModel();
+				 for(int i = 0; i< model.getRowCount(); i++) {
+					 if(model.getValueAt(i, 0).equals(id)) {
+						 model.removeRow(i);
+						 break;
+					 }
+				 }
+				}
 			}
-		});//end		
+		});//end	
 		
-
-
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if(!e.getValueIsAdjusting()) {
+					int selectedRow = table.getSelectedRow();
+					if(selectedRow != -1) {
+					textField_updateId.setText(table.getValueAt(selectedRow, 0).toString());
+					textField_updateProductId.setText(table.getValueAt(selectedRow, 1).toString());
+					textField_updateStoreDate.setText(table.getValueAt(selectedRow, 3).toString());
+					textField_updateStoreCnt.setText(table.getValueAt(selectedRow, 4).toString());
+					textField_updateStoreStatus.setSelectedItem(table.getValueAt(selectedRow, 5));
+					textField_updateStorePrice.setText(table.getValueAt(selectedRow, 6).toString());
+					}
+				}
+			}
+		});
+	}
+	public JPanel getMainPane(){
+		return contentPane;
 	}
 }

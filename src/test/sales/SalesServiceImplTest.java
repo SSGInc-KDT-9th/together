@@ -1,4 +1,4 @@
-package test;
+package test.sales;
 
 import main.com.config.AppConfig;
 import main.com.sales.request.SalesSearch;

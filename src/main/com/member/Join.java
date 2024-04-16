@@ -1,4 +1,4 @@
-package main.com.member.ui;
+package main.com.member;
 
 import main.com.config.AppConfig;
 import main.com.member.domain.Member;

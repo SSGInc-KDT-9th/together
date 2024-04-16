@@ -9,8 +9,10 @@ public interface StoreService {
 
     public void setDao(StoreDAO dao);
     public List<StoreDTO> findAll();
+    public StoreDTO findById(long id);
+    public List<StoreDTO> findByProductName(String productName);
     int insert(StoreDTO StoreDTO);
     int update(StoreDTO StoreDTO);
-    public int delete(int id);
+    public int delete(long id);
 	
 }

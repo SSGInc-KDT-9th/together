@@ -1,9 +1,10 @@
-package main.com.member.ui;
+package main.com.member;
 
+import main.com.TogatherMain;
 import main.com.config.AppConfig;
 import main.com.config.Session;
+import main.com.member.domain.Member;
 import main.com.member.service.MemberService;
-import main.com.swing.ReleaseMain;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -104,11 +105,9 @@ public class Login extends JFrame{
                 boolean login = memberService.login(id, password);
                 if(login) {
                     Session.setMember(memberService.findMember(id));
-                    System.out.println(id);
-                 // ReleaseTest 클래스의 인스턴스 생성
-                    ReleaseMain releaseTest = new ReleaseMain();
-                    // ReleaseTest를 화면에 보이도록 설정
-                    releaseTest.setVisible(true);
+                    Member member = Session.getMember();
+                    JOptionPane.showMessageDialog(null,member.getMember_name()+"님 로그인", "Login Status", JOptionPane.INFORMATION_MESSAGE);
+                    openMainApplication();
                     // 현재 창 닫기
                     dispose();
                     
@@ -136,7 +135,13 @@ public class Login extends JFrame{
         });
     }
 
-    public static void main(String[] args) {
-        new Login();
+    private void openMainApplication() {
+        // Open the main application window
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                TogatherMain frame = new TogatherMain();
+                frame.setVisible(true);
+            }
+        });
     }
 }
