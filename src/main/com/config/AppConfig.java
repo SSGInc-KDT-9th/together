@@ -1,4 +1,5 @@
 package main.com.config;
+import main.com.client.dao.ClientDAO;
 import main.com.member.repository.MemberRepository;
 import main.com.member.repository.MySqlMemberRepository;
 import main.com.member.service.MemberService;
@@ -6,6 +7,9 @@ import main.com.member.service.MemberServiceImpl;
 import main.com.product.repository.CategoryRepository;
 import main.com.product.repository.MySqlProductRepository;
 import main.com.product.repository.ProductRepository;
+import main.com.sales.repository.SalesRepository;
+import main.com.sales.service.SalesService;
+import main.com.sales.service.SalesServiceImpl;
 import main.com.stock.repository.StockRepository;
 import main.com.product.service.*;
 import main.com.stock.service.StockService;
@@ -53,6 +57,18 @@ public class AppConfig {
         SupplierService supplierService = new SupplierServiceImpl();
         supplierService.setSup(supplierDAO());
         return supplierService;
+    }
+
+    public ClientDAO clientDAO(){
+        return new ClientDAO();
+    }
+
+    public SalesRepository salesRepository(){
+        return new SalesRepository();
+    }
+
+    public SalesService salesService(){
+        return new SalesServiceImpl(productRepository(),clientDAO(),salesRepository(),categoryRepository());
     }
 
 }

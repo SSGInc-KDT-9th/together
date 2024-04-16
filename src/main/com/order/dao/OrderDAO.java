@@ -70,4 +70,20 @@ public class OrderDAO {
 		session.update("mapper.order.updateorder", dto);
 		
 	}
+
+	public int orderid(SqlSession session, int product_id) {
+	int orderid = 0;
+		 try {
+			 orderid = session.selectOne("mapper.order.orderid", product_id);
+			 } catch (NullPointerException e) {
+             // 등록되지 않은 기업에 대한 예외 처리
+             JOptionPane.showMessageDialog(null, "없는 상품입니다.", "경고", JOptionPane.WARNING_MESSAGE);
+             
+//             e.printStackTrace();
+         }
+		 return orderid;
+	}
+	
 }
+
+

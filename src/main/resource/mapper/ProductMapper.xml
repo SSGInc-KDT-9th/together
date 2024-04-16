@@ -46,6 +46,7 @@
         SELECT id,category_id,supplier_id,supplier_name,product_name
         FROM product
         WHERE product_name = #{productName}
+        LIMIT 1
     </select>
 
     <select id="findProduct" resultMap="ProductInfoMap" parameterType="main.com.product.request.ProductSearch">

@@ -373,9 +373,10 @@ public class ReleaseTest extends JFrame {
               } else {
                  int option = JOptionPane.showConfirmDialog(null, "주문을 수정하시겠습니까?", "주문 수정 확인", JOptionPane.YES_NO_OPTION);
                  if (option == JOptionPane.YES_OPTION) {
-                    
+                	 
+                	 String icecream = (String) table_1.getValueAt(table_1.getSelectedRow(), 2);
                     // 새로운 창을 생성하여 표시
-                    updateorderFrame uo = new updateorderFrame();
+                    updateorderFrame uo = new updateorderFrame(icecream);
                     uo.setVisible(true);
                     
                    

@@ -139,6 +139,21 @@ public class OrderServiceImpl implements OrderService{
 	      }
 		
 	}
+
+	@Override
+	public int orderid(int product_id) {
+		SqlSession session = null;
+		int productId = 0;
+  
+		try {
+			session = MySqlSessionFactory.openSession();
+			productId = dao.orderid(session, product_id);
+
+		} finally {
+			session.close();
+		}
+		return productId;
+	}
 	
 }
 
