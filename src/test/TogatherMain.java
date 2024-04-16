@@ -9,7 +9,7 @@ import javax.swing.border.EmptyBorder;
 import main.com.client.ui.ClientMain;
 import main.com.product.ui.ProductApp;
 import main.com.supplier.ui.SupplierMain;
-import main.com.swing.ReleaseTest;
+import main.com.swing.ReleaseMain;
 
 import javax.swing.JTabbedPane;
 
@@ -62,7 +62,7 @@ public class TogatherMain extends JFrame {
 		storeMain = new ClientMain();
 		tabbedPane.addTab("고객기업", null, storeMain, null);
 		
-		ReleaseTest releaseTest = new ReleaseTest();
+		ReleaseMain releaseTest = new ReleaseMain();
 		releasePanel = releaseTest.getReleasePanel();
 		tabbedPane.addTab("출고관리", null, releasePanel, null);
 		

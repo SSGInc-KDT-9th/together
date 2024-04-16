@@ -41,7 +41,7 @@ import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 
-public class ReleaseTest extends JFrame {
+public class ReleaseMain extends JFrame {
    protected static final StockRepository Stock = null;
    private StockService stockService;
    JButton Enrollbtn;
@@ -64,7 +64,7 @@ public class ReleaseTest extends JFrame {
       EventQueue.invokeLater(new Runnable() {
          public void run() {
             try {
-               ReleaseTest frame = new ReleaseTest();
+               ReleaseMain frame = new ReleaseMain();
                frame.setSize(1280, 720);
                frame.setVisible(true);
             } catch (Exception e) {
@@ -81,7 +81,7 @@ public class ReleaseTest extends JFrame {
    /**
     * Create the frame.
     */
-   public ReleaseTest() {
+   public ReleaseMain() {
       AppConfig appConfig = new AppConfig();
       stockService = appConfig.stockService();
 
