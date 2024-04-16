@@ -55,7 +55,7 @@
         LEFT OUTER JOIN stock as s ON p.id = s.product_id
         WHERE p.id is not null
         <if test="id != null and id!=''">
-            AND p.product_id = #{id}
+            AND p.id = #{id}
         </if>
 
         <if test="productName != null and productName != ''">
