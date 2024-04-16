@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
 
 import main.com.client.ui.ClientMain;
@@ -11,8 +12,6 @@ import main.com.product.ui.ProductApp;
 import main.com.sales.SalesMain;
 import main.com.supplier.ui.SupplierMain;
 import main.com.swing.ReleaseMain;
-
-import javax.swing.JTabbedPane;
 
 public class TogatherMain extends JFrame {
 
