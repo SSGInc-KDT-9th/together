@@ -10,7 +10,7 @@ public interface StoreService {
     public void setDao(StoreDAO dao);
     public List<StoreDTO> findAll();
     int insert(StoreDTO StoreDTO);
-    void update(StoreDTO StoreDTO);
+    int update(StoreDTO StoreDTO);
     public int delete(int id);
 	
 }

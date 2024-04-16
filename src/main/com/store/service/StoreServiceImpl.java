@@ -48,7 +48,8 @@ public class StoreServiceImpl implements StoreService{
 	}
 
 	@Override
-	public void update(StoreDTO StoreDTO) {
+	public int update(StoreDTO StoreDTO) {
+			int result = 0;
 	        SqlSession session = null;
 	        try {
 	            session = MySqlSessionFactory.openSession();
@@ -58,6 +59,7 @@ public class StoreServiceImpl implements StoreService{
 	        	session.rollback();
 	            session.close();
 	        }
+	        return result;
 		
 	}
 

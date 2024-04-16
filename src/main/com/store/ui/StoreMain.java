@@ -7,10 +7,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import main.com.client.dao.ClientDAO;
-import main.com.client.dto.ClientDTO;
-import main.com.client.service.ClientService;
-import main.com.client.service.ClientServiceImpl;
 import main.com.store.dao.StoreDAO;
 import main.com.store.dto.StoreDTO;
 import main.com.store.service.StoreService;
@@ -45,15 +41,24 @@ public class StoreMain extends JFrame {
 	private JTextField textField_storePrice;
 	private JTextField textField_deleteId;
 	private JComboBox textField_storeStatus;
+	private JTextField textField_updateId;
+	private JTextField textField_updateProductId;
+	private JTextField textField_updateStoreDate;
+	private JTextField textField_updateStoreCnt;
+	private JComboBox textField_updateStoreStatus;
+	private JTextField textField_updateStorePrice;
 	
-	private JButton btnfindAll;
-	private JButton btnreset;
-	private JButton btninsert;
-	private JButton btnupdate;
-	private JButton btndelete;
+	private JButton btnFind;
+	private JButton btnFindAll;
+	private JButton btnInsert;
+	private JButton btnReset;
+	private JButton btnUpdate;
+	private JButton btnUpdateReset;
+	private JButton btnDelete;
 	private JTable table;
 	
 	String[] StoreStatus = { "입고중", "입고완료"};
+
 
 	/**
 	 * Launch the application.
@@ -85,21 +90,20 @@ public class StoreMain extends JFrame {
 		contentPane.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(48, 203, 833, 445);
+		scrollPane.setBounds(48, 117, 833, 556);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		
 		String [] header = {"입고번호","상품ID","사용자ID","입고일자","입고수량","입고상태","입고가격(개당단가)"};
-		String [][] obj = {{"001","xxx","xxx","2024-04-15","100","입고중","1000"},
-						   {"002","yyy","xxx","2024-04-15","100","입고완료","1000"}};
+		String [][] obj = {};
 		
 		DefaultTableModel dm = new DefaultTableModel(obj, header);
 		table.setModel(dm);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(48, 84, 833, 97);
+		panel.setBounds(48, 10, 833, 97);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -110,185 +114,197 @@ public class StoreMain extends JFrame {
 		
 		textField_id = new JTextField();
 		textField_id.setFont(new Font("굴림", Font.PLAIN, 20));
-		textField_id.setBounds(138, 31, 180, 33);
+		textField_id.setBounds(138, 31, 143, 33);
 		panel.add(textField_id);
 		textField_id.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("입고상태");
-		lblNewLabel_1.setBounds(359, 35, 91, 24);
+		lblNewLabel_1.setBounds(315, 35, 91, 24);
 		panel.add(lblNewLabel_1);
 		lblNewLabel_1.setFont(new Font("굴림", Font.PLAIN, 20));
 		
 		textField_status = new JComboBox(StoreStatus);
 		textField_status.setFont(new Font("굴림", Font.PLAIN, 20));
-		textField_status.setBounds(462, 31, 180, 33);
+		textField_status.setBounds(418, 31, 134, 33);
 		panel.add(textField_status);
 
 		
-		btnfindAll = new JButton("조회");
-		btnfindAll.setBounds(667, 31, 101, 33);
-		panel.add(btnfindAll);
-		btnfindAll.setFont(new Font("굴림", Font.PLAIN, 20));
+		btnFind = new JButton("조회");
+		btnFind.setBounds(575, 31, 101, 33);
+		panel.add(btnFind);
+		btnFind.setFont(new Font("굴림", Font.PLAIN, 20));
+		
+		btnFindAll = new JButton("전체조회");
+		btnFindAll.setFont(new Font("굴림", Font.PLAIN, 20));
+		btnFindAll.setBounds(696, 31, 125, 33);
+		panel.add(btnFindAll);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(893, 85, 361, 357);
+		panel_1.setBounds(893, 10, 361, 249);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 		
 		JLabel lblNewLabel_2 = new JLabel("상품ID");
 		lblNewLabel_2.setFont(new Font("굴림", Font.PLAIN, 20));
-		lblNewLabel_2.setBounds(41, 26, 71, 30);
+		lblNewLabel_2.setBounds(52, 10, 71, 30);
 		panel_1.add(lblNewLabel_2);
 		
-		btnupdate = new JButton("수정");
-		btnupdate.setFont(new Font("굴림", Font.PLAIN, 20));
-		btnupdate.setBounds(132, 303, 98, 30);
-		panel_1.add(btnupdate);
-		
-		btninsert = new JButton("등록");
-		btninsert.setFont(new Font("굴림", Font.PLAIN, 20));
-		btninsert.setBounds(22, 303, 98, 30);
-		panel_1.add(btninsert);
+		btnInsert = new JButton("등록");
+		btnInsert.setFont(new Font("굴림", Font.PLAIN, 20));
+		btnInsert.setBounds(69, 210, 98, 30);
+		panel_1.add(btnInsert);
 		
 		textField_productId = new JTextField();
-		textField_productId.setBounds(149, 29, 141, 30);
+		textField_productId.setBounds(149, 10, 141, 30);
 		panel_1.add(textField_productId);
 		textField_productId.setColumns(10);
 		
 		JLabel lblNewLabel_2_2 = new JLabel("입고일자");
 		lblNewLabel_2_2.setFont(new Font("굴림", Font.PLAIN, 20));
-		lblNewLabel_2_2.setBounds(41, 80, 85, 30);
+		lblNewLabel_2_2.setBounds(41, 50, 85, 30);
 		panel_1.add(lblNewLabel_2_2);
 		
 		JLabel lblNewLabel_2_3 = new JLabel("입고수량");
 		lblNewLabel_2_3.setFont(new Font("굴림", Font.PLAIN, 20));
-		lblNewLabel_2_3.setBounds(41, 135, 85, 30);
+		lblNewLabel_2_3.setBounds(41, 90, 85, 30);
 		panel_1.add(lblNewLabel_2_3);
 		
 		JLabel lblNewLabel_2_3_1 = new JLabel("입고상태");
 		lblNewLabel_2_3_1.setFont(new Font("굴림", Font.PLAIN, 20));
-		lblNewLabel_2_3_1.setBounds(41, 184, 85, 30);
+		lblNewLabel_2_3_1.setBounds(41, 130, 85, 30);
 		panel_1.add(lblNewLabel_2_3_1);
 		
 		JLabel lblNewLabel_2_3_2 = new JLabel("입고금액");
 		lblNewLabel_2_3_2.setFont(new Font("굴림", Font.PLAIN, 20));
-		lblNewLabel_2_3_2.setBounds(41, 237, 85, 30);
+		lblNewLabel_2_3_2.setBounds(41, 170, 85, 30);
 		panel_1.add(lblNewLabel_2_3_2);
 		
 		textField_storeDate = new JTextField();
 		textField_storeDate.setColumns(10);
-		textField_storeDate.setBounds(149, 83, 141, 30);
+		textField_storeDate.setBounds(149, 50, 141, 30);
 		panel_1.add(textField_storeDate);
 		
 		textField_storeCnt = new JTextField();
 		textField_storeCnt.setColumns(10);
-		textField_storeCnt.setBounds(149, 138, 141, 30);
+		textField_storeCnt.setBounds(149, 90, 141, 30);
 		panel_1.add(textField_storeCnt);
 		
 		textField_storePrice = new JTextField();
 		textField_storePrice.setColumns(10);
-		textField_storePrice.setBounds(149, 237, 141, 30);
+		textField_storePrice.setBounds(149, 170, 141, 30);
 		panel_1.add(textField_storePrice);
-		
-		btnreset = new JButton("초기화");
-		btnreset.setBounds(242, 302, 101, 33);
-		panel_1.add(btnreset);
-		btnreset.setFont(new Font("굴림", Font.PLAIN, 20));
 		
 		textField_storeStatus = new JComboBox(StoreStatus);
 		textField_storeStatus.setFont(new Font("굴림", Font.PLAIN, 18));
-		textField_storeStatus.setBounds(149, 186, 141, 30);
+		textField_storeStatus.setBounds(149, 130, 141, 30);
 		panel_1.add(textField_storeStatus);
 		
+		btnReset = new JButton("초기화");
+		btnReset.setBounds(200, 210, 101, 30);
+		panel_1.add(btnReset);
+		btnReset.setFont(new Font("굴림", Font.PLAIN, 20));
+		
+		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(893, 452, 361, 196);
+		panel_2.setBounds(893, 559, 361, 114);
 		contentPane.add(panel_2);
 		panel_2.setLayout(null);
 		
 		JLabel lblNewLabel_2_3_2_1 = new JLabel("입고번호");
 		lblNewLabel_2_3_2_1.setFont(new Font("굴림", Font.PLAIN, 20));
-		lblNewLabel_2_3_2_1.setBounds(39, 45, 85, 30);
+		lblNewLabel_2_3_2_1.setBounds(67, 20, 85, 30);
 		panel_2.add(lblNewLabel_2_3_2_1);
 		
-		btndelete = new JButton("삭제");
-		btndelete.setFont(new Font("굴림", Font.PLAIN, 20));
-		btndelete.setBounds(140, 107, 98, 30);
-		panel_2.add(btndelete);
+		btnDelete = new JButton("삭제");
+		btnDelete.setFont(new Font("굴림", Font.PLAIN, 20));
+		btnDelete.setBounds(131, 70, 98, 30);
+		panel_2.add(btnDelete);
 		
 		textField_deleteId = new JTextField();
 		textField_deleteId.setColumns(10);
-		textField_deleteId.setBounds(156, 48, 141, 30);
+		textField_deleteId.setBounds(175, 20, 141, 30);
 		panel_2.add(textField_deleteId);
 		
-		//입고 조회 버튼 이벤트 처리
-		btnfindAll.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});//end
+		JPanel panel_3 = new JPanel();
+		panel_3.setBounds(893, 264, 361, 290);
+		contentPane.add(panel_3);
+		panel_3.setLayout(null);
 		
-		//입고 등록 버튼 이벤트 처리
-		btninsert.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				String product_id = textField_productId.getText();
-				String store_date = textField_storeDate.getText();
-				String store_count = textField_storeCnt.getText();
-				String status = textField_storeStatus.getSelectedItem().toString();
-				String store_price = textField_storePrice.getText();
-				
-				StoreDTO dto = new StoreDTO();
-				dto.setProduct_id(Long.parseLong(product_id));
-				dto.setStore_date(store_date);
-				dto.setStore_count(Integer.parseInt(store_count));
-				dto.setStatus(status);
-				dto.setStore_price(Integer.parseInt(store_price));
-				
-				StoreService service = new StoreServiceImpl();
-				service.setDao(new StoreDAO());
-				
-				int n = service.insert(dto);
-				System.out.println(n+"개가 저장됨");
-			}
-		});//end
+		JLabel lblNewLabel_2_1 = new JLabel("입고번호");
+		lblNewLabel_2_1.setFont(new Font("굴림", Font.PLAIN, 20));
+		lblNewLabel_2_1.setBounds(41, 10, 95, 30);
+		panel_3.add(lblNewLabel_2_1);
+		
+		textField_updateId = new JTextField();
+		textField_updateId.setColumns(10);
+		textField_updateId.setBounds(149, 10, 141, 30);
+		panel_3.add(textField_updateId);
+		
+		JLabel lblNewLabel_2_4 = new JLabel("상품ID");
+		lblNewLabel_2_4.setFont(new Font("굴림", Font.PLAIN, 20));
+		lblNewLabel_2_4.setBounds(52, 50, 71, 30);
+		panel_3.add(lblNewLabel_2_4);
+		
+		textField_updateProductId = new JTextField();
+		textField_updateProductId.setColumns(10);
+		textField_updateProductId.setBounds(149, 50, 141, 30);
+		panel_3.add(textField_updateProductId);
+		
+		JLabel lblNewLabel_2_5 = new JLabel("입고일자");
+		lblNewLabel_2_5.setFont(new Font("굴림", Font.PLAIN, 20));
+		lblNewLabel_2_5.setBounds(41, 90, 95, 30);
+		panel_3.add(lblNewLabel_2_5);
+		
+		textField_updateStoreDate = new JTextField();
+		textField_updateStoreDate.setColumns(10);
+		textField_updateStoreDate.setBounds(149, 90, 141, 30);
+		panel_3.add(textField_updateStoreDate);
+		
+		JLabel lblNewLabel_2_6 = new JLabel("입고수량");
+		lblNewLabel_2_6.setFont(new Font("굴림", Font.PLAIN, 20));
+		lblNewLabel_2_6.setBounds(41, 130, 95, 30);
+		panel_3.add(lblNewLabel_2_6);
+		
+		textField_updateStoreCnt = new JTextField();
+		textField_updateStoreCnt.setColumns(10);
+		textField_updateStoreCnt.setBounds(149, 130, 141, 30);
+		panel_3.add(textField_updateStoreCnt);		
 
-		//입고 수정 버튼 이벤트 처리
-		btnupdate.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				String product_id = textField_productId.getText();
-				String store_date = textField_storeDate.getText();
-				String store_count = textField_storeCnt.getText();
-				String status = textField_storeStatus.getSelectedItem().toString();
-				String store_price = textField_storePrice.getText();
-				
-				StoreDTO dto = new StoreDTO();
-				dto.setProduct_id(Long.parseLong(product_id));
-				dto.setStore_date(store_date);
-				dto.setStore_count(Integer.parseInt(store_count));
-				dto.setStatus(status);
-				dto.setStore_price(Integer.parseInt(store_price));
-				
-				StoreService service = new StoreServiceImpl();
-				service.setDao(new StoreDAO());
-				
-				int n = service.insert(dto);
-				System.out.println(n+"개가 수정됨");
-			}
-		});//end
+		JLabel lblNewLabel_2_7 = new JLabel("입고상태");
+		lblNewLabel_2_7.setFont(new Font("굴림", Font.PLAIN, 20));
+		lblNewLabel_2_7.setBounds(41, 170, 95, 30);
+		panel_3.add(lblNewLabel_2_7);
 		
-		//초기화 버튼 이벤트 처리
-		btnreset.addActionListener(new ActionListener() {
+		textField_updateStoreStatus = new JComboBox(StoreStatus);
+		textField_updateStoreStatus.setFont(new Font("굴림", Font.PLAIN, 18));
+		textField_updateStoreStatus.setBounds(149, 170, 141, 30);
+		panel_3.add(textField_updateStoreStatus);		
+		
+		JLabel lblNewLabel_2_8 = new JLabel("입고금액");
+		lblNewLabel_2_8.setFont(new Font("굴림", Font.PLAIN, 20));
+		lblNewLabel_2_8.setBounds(41, 210, 95, 30);
+		panel_3.add(lblNewLabel_2_8);
+		
+		textField_updateStorePrice = new JTextField();
+		textField_updateStorePrice.setColumns(10);
+		textField_updateStorePrice.setBounds(149, 210, 141, 30);
+		panel_3.add(textField_updateStorePrice);			
+		
+		btnUpdate = new JButton("수정");
+		btnUpdate.setBounds(69, 250, 98, 30);
+		panel_3.add(btnUpdate);
+		btnUpdate.setFont(new Font("굴림", Font.PLAIN, 20));
+		
+		btnUpdateReset = new JButton("초기화");
+		btnUpdateReset.setFont(new Font("굴림", Font.PLAIN, 20));
+		btnUpdateReset.setBounds(200, 250, 101, 30);
+		panel_3.add(btnUpdateReset);
+		
+		//등록 초기화 버튼 이벤트 처리
+		btnReset.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				textField_id.setText("");
 				textField_productId.setText("");
 				textField_storeDate.setText("");
 				textField_storeCnt.setText("");
@@ -297,9 +313,137 @@ public class StoreMain extends JFrame {
 				
 			}
 		});//end
+
+		//입고 등록 버튼 이벤트 처리
+		btnInsert.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				String product_id = textField_productId.getText();
+				String store_date = textField_storeDate.getText();
+				String store_count = textField_storeCnt.getText();
+				String status = textField_storeStatus.getSelectedItem().toString();
+				String store_price = textField_storePrice.getText();
+				
+				StoreDTO dto = new StoreDTO();
+				dto.setProduct_id(Long.parseLong(product_id));
+				dto.setStore_date(store_date);
+				dto.setStore_count(Integer.parseInt(store_count));
+				dto.setStatus(status);
+				dto.setStore_price(Integer.parseInt(store_price));
+				
+				StoreService service = new StoreServiceImpl();
+				service.setDao(new StoreDAO());
+				
+				int n = service.insert(dto);
+			}
+		});//end
+		
+		//입고 수정 버튼 이벤트 처리
+		btnUpdate.addActionListener(new ActionListener() {
+					
+			@Override
+			public void actionPerformed(ActionEvent e) {
+		
+				String updateId = textField_updateId.getText();
+				String updateProductId = textField_updateProductId.getText();
+				String updateStoreDate = textField_updateStoreDate.getText();
+				String updateStoreCnt = textField_updateStoreCnt.getText();
+				String updateStoreStatus = textField_updateStoreStatus.getSelectedItem().toString();
+				String updateStorePrice = textField_updateStorePrice.getText();
+				if(updateStoreStatus.equals("입고중")) {
+				StoreDTO dto = new StoreDTO();
+				dto.setId(Long.parseLong(updateId));
+				dto.setProduct_id(Long.parseLong(updateProductId));
+				dto.setStore_date(updateStoreDate);
+				dto.setStore_count(Integer.parseInt(updateStoreCnt));
+				dto.setStatus(updateStoreStatus);
+				dto.setStore_price(Integer.parseInt(updateStorePrice));
+						
+				StoreService service = new StoreServiceImpl();
+				service.setDao(new StoreDAO());
+						
+				int n = service.update(dto);
+				}else {
+					JOptionPane.showMessageDialog(null, "수정할 수 없습니다.");
+				}
+			}
+		});//end
+		
+		//수정 초기화 버튼 이벤트 처리
+		btnUpdateReset.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				textField_updateId.setText("");
+				textField_updateProductId.setText("");
+				textField_updateStoreDate.setText("");
+				textField_updateStoreCnt.setText("");
+				textField_updateStoreStatus.setSelectedItem(StoreStatus[0]);
+				textField_updateStorePrice.setText("");
+				
+			}
+		});//end
+		
+		//입고 전체조회 버튼 이벤트 처리
+		btnFindAll.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				StoreService service = new StoreServiceImpl();
+				service.setDao(new StoreDAO());
+				
+				List<StoreDTO> list = service.findAll();
+				
+				DefaultTableModel model = (DefaultTableModel)table.getModel();
+				model.setRowCount(0);
+				
+				for (StoreDTO store : list) {
+					Object[] rowData = {
+							store.getId(),
+							store.getProduct_id(),
+							store.getMember_id(),
+							store.getStore_date(),
+							store.getStore_count(),
+							store.getStatus(),
+							store.getStore_price()
+					};
+					model.addRow(rowData);
+				}
+			}
+		});//end
+		
+		//입고 조회 버튼 이벤트 처리
+		btnFind.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				StoreService service = new StoreServiceImpl();
+				service.setDao(new StoreDAO());
+				
+				List<StoreDTO> list = service.findAll();
+				
+				DefaultTableModel model = (DefaultTableModel)table.getModel();
+				model.setRowCount(0);
+				
+				for (StoreDTO store : list) {
+					Object[] rowData = {
+							store.getId(),
+							store.getProduct_id(),
+							store.getMember_id(),
+							store.getStore_date(),
+							store.getStore_count(),
+							store.getStatus(),
+							store.getStore_price()
+					};
+					model.addRow(rowData);
+				}
+			}
+		});//end
 		
 		//입고번호를 통한 입고정보 삭제 버튼 이벤트 처리
-		btndelete.addActionListener(new ActionListener() {
+		btnDelete.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
