@@ -1,5 +1,7 @@
 package main.com.config;
 import main.com.client.dao.ClientDAO;
+import main.com.client.service.ClientService;
+import main.com.client.service.ClientServiceImpl;
 import main.com.member.repository.MemberRepository;
 import main.com.member.repository.MySqlMemberRepository;
 import main.com.member.service.MemberService;
@@ -71,4 +73,9 @@ public class AppConfig {
         return new SalesServiceImpl(productRepository(),clientDAO(),salesRepository(),categoryRepository());
     }
 
+    public ClientService clientService(){
+        ClientServiceImpl clientService = new ClientServiceImpl();
+        clientService.setDao(clientDAO());
+        return clientService;
+    }
 }
