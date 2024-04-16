@@ -30,15 +30,29 @@ public class StoreServiceImpl implements StoreService{
 		}
 		return list;
 	}
+	
+	@Override
+	public List<StoreDTO> findStore(StoreDTO storeDTO) {
+		List<StoreDTO> list = null;
+		SqlSession session = null;
+		try {
+		  session = MySqlSessionFactory.openSession();
+		  list = dao.findStore(session, storeDTO);
+		}finally{
+			session.rollback();
+			session.close();
+		}
+		return list;
+	}
 
 
 	@Override
-	public int insert(StoreDTO StoreDTO) {
+	public int insert(StoreDTO storeDTO) {
 		 int n = 0;
 	        SqlSession session = null;
 	        try {
 	            session = MySqlSessionFactory.openSession();
-	            n = dao.insert(session, StoreDTO);
+	            n = dao.insert(session, storeDTO);
 	            session.commit();
 	        }finally {
 	        	session.rollback();
@@ -48,12 +62,12 @@ public class StoreServiceImpl implements StoreService{
 	}
 
 	@Override
-	public int update(StoreDTO StoreDTO) {
+	public int update(StoreDTO storeDTO) {
 			int result = 0;
 	        SqlSession session = null;
 	        try {
 	            session = MySqlSessionFactory.openSession();
-	            dao.update(session, StoreDTO);
+	            dao.update(session, storeDTO);
 	            session.commit();
 	        }finally {
 	        	session.rollback();

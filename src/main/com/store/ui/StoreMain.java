@@ -9,6 +9,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import main.com.config.Session;
 import main.com.store.dao.StoreDAO;
 import main.com.store.dto.StoreDTO;
 import main.com.store.service.StoreService;
@@ -221,17 +222,17 @@ public class StoreMain extends JFrame {
 		
 		JLabel lblNewLabel_2_3_2_1 = new JLabel("입고번호");
 		lblNewLabel_2_3_2_1.setFont(new Font("굴림", Font.PLAIN, 20));
-		lblNewLabel_2_3_2_1.setBounds(67, 20, 85, 30);
+		lblNewLabel_2_3_2_1.setBounds(69, 10, 85, 30);
 		panel_2.add(lblNewLabel_2_3_2_1);
 		
 		btnDelete = new JButton("삭제");
 		btnDelete.setFont(new Font("굴림", Font.PLAIN, 20));
-		btnDelete.setBounds(131, 70, 98, 30);
+		btnDelete.setBounds(130, 50, 98, 30);
 		panel_2.add(btnDelete);
 		
 		textField_deleteId = new JTextField();
 		textField_deleteId.setColumns(10);
-		textField_deleteId.setBounds(175, 20, 141, 30);
+		textField_deleteId.setBounds(176, 10, 141, 30);
 		panel_2.add(textField_deleteId);
 		
 		JPanel panel_3 = new JPanel();
@@ -336,6 +337,7 @@ public class StoreMain extends JFrame {
 				String store_price = textField_storePrice.getText();
 				
 				StoreDTO dto = new StoreDTO();
+				Long member_id = Session.getMember().getId();
 				dto.setProduct_id(Long.parseLong(product_id));
 				dto.setStore_date(store_date);
 				dto.setStore_count(Integer.parseInt(store_count));
@@ -503,18 +505,19 @@ public class StoreMain extends JFrame {
 		btnFind.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String id = textField_id.getText();
 				String productName = textField_productId.getText();
-				
 
 					StoreService service = new StoreServiceImpl();
 					service.setDao(new StoreDAO());
 					
-					List<StoreDTO> stores = service.findByProductName(productName);
+					StoreDTO storeDTO = new StoreDTO();
+					List<StoreDTO> list = service.findStore(storeDTO);
 
 						DefaultTableModel model = (DefaultTableModel)table.getModel();
 						model.setRowCount(0);
 							
-						for (StoreDTO store : stores) {
+						for (StoreDTO store : list) {
 							Object[] rowData = {
 									store.getId(),
 									store.getProduct_id(),

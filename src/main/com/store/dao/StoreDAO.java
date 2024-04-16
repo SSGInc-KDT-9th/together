@@ -12,6 +12,12 @@ public class StoreDAO {
         return list;
     }
     
+    public List<StoreDTO> findStore(SqlSession session, StoreDTO storeDTO){
+        List<StoreDTO> list =
+                session.selectList("main.resource.mapper.StoreMapper.findStore");
+        return list;
+    }
+    
     public StoreDTO findById(SqlSession session, long id){
     	return session.selectOne("main.resource.mapper.StoreMapper.findById", id);
     }
