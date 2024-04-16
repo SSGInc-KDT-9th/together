@@ -412,11 +412,15 @@ public class ProductApp extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Long id = null;
-				TryParse.tryParseLong(idSearchText.getText(),id);
+				try{
+					id = TryParse.tryParseLong(idSearchText.getText(),id);
+				}
+				catch(IllegalArgumentException exception){
+					id =null;
+				}
 				String productName = nameSearchText.getText();
 				String supplierName = supplierSearchCombo.getSelectedItem().toString();
 				String categoryName = subCategorySearchCombo.getSelectedItem().toString();
-				//Category category = categoryService.getCategory(categoryName);
 
 				ProductSearch productSearch = ProductSearch.builder()
 						.id(id)
@@ -424,6 +428,7 @@ public class ProductApp extends JFrame {
 						.categoryName(categoryName)
 						.supplierName(supplierName)
 						.build();
+
 				List<ProductInfo> searchProducts = productService.search(productSearch);
 				Object[][] data = searchProducts.stream()
 						.map(product -> new Object[]{
@@ -446,6 +451,16 @@ public class ProductApp extends JFrame {
 					}
 				};
 				table.setModel(model);
+			}
+		});
+
+		searchResetButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				idSearchText.setText("");
+				nameSearchText.setText("");
+				supplierSearchCombo.setSelectedIndex(0);
+				subCategorySearchCombo.setSelectedIndex(0);
 			}
 		});
 
