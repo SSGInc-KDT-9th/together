@@ -13,6 +13,8 @@ import main.com.config.AppConfig;
 import main.com.config.Session;
 import main.com.product.domain.Product;
 import main.com.product.service.ProductService;
+import main.com.stock.domain.StockEdit;
+import main.com.stock.service.StockService;
 import main.com.store.dao.StoreDAO;
 import main.com.store.dto.StoreDTO;
 import main.com.store.service.StoreService;
@@ -40,6 +42,7 @@ import javax.swing.JTable;
 public class StoreMain extends JFrame {
 	private JPanel contentPane;
 	private ProductService productService;
+	private StockService stockService;
 	private JTextField textField_id;
 	private JTextField textField_productId;
 	private JTextField textField_storeDate;
@@ -99,6 +102,7 @@ public class StoreMain extends JFrame {
 
 		AppConfig appConfig =new AppConfig();
 		productService = appConfig.productService();
+		stockService = appConfig.stockService();
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(48, 117, 833, 556);
@@ -404,14 +408,25 @@ public class StoreMain extends JFrame {
 				dto.setStore_count(Integer.parseInt(updateStoreCnt));
 				dto.setStatus(updateStoreStatus);
 				dto.setStore_price(Integer.parseInt(updateStorePrice));
+				service.update(dto);
 
-				int n = service.update(dto);
+				StoreDTO updatedStore = service.findById(Long.parseLong(updateId));
+				if(updatedStore.getStatus().equals("입고완료")){
+					long productId = updatedStore.getProduct_id();
+					int add = Integer.parseInt(updateStoreCnt);
+					Integer currentInventory = stockService.getByProduct(productId).getInventory();
+					StockEdit stockEdit = StockEdit.builder()
+							.inventory(currentInventory+add)
+							.storePrice(Integer.parseInt(updateStorePrice)).build();
+					stockService.editStore(productId,stockEdit);
+				}
+
+				JOptionPane.showConfirmDialog(null, "입고 최종 완료", "입고 완료", JOptionPane.PLAIN_MESSAGE);
 			}
 		});//end
 		
 		//수정 초기화 버튼 이벤트 처리
 		btnUpdateReset.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				textField_updateId.setText("");
@@ -426,7 +441,6 @@ public class StoreMain extends JFrame {
 		
 		//입고 전체조회 버튼 이벤트 처리
 		btnFindAll.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				StoreService service = new StoreServiceImpl();
@@ -504,7 +518,6 @@ public class StoreMain extends JFrame {
 		
 		//입고번호를 통한 입고정보 삭제 버튼 이벤트 처리
 		btnDelete.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String id = textField_deleteId.getText();
