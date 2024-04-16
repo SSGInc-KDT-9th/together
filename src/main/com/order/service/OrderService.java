@@ -16,5 +16,6 @@ public interface OrderService {
 	public String companyselect(int cid);
 	public String productselect(int pid);
 	public int orderdelete(int id);
+	public void updateorder(OrderDTO dto);
 
 }

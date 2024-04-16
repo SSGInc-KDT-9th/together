@@ -125,6 +125,20 @@ public class OrderServiceImpl implements OrderService{
 	      }
 		return n3;
 	}
+
+	@Override
+	public void updateorder(OrderDTO dto) {
+		SqlSession session = null;
+	      try {
+			session = MySqlSessionFactory.openSession();
+			//DAO 연동코드
+			dao.updateorder(session, dto);
+			session.commit();
+	      }finally {
+			session.close();
+	      }
+		
+	}
 	
 }
 

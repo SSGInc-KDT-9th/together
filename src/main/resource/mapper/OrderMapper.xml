@@ -45,4 +45,10 @@
   delete from `order` where id = #{id}
   </delete>
   
+  <!-- 주문 수정-->
+  <update id="updateorder" parameterType="OrderDTO">
+  update `order` set product_id=#{product_id}, order_cnt=#{order_cnt}
+  </update>
+  
+  
 </mapper>

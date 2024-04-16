@@ -48,6 +48,7 @@ public class ReleaseTest extends JFrame {
 	JButton Searchbtn;
 	JButton Updatebtn;
 	JButton Deletebtn;
+	JButton Orderupdatebtn;
 	
 	private JPanel contentPane;
 	String[] search = {"출고 번호", "출고 상태"};
@@ -89,7 +90,7 @@ public class ReleaseTest extends JFrame {
 		contentPane.setLayout(null);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(36, 167, 509, 453);
+		scrollPane.setBounds(36, 139, 509, 453);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
@@ -112,7 +113,7 @@ public class ReleaseTest extends JFrame {
         headerComponent.setDefaultRenderer(customHeaderRenderer);
 		
 		Searchbtn = new JButton("검색");
-		Searchbtn.setBounds(436, 102, 109, 33);
+		Searchbtn.setBounds(435, 76, 109, 33);
 		Searchbtn.setFont(new Font("고딕", Font.BOLD, 15));
 		contentPane.add(Searchbtn);
 		
@@ -121,9 +122,9 @@ public class ReleaseTest extends JFrame {
 		Enrollbtn.setFont(new Font("고딕", Font.BOLD, 20));
 		contentPane.add(Enrollbtn);
 		
-		Updatebtn = new JButton("출고상태 변경");
-		Updatebtn.setBounds(848, 102, 171, 55);
-		Updatebtn.setFont(new Font("고딕", Font.BOLD, 20));
+		Updatebtn = new JButton("출고상태 수정");
+		Updatebtn.setBounds(394, 612, 151, 42);
+		Updatebtn.setFont(new Font("고딕", Font.BOLD, 17));
 		contentPane.add(Updatebtn);
 		
 		Deletebtn = new JButton("주문 삭제");
@@ -145,15 +146,20 @@ public class ReleaseTest extends JFrame {
         
         JLabel lblNewLabel = new JLabel("출고 상태");
         lblNewLabel.setForeground(Color.BLACK);
-        lblNewLabel.setBounds(88, 100, 103, 35);
+        lblNewLabel.setBounds(89, 74, 103, 35);
         lblNewLabel.setFont(new Font("고딕", Font.BOLD, 16));
         contentPane.add(lblNewLabel);
         
         JComboBox comboBox_1 = new JComboBox(search2);
-        comboBox_1.setBounds(225, 102, 125, 33);
+        comboBox_1.setBounds(227, 76, 125, 33);
         Font font = new Font("고딕", Font.PLAIN, 15); 
         comboBox_1.setFont(font);
         contentPane.add(comboBox_1);
+        
+        Orderupdatebtn = new JButton("주문 수정");
+        Orderupdatebtn.setBounds(859, 102, 160, 55);
+        Orderupdatebtn.setFont(new Font("고딕", Font.BOLD, 20));
+        contentPane.add(Orderupdatebtn);
 		//주문 생성
 		Enrollbtn.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
@@ -351,9 +357,33 @@ public class ReleaseTest extends JFrame {
 		                
 		                
 		            }
-		        }
-		            
-		    
+		        }   
 			
 		});	
-}}
+		//주문 수정
+		Orderupdatebtn.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		    	  // 현재 table에 있는 행 정보 가져오기
+		        if (table_1.getSelectedRow() == -1) {
+		            JOptionPane.showMessageDialog(null, "수정할 항목을 선택해주세요.", "알림", JOptionPane.WARNING_MESSAGE);
+		        } else {
+		        	int option = JOptionPane.showConfirmDialog(null, "주문을 수정하시겠습니까?", "주문 수정 확인", JOptionPane.YES_NO_OPTION);
+		        	if (option == JOptionPane.YES_OPTION) {
+		        		
+		        		// 새로운 창을 생성하여 표시
+				        updateorderFrame uo = new updateorderFrame();
+				        uo.setVisible(true);
+				        
+				       
+		        	}
+		                
+		                
+		            }
+		        }   
+			
+		    
+
+			
+		});
+}	
+}

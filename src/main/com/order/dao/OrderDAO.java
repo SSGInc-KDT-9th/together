@@ -65,4 +65,9 @@ public class OrderDAO {
     public int orderdelete(SqlSession session, int id) {
     	return session.delete("mapper.order.orderdelete", id);
     }
+
+	public void updateorder(SqlSession session, OrderDTO dto) {
+		session.update("mapper.order.updateorder", dto);
+		
+	}
 }
