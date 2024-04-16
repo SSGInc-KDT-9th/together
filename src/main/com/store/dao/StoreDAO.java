@@ -6,8 +6,6 @@ import org.apache.ibatis.session.SqlSession;
 import main.com.store.dto.StoreDTO;
 
 public class StoreDAO {
-	
-
     public List<StoreDTO> findAll(SqlSession session){
         List<StoreDTO> list =
                 session.selectList("main.resource.mapper.StoreMapper.findAll");

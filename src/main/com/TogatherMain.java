@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import main.com.client.ui.ClientMain;
 import main.com.product.ui.ProductApp;
 import main.com.sales.SalesMain;
+import main.com.store.ui.StoreMain;
 import main.com.supplier.ui.SupplierMain;
 import main.com.swing.ReleaseMain;
 
@@ -63,6 +64,10 @@ public class TogatherMain extends JFrame {
 		ReleaseMain releaseTest = new ReleaseMain();
 		releasePanel = releaseTest.getReleasePanel();
 		tabbedPane.addTab("출고관리", null, releasePanel, null);
+
+		StoreMain storeMain = new StoreMain();
+		JPanel storePanel = storeMain.getMainPane();
+		tabbedPane.addTab("입고 관리",storePanel);
 
 		SalesMain salesMain = new SalesMain();
 		salesPanel = salesMain.getMainPanel();
