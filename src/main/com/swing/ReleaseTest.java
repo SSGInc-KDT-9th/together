@@ -122,7 +122,7 @@ public class ReleaseTest extends JFrame {
       contentPane.add(Searchbtn);
       
       Enrollbtn = new JButton("주문 등록");
-      Enrollbtn.setBounds(623, 102, 171, 55);
+      Enrollbtn.setBounds(650, 129, 151, 42);
       Enrollbtn.setFont(new Font("고딕", Font.BOLD, 20));
       contentPane.add(Enrollbtn);
       
@@ -132,7 +132,7 @@ public class ReleaseTest extends JFrame {
       contentPane.add(Updatebtn);
       
       Deletebtn = new JButton("주문 삭제");
-      Deletebtn.setBounds(1069, 102, 171, 55);
+      Deletebtn.setBounds(1067, 129, 142, 42);
       Deletebtn.setFont(new Font("고딕", Font.BOLD, 20));
       contentPane.add(Deletebtn);
       
@@ -161,7 +161,7 @@ public class ReleaseTest extends JFrame {
         contentPane.add(comboBox_1);
         
         Orderupdatebtn = new JButton("주문 수정");
-        Orderupdatebtn.setBounds(859, 102, 160, 55);
+        Orderupdatebtn.setBounds(860, 129, 151, 42);
         Orderupdatebtn.setFont(new Font("고딕", Font.BOLD, 20));
         contentPane.add(Orderupdatebtn);
       //주문 생성
