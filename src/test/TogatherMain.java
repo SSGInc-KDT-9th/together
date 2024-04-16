@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import main.com.client.ui.ClientMain;
 import main.com.product.ui.ProductApp;
 import main.com.supplier.ui.SupplierMain;
 
@@ -54,7 +55,8 @@ public class TogatherMain extends JFrame {
 		JPanel supplierMain = new SupplierMain();
 		tabbedPane.addTab("납품기업", null, supplierMain, null);
 		
-		JPanel panel_2 = new JPanel();
-		tabbedPane.addTab("New tab", null, panel_2, null);
+		JPanel storeMain = new ClientMain();
+		tabbedPane.addTab("고객기업", null, storeMain, null);
+		
 	}
 }
