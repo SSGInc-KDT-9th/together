@@ -1,4 +1,4 @@
-package main.com.product.domain;//
+package main.com.stock.domain;//
 
 import java.time.LocalDateTime;
 

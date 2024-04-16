@@ -1,20 +1,16 @@
 package test.prodcut;
 
-import main.com.product.domain.Product;
-import main.com.product.domain.Stock;
-import main.com.product.domain.StockEdit;
+import main.com.stock.domain.Stock;
+import main.com.stock.domain.StockEdit;
 import main.com.product.repository.MySqlProductRepository;
 import main.com.product.repository.ProductRepository;
-import main.com.product.repository.StockRepository;
+import main.com.stock.repository.StockRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class StockRepositoryTest {
     ProductRepository productRepository = new MySqlProductRepository();
@@ -42,7 +38,7 @@ class StockRepositoryTest {
         //when
         Long saveStockId = stockRepository.save(stock);
         Stock expect = stockRepository.findById(stock.getId());
-        stockRepository.delete(saveStockId);
+        stockRepository.deleteById(saveStockId);
         //then
         Assertions.assertEquals(expect.getId(),saveStockId);
         Assertions.assertEquals(expect.getModifiedDate(),stock.getModifiedDate());
@@ -65,7 +61,7 @@ class StockRepositoryTest {
         stock.edit(stockEditor);
 
         stockRepository.update(stock);
-        stockRepository.delete(id);
+        stockRepository.deleteById(id);
         //then
         Assertions.assertEquals(stock.getInventory(),100);
     }

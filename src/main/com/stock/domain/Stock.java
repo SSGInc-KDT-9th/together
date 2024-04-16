@@ -1,7 +1,6 @@
-package main.com.product.domain;
+package main.com.stock.domain;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class Stock {
     private Long id;
@@ -73,7 +72,7 @@ public class Stock {
         private Integer storePrice;
         private Integer sellingPrice;
 
-        StockBuilder() {
+        public StockBuilder() {
         }
 
         public StockBuilder id(final Long id) {

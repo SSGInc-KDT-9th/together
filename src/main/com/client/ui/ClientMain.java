@@ -1,6 +1,7 @@
 package main.com.client.ui;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,9 +18,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 import main.com.client.dao.ClientDAO;
 import main.com.client.dto.ClientDTO;
@@ -27,7 +28,7 @@ import main.com.client.service.ClientService;
 import main.com.client.service.ClientServiceImpl;
 
 
-public class ClientMain extends JFrame {
+public class ClientMain extends JPanel {
 	
 	private JPanel contentPane;
 	private JTextField selectid;
@@ -66,19 +67,14 @@ public class ClientMain extends JFrame {
 	 * 프레임
 	 */
 	public ClientMain() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1280, 720);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		
+		setLayout(null);
 		
 		
 		//개발시작
 		JPanel panel = new JPanel();
 		panel.setBounds(915, 90, 339, 257);
-		contentPane.add(panel);
+		add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("기업명");
@@ -140,7 +136,7 @@ public class ClientMain extends JFrame {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(915, 380, 339, 86);
-		contentPane.add(panel_1);
+		add(panel_1);
 		panel_1.setLayout(null);
 		
 		JLabel lblNewLabel_1_1_1_1 = new JLabel("삭제할 기업 id를 입력하시오");
@@ -158,7 +154,7 @@ public class ClientMain extends JFrame {
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBounds(143, 27, 894, 50);
-		contentPane.add(panel_3);
+		add(panel_3);
 		panel_3.setLayout(null);
 		
 		JLabel lblid_1 = new JLabel("기업id");
@@ -187,7 +183,7 @@ public class ClientMain extends JFrame {
 		lblNewLabel_1_2.setBounds(442, 16, 52, 24);
 		panel_3.add(lblNewLabel_1_2);
 		
-		JComboBox tfcategory_1 = new JComboBox(ClientCategory);
+		tfcategory_1 = new JComboBox(ClientCategory);
 		tfcategory_1.setBackground(Color.WHITE);
 		tfcategory_1.setBounds(495, 17, 178, 23);
 		panel_3.add(tfcategory_1);
@@ -198,7 +194,7 @@ public class ClientMain extends JFrame {
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(0, 39, 139, 32);
-		contentPane.add(panel_2);
+		add(panel_2);
 		panel_2.setLayout(null);
 		
 		JButton btnFindAll = new JButton("전체조회");
@@ -207,11 +203,12 @@ public class ClientMain extends JFrame {
 		
 		//메인 테이블 창 구성
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(29, 87, 843, 548);
-		contentPane.add(scrollPane);
+		scrollPane.setBounds(29, 87, 843, 379);
+		add(scrollPane);
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
+		table.setPreferredScrollableViewportSize(new Dimension(800, 400));
 	     
         Vector<String> v = new Vector<>();
 		
@@ -223,7 +220,7 @@ public class ClientMain extends JFrame {
 		//end
 		
 		
-		//버튼 이벤트 처리 시작
+///////////////////////////////////버튼 이벤트 처리 시작/////////////////////////////////
 		//테이블 창과 조회 창 모두 초기화 시키는 초기화 버튼 이벤트 처리
 		btnresetAll.addActionListener(new ActionListener() {
 			
@@ -339,7 +336,7 @@ public class ClientMain extends JFrame {
 		                    model.addRow(rowData);
 		                }
 		            } else {
-		                System.out.println("해당 기업명에 대한 데이터를 찾을 수 없습니다.");
+		                System.out.println("다시 입력해주세요.");
 		            }
 		        } else {
 		            System.out.println("기업명을 입력해주세요.");
@@ -379,7 +376,7 @@ public class ClientMain extends JFrame {
 
 		        int income;
 		        try {
-		                     // 수정된 값이 숫자로 변환 가능한지 확인
+		                     
 		            income = Integer.parseInt(incomeStr);
 		        } catch (NumberFormatException ex) {
 		            JOptionPane.showMessageDialog(null, "거래액은 숫자로 입력해주세요.", "오류", JOptionPane.ERROR_MESSAGE);
@@ -404,7 +401,7 @@ public class ClientMain extends JFrame {
 		            JOptionPane.showMessageDialog(null, "수정실패했습니다.", "오류", JOptionPane.ERROR_MESSAGE);
 		        }
 		    }
-		});
+		});//end
 		
 		//카테고리를 이용하여 해당되는 기업정보 조회
 		btnFind.addActionListener(new ActionListener() {
@@ -432,7 +429,84 @@ public class ClientMain extends JFrame {
 		            }
 		        } 
 		    }
-		});
+		});//end
+		
+		//id 입력시 해당 기업 삭제 버튼 이벤트 처리
+         btndelete.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String id = deleteid.getText();
+				
+				ClientService service = new ClientServiceImpl();
+				service.setDao(new ClientDAO());
+				int n = service.removeByid(Integer.parseInt(id));
+				
+				if (n > 0) {
+	                JOptionPane.showMessageDialog(null, "삭제되었습니다.", "성공", JOptionPane.INFORMATION_MESSAGE);
+
+	                DefaultTableModel model = (DefaultTableModel) table.getModel();
+	                for (int i = 0; i < model.getRowCount(); i++) {
+	                    if (model.getValueAt(i, 0).equals(id)) {
+	                        model.removeRow(i);
+	                        break;
+	                    }
+				
+			        }
+				}
+			}
+		});//end
+         
+         //등록 버튼 이벤트 처리
+         btnsave.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String id = tfid.getText();
+		        String company_name = tfcompanyName.getText();
+		        String category = (String) tfcategory.getSelectedItem();
+		        String income = tfincome.getText();
+		        String address = tfaddress.getText();
+				
+		        ClientService service = new ClientServiceImpl();
+		        service.setDao(new ClientDAO());
+		        
+		        ClientDTO dto = new ClientDTO();
+		        dto.setId(Integer.parseInt(id));
+		        dto.setCompany_name(company_name);
+		        dto.setCategory(category);
+		        dto.setIncome(Integer.parseInt(income));
+		        dto.setAddress(address);
+		        
+				int n = service.insert(dto);
+				
+				 if (n > 0) {
+			            JOptionPane.showMessageDialog(null, "등록되었습니다.", "성공", JOptionPane.INFORMATION_MESSAGE);
+
+			            // 등록된 기업 정보를 테이블에 추가
+			            DefaultTableModel model = (DefaultTableModel) table.getModel();
+			            Object[] rowData = {
+			            		dto.getId(),
+			            		dto.getCompany_name(),
+			            		dto.getCategory(),
+			            		dto.getIncome(),
+			            		dto.getAddress()
+			            };
+			            model.addRow(rowData);
+			            
+			         // 실행 완료 후 입력 필드 초기화
+			            tfid.setText("");
+			            tfcompanyName.setText("");
+			            tfcategory.setSelectedIndex(0);
+			            tfincome.setText("");
+			            tfaddress.setText("");
+				 }
+				
+			}
+		});//end
+		
+		
+		
 		
 	}
 }

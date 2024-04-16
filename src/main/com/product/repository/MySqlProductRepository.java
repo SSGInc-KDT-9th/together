@@ -134,7 +134,7 @@ public class MySqlProductRepository implements ProductRepository{
     public void deleteAll(){
         SqlSession sqlSession = MySqlSessionFactory.openSession();
         try {
-            int success = sqlSession.insert("mapper.product.deleteAll");
+            sqlSession.insert("mapper.product.deleteAll");
             sqlSession.commit();
         }
         finally{

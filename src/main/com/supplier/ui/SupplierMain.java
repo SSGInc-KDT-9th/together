@@ -26,10 +26,10 @@ import main.com.supplier.service.SupplierServiceImpl;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
+import javax.swing.JTextArea;
 
-public class SupplierMain extends JFrame {
-
-	private JPanel contentPane;
+public class SupplierMain extends JPanel {
+	
 	private JButton FindAllBtn;
 	private JButton insertBtn;
 	private JButton deleteBtn;
@@ -39,12 +39,12 @@ public class SupplierMain extends JFrame {
 	private JTextField insert_company_name;
 	private JTextField insert_company_category;
 	private JTextField insert_income;
-	private JTextField insert_address;
+	private JTextArea insert_address;
 	
 	private JTextField side_company_name;
 	private JTextField side_company_category;
 	private JTextField side_income;
-	private JTextField side_address;
+	private JTextArea side_address;
 	
 	private JButton top_resetBtn;
 	private JTextField top_company_name;
@@ -68,17 +68,12 @@ public class SupplierMain extends JFrame {
 	}
 
 	public SupplierMain() {
-		setTitle("납품기업관리");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1280, 720);
-		contentPane = new JPanel();
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		
+		setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 114, 950, 550);
-		contentPane.add(scrollPane);
+		scrollPane.setBounds(12, 54, 950, 550);
+		add(scrollPane);
 
 		// 테이블 생성
 		table = new JTable();
@@ -87,8 +82,8 @@ public class SupplierMain extends JFrame {
 		insertPanel = new JPanel();
 		insertPanel.setToolTipText("");
 		insertPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uC5C5\uCCB4\uCD94\uAC00", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		insertPanel.setBounds(974, 417, 278, 250);
-		contentPane.add(insertPanel);
+		insertPanel.setBounds(974, 357, 278, 250);
+		add(insertPanel);
 		insertPanel.setLayout(null);
 		
 //		insert
@@ -102,11 +97,6 @@ public class SupplierMain extends JFrame {
 		resetBtn.setBounds(176, 210, 90, 30);
 		insertPanel.add(resetBtn);
 		resetBtn.setFont(new Font("굴림", Font.BOLD, 12));
-
-		insert_address = new JTextField();
-		insert_address.setBounds(116, 120, 150, 20);
-		insertPanel.add(insert_address);
-		insert_address.setColumns(10);
 
 		insert_company_name = new JTextField();
 		insert_company_name.setBounds(116, 30, 150, 20);
@@ -143,6 +133,11 @@ public class SupplierMain extends JFrame {
 		insert_company_category.setBounds(116, 60, 150, 20);
 		insertPanel.add(insert_company_category);
 		insert_company_category.setColumns(10);
+		
+		insert_address = new JTextArea();
+		insert_address.setLineWrap(true);
+		insert_address.setBounds(116, 118, 150, 82);
+		insertPanel.add(insert_address);
 
 		resetBtn.addActionListener(new ActionListener() {
 
@@ -161,30 +156,44 @@ public class SupplierMain extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 
 				String text1 = insert_company_name.getText();
 				String text2 = insert_company_category.getText();
 				String text3 = insert_income.getText();
 				String text4 = insert_address.getText();
-
-				Supplier sup = new Supplier();
-
-				sup.setCompany_name(text1);
-				sup.setCompany_category(text2);
-				sup.setIncome(Integer.parseInt(text3));
-				sup.setAddress(text4);
-
-				SupplierService service = new SupplierServiceImpl();
-				service.setSup(new SupplierDAO());
-				service.insert(sup);
-
-				insert_company_name.setText("");
-				insert_company_category.setText("");
-				insert_income.setText("");
-				insert_address.setText("");
-
-				DisplaySupllierData();
-
+				
+				boolean isNumeric = true;
+				for (char c : text3.toCharArray()) {
+					if (!Character.isDigit(c)) {
+						isNumeric = false;
+						break;
+					}
+				}
+				
+				if(isNumeric&&!text3.equals("")) {
+				
+					Supplier supplier = new Supplier();
+	
+					supplier.setCompany_name(text1);
+					supplier.setCompany_category(text2);
+					supplier.setIncome(Integer.parseInt(text3));
+					supplier.setAddress(text4);
+	
+					SupplierService service = new SupplierServiceImpl();
+					service.setSup(new SupplierDAO());
+					service.insert(supplier);
+	
+					insert_company_name.setText("");
+					insert_company_category.setText("");
+					insert_income.setText("");
+					insert_address.setText("");
+	
+					DisplaySupllierData();
+				}else {
+					JOptionPane.showMessageDialog(null, "거래액에는 숫자만 입력 가능합니다.");
+					insert_income.setText("");
+				}
 			}
 		});
 
@@ -192,8 +201,8 @@ public class SupplierMain extends JFrame {
 		updatePanel.setForeground(new Color(0, 0, 0));
 		updatePanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uC218\uC815 \uBC0F \uC0AD\uC81C", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		updatePanel.setToolTipText("");
-		updatePanel.setBounds(974, 108, 280, 250);
-		contentPane.add(updatePanel);
+		updatePanel.setBounds(974, 48, 280, 250);
+		add(updatePanel);
 		updatePanel.setLayout(null);
 
 		JLabel lblNewLabel_8_3 = new JLabel("기업명");
@@ -243,16 +252,17 @@ public class SupplierMain extends JFrame {
 		updatePanel.add(side_income);
 		side_income.setEditable(false);
 		side_income.setColumns(10);
-
-		side_address = new JTextField();
-		side_address.setBounds(118, 120, 150, 20);
-		updatePanel.add(side_address);
+		
+		side_address = new JTextArea();
+		side_address.setBackground(new Color(255, 255, 255));
+		side_address.setLineWrap(true);
 		side_address.setEditable(false);
-		side_address.setColumns(10);
+		side_address.setBounds(118, 118, 150, 82);
+		updatePanel.add(side_address);
 
 		seachPanel = new JPanel();
-		seachPanel.setBounds(12, 65, 950, 40);
-		contentPane.add(seachPanel);
+		seachPanel.setBounds(12, 5, 950, 40);
+		add(seachPanel);
 		seachPanel.setLayout(null);
 
 		JLabel lblNewLabel_8 = new JLabel("기업명");
@@ -322,10 +332,10 @@ public class SupplierMain extends JFrame {
 					String address = model.getValueAt(selectedRow, 4).toString();
 
 					// 선택된 행의 정보를 가지고 Supllier 객체 생성
-					Supplier sup = new Supplier(id, company_name, company_category, income, address);
+					Supplier supplier = new Supplier(id, company_name, company_category, income, address);
 
 					// SupllierUpdate 창을 열고, 생성된 Supllier 객체를 전달
-					new SupplierUpdate(sup);
+					new SupplierUpdate(supplier);
 
 				} else {
 					JOptionPane.showMessageDialog(null, "수정 할 항목을 선택하세요.");
@@ -400,18 +410,18 @@ public class SupplierMain extends JFrame {
 		SupplierService service = new SupplierServiceImpl();
 		service.setSup(new SupplierDAO());
 		
-		Supplier sup = new Supplier();
+		Supplier supplier = new Supplier();
 		if(!top_company_name.getText().equals("")) {
-			sup.setCompany_name(top_company_name.getText());
+			supplier.setCompany_name(top_company_name.getText());
 		}
 		if(!top_company_category.getText().equals("")) {
-			sup.setCompany_category(top_company_category.getText());
+			supplier.setCompany_category(top_company_category.getText());
 		}
 		if(!top_address.getText().equals("")) {
-			sup.setAddress(top_address.getText());
+			supplier.setAddress(top_address.getText());
 		}
 		
-		List<Supplier> list = service.supplierFindAll(sup);
+		List<Supplier> list = service.supplierFindAll(supplier);
 
 		DefaultTableModel model = new DefaultTableModel();
 
@@ -421,10 +431,15 @@ public class SupplierMain extends JFrame {
 		model.addColumn("Income");
 		model.addColumn("Address");
 
-		for (Supplier supplier : list) {
-			model.addRow(new Object[] { supplier.getId(), supplier.getCompany_name(), supplier.getCompany_category(),
-					supplier.getIncome(), supplier.getAddress() });
+		for (Supplier supplierList : list) {
+			model.addRow(new Object[] { supplierList.getId(), supplierList.getCompany_name(), supplierList.getCompany_category(),
+					supplierList.getIncome(), supplierList.getAddress() });
 		}
 		table.setModel(model);
+		table.getColumn("ID").setPreferredWidth(40);
+		table.getColumn("Company Name").setPreferredWidth(110);
+		table.getColumn("Category").setPreferredWidth(300);
+		table.getColumn("Income").setPreferredWidth(100);
+		table.getColumn("Address").setPreferredWidth(400);
 	}
 }
