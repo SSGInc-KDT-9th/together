@@ -27,7 +27,7 @@ public class SupplierUpdate extends JFrame {
 	private JButton updateBtn;
 	private JButton cancelBtn;
 	
-	public SupplierUpdate(Supplier supplier) {
+	public SupplierUpdate(Supplier supplier, SupplierMain supplierMain) {
 		setTitle("수정");
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -105,7 +105,6 @@ public class SupplierUpdate extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
 				SupplierService service = new SupplierServiceImpl();
 				service.setSup(new SupplierDAO());
 				
@@ -125,14 +124,13 @@ public class SupplierUpdate extends JFrame {
 					supplier.setAddress(address.getText());
 					
 					service.update(supplier);
-								
 					dispose();
+					supplierMain.displaySupllierData();
 				}else {
 					JOptionPane.showMessageDialog(null, "거래액에는 숫자만 입력 가능합니다.");
 					income.setText("");
 				}
 			}
-			
 			
 		});
 		
