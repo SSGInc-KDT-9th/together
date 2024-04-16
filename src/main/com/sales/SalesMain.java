@@ -1,10 +1,14 @@
 package main.com.sales;
 
+import main.com.client.dto.ClientDTO;
+import main.com.client.service.ClientService;
 import main.com.config.AppConfig;
+import main.com.product.service.ProductService;
 import main.com.sales.request.SalesSearch;
 import main.com.sales.response.ClientSalesInfo;
 import main.com.sales.response.ProductSalesInfo;
 import main.com.sales.service.SalesService;
+import main.com.util.TryParse;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -19,11 +23,14 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class SalesMain extends JFrame {
 	private SalesService salesService;
+	private ClientService clientService;
+	private ProductService productService;
 	private JPanel mainPanel;
 	private JLabel ClientSearchLabel;
 	private JTextField clientIdText;
@@ -222,7 +229,7 @@ public class SalesMain extends JFrame {
 
 	void setInitComponentData(){
 		SalesSearch salesSearch = SalesSearch.builder().build();
-		List<ProductSalesInfo> productSales = salesService.getProductSales("", null, null);
+		List<ProductSalesInfo> productSales = salesService.getProductSales(null,"", null, null);
 		Object[][] data = productSales.stream()
 				.map(info -> new Object[]{
 						false,
@@ -258,7 +265,19 @@ public class SalesMain extends JFrame {
 		productSearch.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String id = productIdText.getText();
+				Long productId = null;
+				try{
+					productId = TryParse.tryParseLong(id,productId);
+				}catch (IllegalArgumentException exception){
+					exception.printStackTrace();
+				}
+
 				String productName = productNameText.getText();
+				if(!productName.isEmpty() && productId==null){
+					productId = productService.get(productName).getId();
+				}
+
 				String start = startProductText.getText();
 				String end = endProductText.getText();
 
@@ -278,7 +297,7 @@ public class SalesMain extends JFrame {
 					return;
 				}
 
-				List<ProductSalesInfo> productSales = salesService.getProductSales(productName, start, end);
+				List<ProductSalesInfo> productSales = salesService.getProductSales(productId,productName, start, end);
 				Object[][] data = productSales.stream()
 						.map(info -> new Object[]{
 								false,
@@ -301,7 +320,20 @@ public class SalesMain extends JFrame {
 		clientSearch.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String id = clientIdText.getText();
+				Long clientId = null;
+				try{
+					clientId = TryParse.tryParseLong(id,clientId);
+				}catch (IllegalArgumentException exception){
+					exception.printStackTrace();
+                }
+
 				String clientName =clientNameText.getText();
+				if(!clientName.isEmpty() && clientId==null){
+					ClientDTO clientDTO = clientService.findByCompanyName(clientName).get(0);
+					clientId = (long)clientDTO.getId();
+				}
+
 				String start = startClientText.getText();
 				String end = endClientText.getText();
 
@@ -320,8 +352,8 @@ public class SalesMain extends JFrame {
 					int check = JOptionPane.showConfirmDialog(null, "올바른 날짜를 입력하세요", "날짜 확인", JOptionPane.PLAIN_MESSAGE);
 					return;
 				}
-
-				List<ClientSalesInfo> productSales = salesService.getClientSales(clientName, start, end);
+				List<ClientSalesInfo> productSales = new ArrayList<>();
+				productSales = salesService.getClientSales(clientId,clientName, start, end);
 				Object[][] data = productSales.stream()
 						.map(info -> new Object[]{
 								false,
@@ -344,7 +376,20 @@ public class SalesMain extends JFrame {
 		resetClientButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				clientIdText.setText("");
+				clientNameText.setText("");
+				startClientText.setValue(null);
+				endClientText.setValue(null);
+			}
+		});
 
+		resetProductButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				productIdText.setText("");
+				productNameText.setText("");
+				startProductText.setValue(null);
+				endProductText.setValue(null);
 			}
 		});
 	}
@@ -365,16 +410,11 @@ public class SalesMain extends JFrame {
 	public SalesMain() {
 		AppConfig appConfig = new AppConfig();
 		salesService = appConfig.salesService();
-
-//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		setBounds(100, 100, 1280, 720); // Adjusted for HD resolution (16:9 aspect ratio)
-
+		clientService = appConfig.clientService();
+		productService = appConfig.productService();
 		setInitComponentData();
 		initComponent();
 		setDisplay();
 		setListenerEvent();
-
-//		setLocationRelativeTo(null);
-//		setVisible(true);
 	}
 }

@@ -32,16 +32,9 @@ public class SalesServiceImpl implements SalesService{
     }
 
     @Override
-    public List<ProductSalesInfo> getProductSales(String productName ,String start,String end) {
-        Product product;
-        if(productName.isBlank() || productName.isEmpty()){
-            product = Product.builder().build();
-        }
-        else{
-            product = productRepository.findByName(productName);
-        }
+    public List<ProductSalesInfo> getProductSales(Long productId,String productName ,String start,String end) {
         SalesSearch salesSearch =SalesSearch.builder()
-                .productId(product.getId())
+                .productId(productId)
                 .productName(productName)
                 .startDate(start)
                 .endDate(end)
@@ -59,16 +52,8 @@ public class SalesServiceImpl implements SalesService{
     }
 
     @Override
-    public List<ClientSalesInfo> getClientSales(String clientName,String start,String end) {
+    public List<ClientSalesInfo> getClientSales(Long clientId,String clientName,String start,String end) {
         SqlSession sqlSession = MySqlSessionFactory.openSession();
-        Long clientId=null;
-        if(clientName.isEmpty() || clientName.isBlank() || clientName==null){
-            clientId=null;
-        }
-        else{
-            List<ClientDTO> companies = clientDAO.findByCompanyName(sqlSession, clientName);
-            clientId = new Long(companies.get(0).getId());
-        }
 
         SalesSearch salesSearch = SalesSearch.builder()
                 .clientName(clientName)
