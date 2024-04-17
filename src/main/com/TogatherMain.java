@@ -1,13 +1,14 @@
 package main.com;
 
 import java.awt.EventQueue;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import main.com.client.ui.ClientMain;
+import main.com.member.Login;
 import main.com.product.ui.ProductApp;
 import main.com.sales.SalesMain;
 import main.com.store.ui.StoreMain;
@@ -72,5 +73,21 @@ public class TogatherMain extends JFrame {
 		SalesMain salesMain = new SalesMain();
 		salesPanel = salesMain.getMainPanel();
 		tabbedPane.addTab("매출 관리", null, salesPanel, null);
+
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent we) {
+				int choice = JOptionPane.showConfirmDialog(
+						TogatherMain.this,
+						"프로그램을 종료하시겠습니까?",
+						"종료",
+						JOptionPane.OK_CANCEL_OPTION,
+						JOptionPane.WARNING_MESSAGE
+				);
+				if (choice == JOptionPane.YES_OPTION) {
+					System.exit(0);
+				}
+			}
+		});
 	}
 }
