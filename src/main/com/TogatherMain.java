@@ -40,7 +40,7 @@ public class TogatherMain extends JFrame {
 	}
 
 	public TogatherMain() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 1280, 720);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -85,7 +85,9 @@ public class TogatherMain extends JFrame {
 						JOptionPane.WARNING_MESSAGE
 				);
 				if (choice == JOptionPane.YES_OPTION) {
-					System.exit(0);
+					dispose();
+					Login login = new Login(); // 로그인 화면 객체 생성
+					login.setVisible(true);
 				}
 			}
 		});
