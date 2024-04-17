@@ -15,6 +15,7 @@ import main.com.sales.SalesMain;
 import main.com.store.ui.StoreMain;
 import main.com.supplier.ui.SupplierMain;
 import main.com.swing.ReleaseMain;
+import main.com.swing.start;
 
 public class TogatherMain extends JFrame {
 
@@ -88,8 +89,8 @@ public class TogatherMain extends JFrame {
 				if (choice == JOptionPane.YES_OPTION) {
 					dispose();
 					Session.cleanSession();
-					Login login = new Login(); // 로그인 화면 객체 생성
-					login.setVisible(true);
+					start s = new start(); // 로그인 화면 객체 생성
+					s.setVisible(true);
 				}
 			}
 		});

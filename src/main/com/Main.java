@@ -1,6 +1,7 @@
 package main.com;
 
 import main.com.member.Login;
+import main.com.swing.start;
 
 import java.awt.*;
 
@@ -9,7 +10,7 @@ public class Main {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new Login();
+                    new start();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

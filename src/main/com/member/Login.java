@@ -5,6 +5,7 @@ import main.com.config.AppConfig;
 import main.com.config.Session;
 import main.com.member.domain.Member;
 import main.com.member.service.MemberService;
+import main.com.swing.start;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -110,6 +111,7 @@ public class Login extends JFrame{
                     openMainApplication();
                     // 현재 창 닫기
                     dispose();
+                    start.closeFrame();
                     
                 }
                 else{
