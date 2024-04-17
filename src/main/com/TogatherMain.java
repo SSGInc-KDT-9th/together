@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import main.com.client.ui.ClientMain;
+import main.com.config.Session;
 import main.com.member.Login;
 import main.com.product.ui.ProductApp;
 import main.com.sales.SalesMain;
@@ -86,6 +87,7 @@ public class TogatherMain extends JFrame {
 				);
 				if (choice == JOptionPane.YES_OPTION) {
 					dispose();
+					Session.cleanSession();
 					Login login = new Login(); // 로그인 화면 객체 생성
 					login.setVisible(true);
 				}

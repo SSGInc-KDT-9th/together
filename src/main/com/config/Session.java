@@ -12,4 +12,8 @@ public class Session {
     public static Member getMember(){
         return loggedInMember;
     }
+
+    public static void cleanSession(){
+        loggedInMember = null;
+    }
 }
