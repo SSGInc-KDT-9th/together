@@ -348,7 +348,7 @@ public class StoreMain extends JFrame {
 				String store_price = textField_storePrice.getText();
 				
 				StoreDTO dto = new StoreDTO();
-				Long member_id = Session.getMember().getId();
+//				Long member_id = Session.getMember().getId();
 				dto.setProduct_id(Long.parseLong(product_id));
 				dto.setStore_date(store_date);
 				dto.setStore_count(Integer.parseInt(store_count));
