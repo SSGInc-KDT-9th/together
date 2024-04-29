@@ -243,18 +243,18 @@ public class ReleaseMain extends JFrame {
                               order1.getProduct_id(),
                               order1.getOrder_cnt(),
                               order1.getOrder_date(),
-                              order1.getClient_id()
+                              order1.getCompany_name()
                           };
                           int pid = (int) rowData[2];
                           String pname = order.productselect(pid);
-                          int cid = (int) rowData[5];
-                          String cname = order.companyselect(cid);
+//                          int cid = (int) rowData[5];
+//                          String cname = order.companyselect(cid);
                           Object[] result = {
                               rowData[0],
                               pid,
                               pname,
                               rowData[3],
-                              cname,
+                              rowData[5],
                               rowData[4]
                           };
                           model1.addRow(result);

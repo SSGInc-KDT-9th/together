@@ -16,7 +16,7 @@
     <select id="findProductSales" resultMap="productSaleMap" parameterType="main.com.sales.request.SalesSearch">
         SELECT ro.product_id,sum(selling_price * order_cnt) as total_price
         from stock s join
-        (SELECT o.product_id,o.order_cnt,o.client_id,o.order_date
+        (SELECT o.product_id,o.order_cnt,r.company_id,o.order_date
         FROM `release` r
         JOIN `order` o ON r.id=o.release_id
         WHERE r.status='출고 완료') as ro
@@ -38,7 +38,7 @@
     <select id="findClientSales" resultMap="clientSalesMap" parameterType="main.com.sales.request.SalesSearch">
         SELECT ro.client_id,sum(selling_price * order_cnt) as total_price
         from stock s join
-        (SELECT o.product_id,o.order_cnt,o.client_id,o.order_date
+        (SELECT o.product_id,o.order_cnt,r.company_id,o.order_date
         FROM `release` r
         JOIN `order` o ON r.id=o.release_id
         WHERE r.status='출고 완료') as ro

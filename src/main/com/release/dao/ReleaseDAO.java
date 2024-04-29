@@ -10,15 +10,15 @@ public class ReleaseDAO {
 		 return session.insert("mapper.release.enroll", dto);
 	 }
 	 
-	 public int findreleaseID(SqlSession session, int item_cnt){
-		 int ReleaseId = session.selectOne("mapper.release.findreleaseID",item_cnt);
+	 public int findreleaseID(SqlSession session, int company_id){
+		 int ReleaseId = session.selectOne("mapper.release.findreleaseID", company_id);
 		 return ReleaseId;
 	 }
-	 public List<ReleaseDTO> noselect(SqlSession session, int id){
-			List<ReleaseDTO> list = 
-					session.selectList("mapper.release.noselect", id);
-			return list;
-		}
+//	 public List<ReleaseDTO> noselect(SqlSession session, int id){
+//			List<ReleaseDTO> list = 
+//					session.selectList("mapper.release.noselect", id);
+//			return list;
+//		}
 	 public List<ReleaseDTO> statuselect(SqlSession session, String status){
 			List<ReleaseDTO> list = 
 					session.selectList("mapper.release.statuselect", status);
@@ -40,9 +40,9 @@ public class ReleaseDAO {
 			 return inventory;
 		 }
 
-		public int Inventoryupdate(SqlSession session, ReleaseDTO dto) {	
-			return session.update("mapper.release.Inventoryupdate", dto);
-		}
+//		public int Inventoryupdate(SqlSession session, ReleaseDTO dto) {	
+//			return session.update("mapper.release.Inventoryupdate", dto);
+//		}
 		public void updatestatus(SqlSession session, long id) {
 			session.update("mapper.release.updatestatus", id);
 		}

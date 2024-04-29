@@ -33,13 +33,13 @@ public class ReleaseServiceImpl implements ReleaseService {
 	}
 
 	@Override
-	public int findreleaseID(int item_cnt) {
+	public int findreleaseID(int company_id) {
 		SqlSession session = null;
 		int releaseId = 0;
   
 		try {
 			session = MySqlSessionFactory.openSession();
-			releaseId = dao.findreleaseID(session, item_cnt);
+			releaseId = dao.findreleaseID(session, company_id);
 
 		} finally {
 			session.close();
@@ -47,20 +47,20 @@ public class ReleaseServiceImpl implements ReleaseService {
 		return releaseId;
 	}
 
-	@Override
-	public List<ReleaseDTO> noselect(int id) {
-		List<ReleaseDTO> list = null;
-		SqlSession session = null;
-		
-		  try {
-				session = MySqlSessionFactory.openSession();
-				//DAO 연동코드
-				list = dao.noselect(session, id);
-		      }finally {
-				session.close();
-		      }
-				return list;
-			}
+//	@Override
+//	public List<ReleaseDTO> noselect(int id) {
+//		List<ReleaseDTO> list = null;
+//		SqlSession session = null;
+//		
+//		  try {
+//				session = MySqlSessionFactory.openSession();
+//				//DAO 연동코드
+//				list = dao.noselect(session, id);
+//		      }finally {
+//				session.close();
+//		      }
+//				return list;
+//			}
 
 	@Override
 	public List<ReleaseDTO> statuselect(String status) {
@@ -120,20 +120,20 @@ public class ReleaseServiceImpl implements ReleaseService {
 		return inventory;
 	}
 
-	@Override
-	public int Inventoryupdate(ReleaseDTO dto) {
-		int n = 0;
-		SqlSession session = null;
-	      try {
-			session = MySqlSessionFactory.openSession();
-			//DAO 연동코드
-			n = dao.Inventoryupdate(session, dto);
-			session.commit();
-	      }finally {
-			session.close();
-	      }
-		return n;
-}
+//	@Override
+//	public int Inventoryupdate(ReleaseDTO dto) {
+//		int n = 0;
+//		SqlSession session = null;
+//	      try {
+//			session = MySqlSessionFactory.openSession();
+//			//DAO 연동코드
+//			n = dao.Inventoryupdate(session, dto);
+//			session.commit();
+//	      }finally {
+//			session.close();
+//	      }
+//		return n;
+//}
 
 	@Override
 	public void updatestatus(long id) {

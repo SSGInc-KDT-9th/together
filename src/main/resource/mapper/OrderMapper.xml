@@ -17,8 +17,8 @@
   
   <!-- 등록할 상품들을 주문 테이블에 저장(동적sql)-->
   <insert id="enrolltoorder" parameterType = "OrderDTO" >
-  insert into `order`(release_id,product_id,order_date,order_cnt,client_id)
-  values(#{release_id},#{product_id},#{order_date},#{order_cnt},#{client_id})
+  insert into `order`(release_id,product_id,order_date,order_cnt,company_name)
+  values(#{release_id},#{product_id},#{order_date},#{order_cnt},#{company_name})
   
   </insert>
   
@@ -53,10 +53,10 @@
   
   
   
-  <!-- 주문 아이디 찾기-->
+  <!-- 주문 아이디 찾기
   <select id="orderid" parameterType="int" resultType="int">
   select id from `order` where product_id=#{product_id}
   </select>
-  
+  -->
   
 </mapper>

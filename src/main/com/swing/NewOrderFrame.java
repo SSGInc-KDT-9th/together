@@ -94,7 +94,7 @@ public class NewOrderFrame extends JFrame {
 		table_1 = new JTable();
 		scrollPane_1.setViewportView(table_1);
 		
-		String [] header = {"기업ID", "기업명","상품ID", "상품명", "수량","주문 날짜"};
+		String [] header = {"기업명","상품ID", "상품명", "수량","주문 날짜"};
 		DefaultTableModel model = new DefaultTableModel(null, header);
         table_1.setModel(model);
 		company_lbl = new JLabel("기업명");
@@ -166,19 +166,18 @@ public class NewOrderFrame extends JFrame {
                 }
 //              OrderService를 사용하여 기업ID, 상품ID 조회
                 OrderService orderService = new OrderServiceImpl();
-                int clientId = orderService.findClientId(companyName);
+//                int clientId = orderService.findClientId(companyName);
                 int productId = orderService.findProductId(productName);
                     // 테이블에 추가할 데이터 배열 생성
-                if(clientId != 0 && productId !=0) {    
+                if(productId !=0) {    
                 Object[] rowData = {
-                       clientId,
                        companyName,
                        productId,
                        productName, 
                        orderCnt,
                        getCurrentDate()
                     };
-                // 기업이 등록되지 않은 경우에만 테이블에 추가
+
                 model.addRow(rowData);
             }
         }
@@ -214,7 +213,7 @@ public class NewOrderFrame extends JFrame {
 		                rowData[j] = table_1.getValueAt(i, j);
 		                
 		            }
-		            item_cnt += (int) rowData[4];
+		            item_cnt += (int) rowData[3];
 		            rowDataList.add(rowData);
 		            
 		        }
@@ -222,7 +221,7 @@ public class NewOrderFrame extends JFrame {
 
 		     // for문을 돌면서 첫 번째 열의 값이 모두 같은지 확인하여 출고 및 주문 등록 진행
 		     boolean canProceed = true; // 출고 및 주문 등록 가능 여부를 나타내는 변수
-		     Object firstColumnValue = rowDataList.get(0)[0]; // 첫 번째 열의 값 저장
+		     String firstColumnValue = (String) rowDataList.get(0)[0]; // 첫 번째 열의 값 저장
 
 		     for (Object[] rowData : rowDataList) {
 		         if (!rowData[0].equals(firstColumnValue)) {
@@ -238,38 +237,43 @@ public class NewOrderFrame extends JFrame {
 		        Long member_id = Session.getMember().getId();
 		        dto.setItem_cnt(item_cnt);
 		        dto.setMember_id(member_id);
+		      //고객기업id찾기
+		        OrderService os = new OrderServiceImpl();
+		        int client_id = os.findClientId(firstColumnValue);
+		        dto.setCompany_id(client_id);
 		      //출고 등록
 		        ReleaseService rs = new ReleaseServiceImpl();
 		        rs.setDao(new ReleaseDAO());
 		        
 		        int n = rs.enroll(dto);
 		        //출고ID 가져오기
-		        int ReleaseId = rs.findreleaseID(item_cnt);
+		        int ReleaseId = rs.findreleaseID(client_id);
 		       
 		        
 		        //주문 테이블에 주문 등록
 		        OrderDTO odto = new OrderDTO();
 		        for (Object[] rowData : rowDataList) {
 		            // 행에서 각 열의 데이터를 변수에 저장
-		            int clientId = (int) rowData[0];
+		            String company_name = (String) rowData[0];
 //		            String companyName = (String) rowData[1];
-		            int productId = (int) rowData[2];
+		            int productId = (int) rowData[1];
 //		            String productName = (String) rowData[3];
-		            int orderCnt = (int) rowData[4];
+		            int orderCnt = (int) rowData[3];
 
 		            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		            String currentDate = ((LocalDate) rowData[5]).format(formatter);
+		            String currentDate = ((LocalDate) rowData[4]).format(formatter);
 		            
 		           
 		            odto.setRelease_id(ReleaseId);
 		            odto.setProduct_id(productId);
 		            odto.setOrder_date(currentDate);
 		            odto.setOrder_cnt(orderCnt);
-		            odto.setClient_id(clientId);
-		            OrderService os = new OrderServiceImpl();
-			        os.setDao(new OrderDAO());
+//		            odto.setClient_id(clientId);
+		            odto.setCompany_name(company_name);
+		            OrderService os1 = new OrderServiceImpl();
+			        os1.setDao(new OrderDAO());
 			        
-			        int n2 = os.enrolltoorder(odto);
+			        int n2 = os1.enrolltoorder(odto);
 			        //창닫기
 			        dispose();      
 		        }

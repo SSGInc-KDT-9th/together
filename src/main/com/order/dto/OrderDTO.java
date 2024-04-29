@@ -6,7 +6,8 @@ public class OrderDTO {
 	int product_id;
 	String order_date;
 	int order_cnt;
-	int client_id;
+	String company_name;
+
 	
 	
 	
@@ -15,14 +16,14 @@ public class OrderDTO {
 		// TODO Auto-generated constructor stub
 	}
 	public OrderDTO(int id, int release_id, int product_id, 
-			String order_date, int order_cnt, int client_id) {
+			String order_date, int order_cnt, String company_name) {
 		super();
 		this.id = id;
 		this.release_id = release_id;
 		this.product_id = product_id;
 		this.order_date = order_date;
 		this.order_cnt = order_cnt;
-		this.client_id = client_id;
+		this.company_name = company_name;
 	}
 	public int getId() {
 		return id;
@@ -54,16 +55,16 @@ public class OrderDTO {
 	public void setOrder_cnt(int order_cnt) {
 		this.order_cnt = order_cnt;
 	}
-	public int getClient_id() {
-		return client_id;
+	public String getCompany_name() {
+		return company_name;
 	}
-	public void setClient_id(int client_id) {
-		this.client_id = client_id;
+	public void setCompany_name(String company_name) {
+		this.company_name = company_name;
 	}
 	@Override
 	public String toString() {
 		return "OrderDTO [id=" + id + ", release_id=" + release_id + ", product_id=" + product_id + ", order_date="
-				+ order_date + ", order_cnt=" + order_cnt + ", client_id=" + client_id + "]";
+				+ order_date + ", order_cnt=" + order_cnt + ", company_name=" + company_name + "]";
 	}
 	
 	
